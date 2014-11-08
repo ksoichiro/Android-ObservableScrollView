@@ -1,6 +1,8 @@
 Android-ObservableScrollView
 ===
 
+[![Build Status](https://travis-ci.org/ksoichiro/Android-ObservableScrollView.svg?branch=master)](https://travis-ci.org/ksoichiro/Android-ObservableScrollView)
+
 Observe scroll events on scrollable views.
 
 ![](observablescrollview-samples/demo.gif)
