@@ -12,9 +12,9 @@ See `observablescrollview-samples` directory.
 
 ## Supported widgets
 
-- [x] ListView
-- [x] ScrollView
-- [ ] WebView
+* ListView
+* ScrollView
+* WebView
 
 
 ## Developed By
