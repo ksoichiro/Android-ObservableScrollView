@@ -105,8 +105,12 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             String nextLabel = labelPath[0];
 
             if (labelPath.length == 1) {
+                String nameLabel = info.activityInfo.name.replace(info.activityInfo.packageName + "", "");
+                if (nameLabel.startsWith(".")) {
+                    nameLabel = nameLabel.substring(1);
+                }
                 addItem(data,
-                        info.activityInfo.name.replace(info.activityInfo.packageName + "", ""),
+                        nameLabel,
                         nextLabel,
                         activityIntent(
                                 info.activityInfo.applicationInfo.packageName,

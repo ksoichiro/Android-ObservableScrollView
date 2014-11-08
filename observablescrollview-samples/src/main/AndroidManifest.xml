@@ -33,21 +33,27 @@
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about" />
-        <activity android:name=".ActionBarControlListViewActivity">
+        <activity
+            android:name=".ActionBarControlListViewActivity"
+            android:label="@string/title_activity_actionbarcontrollistview">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="com.github.ksoichiro.android.observablescrollview.samples" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActionBarControlScrollViewActivity">
+        <activity
+            android:name=".ActionBarControlScrollViewActivity"
+            android:label="@string/title_activity_actionbarcontrolscrollview">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="com.github.ksoichiro.android.observablescrollview.samples" />
             </intent-filter>
         </activity>
-        <activity android:name=".ActionBarControlWebViewActivity">
+        <activity
+            android:name=".ActionBarControlWebViewActivity"
+            android:label="@string/title_activity_actionbarcontrolwebview">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
