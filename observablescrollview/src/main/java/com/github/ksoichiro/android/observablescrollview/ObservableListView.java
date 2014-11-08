@@ -35,6 +35,7 @@ public class ObservableListView extends ListView {
     private int mPrevScrolledChildrenHeight;
     private SparseIntArray mChildrenHeights;
     private int mPrevScrollY;
+    private int mScrollY;
     private ScrollState mScrollState;
 
     public ObservableListView(Context context) {
@@ -104,22 +105,22 @@ public class ObservableListView extends ListView {
                     if (mPrevFirstVisibleChildHeight < 0) {
                         mPrevFirstVisibleChildHeight = 0;
                     }
-                    int scrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop();
+                    mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop();
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
-                    LogUtils.v(TAG, "first: " + firstVisiblePosition + " scrollY: " + scrollY + " first height: " + firstVisibleChild.getHeight() + " first top: " + firstVisibleChild.getTop());
-                    mCallbacks.onScrollChanged(scrollY);
+                    LogUtils.v(TAG, "first: " + firstVisiblePosition + " scrollY: " + mScrollY + " first height: " + firstVisibleChild.getHeight() + " first top: " + firstVisibleChild.getTop());
+                    mCallbacks.onScrollChanged(mScrollY);
 
-                    if (mPrevScrollY < scrollY) {
+                    if (mPrevScrollY < mScrollY) {
                         //down
                         mScrollState = ScrollState.UP;
-                    } else if (scrollY < mPrevScrollY) {
+                    } else if (mScrollY < mPrevScrollY) {
                         //up
                         mScrollState = ScrollState.DOWN;
                     } else {
                         mScrollState = ScrollState.STOP;
                     }
-                    mPrevScrollY = scrollY;
+                    mPrevScrollY = mScrollY;
                 } else {
                     LogUtils.v(TAG, "first: " + firstVisiblePosition);
                 }
@@ -145,6 +146,10 @@ public class ObservableListView extends ListView {
 
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
+    }
+
+    public int getCurrentScrollY() {
+        return mScrollY;
     }
 
     private void init() {

@@ -21,11 +21,11 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.webkit.WebView;
-import android.widget.ScrollView;
 
 public class ObservableWebView extends WebView {
     private ObservableScrollViewCallbacks mCallbacks;
     private int mPrevScrollY;
+    private int mScrollY;
     private ScrollState mScrollState;
 
     public ObservableWebView(Context context) {
@@ -44,6 +44,8 @@ public class ObservableWebView extends WebView {
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         if (mCallbacks != null) {
+            mScrollY = t;
+
             mCallbacks.onScrollChanged(t);
 
             if (mPrevScrollY < t) {
@@ -77,5 +79,9 @@ public class ObservableWebView extends WebView {
 
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
+    }
+
+    public int getCurrentScrollY() {
+        return mScrollY;
     }
 }

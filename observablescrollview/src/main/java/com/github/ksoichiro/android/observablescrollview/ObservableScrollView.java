@@ -25,6 +25,7 @@ import android.widget.ScrollView;
 public class ObservableScrollView extends ScrollView {
     private ObservableScrollViewCallbacks mCallbacks;
     private int mPrevScrollY;
+    private int mScrollY;
     private ScrollState mScrollState;
 
     public ObservableScrollView(Context context) {
@@ -43,6 +44,8 @@ public class ObservableScrollView extends ScrollView {
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
         if (mCallbacks != null) {
+            mScrollY = t;
+
             mCallbacks.onScrollChanged(t);
 
             if (mPrevScrollY < t) {
@@ -76,5 +79,9 @@ public class ObservableScrollView extends ScrollView {
 
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
+    }
+
+    public int getCurrentScrollY() {
+        return mScrollY;
     }
 }
