@@ -4,6 +4,7 @@ android:
     - build-tools-21.1.0
     - tools
     - android-19
+    - android-21
     - system-image
     - extra-android-support
     - extra-android-m2repository
