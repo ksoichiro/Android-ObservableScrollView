@@ -82,6 +82,11 @@ See sample project's `Activity` codes for more details.
 * Soichiro Kashima - <soichiro.kashima@gmail.com>
 
 
+## Credits
+
+* Inspired by `ObservableScrollView` in [romannurik-code](https://code.google.com/p/romannurik-code/).
+
+
 ## License
 
     Copyright 2014 Soichiro Kashima
