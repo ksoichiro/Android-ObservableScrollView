@@ -25,6 +25,11 @@ dependencies {
 
 See `observablescrollview-samples` directory.
 
+To install:
+
+```sh
+$ ./gradlew installDebug
+```
 
 ## Supported widgets
 
