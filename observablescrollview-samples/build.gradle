@@ -11,12 +11,20 @@ apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
+
+    // for using SNAPSHOT
+    //maven {
+    //    url uri('https://oss.sonatype.org/content/repositories/snapshots/')
+    //}
 }
 
 dependencies {
     compile 'com.android.support:appcompat-v7:21.0.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile project(':observablescrollview')
+
+    // for using SNAPSHOT
+    //compile "com.github.ksoichiro:android-observablescrollview:$VERSION_NAME"
 }
 
 android {
