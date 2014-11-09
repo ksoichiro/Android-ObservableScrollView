@@ -17,7 +17,6 @@
 package com.github.ksoichiro.android.observablescrollview;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.view.MotionEvent;
@@ -134,7 +133,7 @@ public class ObservableListView extends ListView {
     }
 
     @Override
-    public boolean onTouchEvent(@NonNull MotionEvent ev) {
+    public boolean onTouchEvent(MotionEvent ev) {
         if (mCallbacks != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:

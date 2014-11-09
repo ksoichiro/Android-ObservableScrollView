@@ -13,10 +13,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    compile 'com.android.support:appcompat-v7:21.0.0'
-}
-
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.0"

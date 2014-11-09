@@ -17,7 +17,6 @@
 package com.github.ksoichiro.android.observablescrollview;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
@@ -67,7 +66,7 @@ public class ObservableScrollView extends ScrollView {
     }
 
     @Override
-    public boolean onTouchEvent(@NonNull MotionEvent ev) {
+    public boolean onTouchEvent(MotionEvent ev) {
         if (mCallbacks != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
