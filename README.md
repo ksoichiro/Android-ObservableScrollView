@@ -2,6 +2,7 @@ Android-ObservableScrollView
 ===
 
 [![Build Status](https://travis-ci.org/ksoichiro/Android-ObservableScrollView.svg?branch=master)](https://travis-ci.org/ksoichiro/Android-ObservableScrollView)
+[![Maven Central](http://img.shields.io/maven-central/v/com.github.ksoichiro/android-observablescrollview.svg)](https://github.com/ksoichiro/Android-ObservableScrollView/releases/latest)
 
 Observe scroll events on scrollable views.
 
