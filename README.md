@@ -5,7 +5,13 @@ Android-ObservableScrollView
 
 Observe scroll events on scrollable views.
 
-![](observablescrollview-samples/demo.gif)
+![](observablescrollview-samples/demo1.gif)
+![](observablescrollview-samples/demo2.gif)
+![](observablescrollview-samples/demo3.gif)
+
+![](observablescrollview-samples/demo4.gif)
+![](observablescrollview-samples/demo5.gif)
+![](observablescrollview-samples/demo6.gif)
 
 ## Samples
 
