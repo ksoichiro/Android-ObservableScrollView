@@ -13,6 +13,14 @@ Observe scroll events on scrollable views.
 ![](observablescrollview-samples/demo5.gif)
 ![](observablescrollview-samples/demo6.gif)
 
+## Installation
+
+```groovy
+dependencies {
+    compile 'com.github.ksoichiro:android-observablescrollview:1.0.0'
+}
+```
+
 ## Samples
 
 See `observablescrollview-samples` directory.
