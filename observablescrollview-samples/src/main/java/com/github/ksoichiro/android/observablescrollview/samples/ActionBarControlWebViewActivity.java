@@ -37,7 +37,7 @@ public class ActionBarControlWebViewActivity extends ActionBarActivity implement
     }
 
     @Override
-    public void onScrollChanged(int scrollY) {
+    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
     }
 
     @Override

@@ -37,8 +37,6 @@ public class ToolbarControlListViewActivity extends ActionBarActivity implements
     private View mHeaderView;
     private View mToolbarView;
     private ObservableListView mListView;
-    private boolean mScrollBegan;
-    private boolean mDragging;
     private int mBaseTranslationY;
 
     @Override
@@ -65,11 +63,10 @@ public class ToolbarControlListViewActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onScrollChanged(int scrollY) {
-        if (mDragging) {
+    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+        if (dragging) {
             int toolbarHeight = mToolbarView.getHeight();
-            if (mScrollBegan) {
-                mScrollBegan = false;
+            if (firstScroll) {
                 float currentHeaderTranslationY = ViewHelper.getTranslationY(mHeaderView);
                 if (-toolbarHeight < currentHeaderTranslationY && toolbarHeight < scrollY) {
                     mBaseTranslationY = scrollY;
@@ -83,12 +80,10 @@ public class ToolbarControlListViewActivity extends ActionBarActivity implements
 
     @Override
     public void onDownMotionEvent() {
-        mScrollBegan = mDragging = true;
     }
 
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-        mDragging = false;
         mBaseTranslationY = 0;
 
         float headerTranslationY = ViewHelper.getTranslationY(mHeaderView);

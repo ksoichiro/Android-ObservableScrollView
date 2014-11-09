@@ -41,7 +41,7 @@ public class ActionBarControlScrollViewActivity extends ActionBarActivity implem
     }
 
     @Override
-    public void onScrollChanged(int scrollY) {
+    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
     }
 
     @Override

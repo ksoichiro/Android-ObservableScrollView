@@ -17,7 +17,7 @@
 package com.github.ksoichiro.android.observablescrollview;
 
 public interface ObservableScrollViewCallbacks {
-    public void onScrollChanged(int scrollY);
+    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging);
 
     public void onDownMotionEvent();
 

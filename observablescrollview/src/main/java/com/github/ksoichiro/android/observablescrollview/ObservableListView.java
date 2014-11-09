@@ -37,6 +37,8 @@ public class ObservableListView extends ListView {
     private int mPrevScrollY;
     private int mScrollY;
     private ScrollState mScrollState;
+    private boolean mFirstScroll;
+    private boolean mDragging;
 
     public ObservableListView(Context context) {
         super(context);
@@ -109,7 +111,10 @@ public class ObservableListView extends ListView {
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
                     LogUtils.v(TAG, "first: " + firstVisiblePosition + " scrollY: " + mScrollY + " first height: " + firstVisibleChild.getHeight() + " first top: " + firstVisibleChild.getTop());
-                    mCallbacks.onScrollChanged(mScrollY);
+                    mCallbacks.onScrollChanged(mScrollY, mFirstScroll, mDragging);
+                    if (mFirstScroll) {
+                        mFirstScroll = false;
+                    }
 
                     if (mPrevScrollY < mScrollY) {
                         //down
@@ -133,10 +138,12 @@ public class ObservableListView extends ListView {
         if (mCallbacks != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
+                    mFirstScroll = mDragging = true;
                     mCallbacks.onDownMotionEvent();
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
+                    mDragging = false;
                     mCallbacks.onUpOrCancelMotionEvent(mScrollState);
                     break;
             }

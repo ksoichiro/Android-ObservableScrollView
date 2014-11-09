@@ -33,7 +33,7 @@ public class ToolbarControlWebViewActivity extends ActionBarActivity {
     private View mHeaderView;
     private View mToolbarView;
     private ObservableScrollView mScrollView;
-    private boolean mScrollBegan;
+    private boolean mFirstScroll;
     private boolean mDragging;
     private int mBaseTranslationY;
 
@@ -57,11 +57,11 @@ public class ToolbarControlWebViewActivity extends ActionBarActivity {
 
     private ObservableScrollViewCallbacks mScrollViewScrollCallbacks = new ObservableScrollViewCallbacks() {
         @Override
-        public void onScrollChanged(int scrollY) {
+        public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
             if (mDragging) {
                 int toolbarHeight = mToolbarView.getHeight();
-                if (mScrollBegan) {
-                    mScrollBegan = false;
+                if (mFirstScroll) {
+                    mFirstScroll = false;
                     float currentHeaderTranslationY = ViewHelper.getTranslationY(mHeaderView);
                     if (-toolbarHeight < currentHeaderTranslationY && toolbarHeight < scrollY) {
                         mBaseTranslationY = scrollY;
@@ -104,14 +104,14 @@ public class ToolbarControlWebViewActivity extends ActionBarActivity {
 
     private ObservableScrollViewCallbacks mWebViewScrollCallbacks = new ObservableScrollViewCallbacks() {
         @Override
-        public void onScrollChanged(int scrollY) {
+        public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         }
 
         @Override
         public void onDownMotionEvent() {
             // Workaround: WebView inside a ScrollView absorbs down motion events, so observing
             // down motion event from the WebView is required.
-            mScrollBegan = mDragging = true;
+            mFirstScroll = mDragging = true;
         }
 
         @Override

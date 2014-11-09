@@ -27,6 +27,8 @@ public class ObservableWebView extends WebView {
     private int mPrevScrollY;
     private int mScrollY;
     private ScrollState mScrollState;
+    private boolean mFirstScroll;
+    private boolean mDragging;
 
     public ObservableWebView(Context context) {
         super(context);
@@ -46,7 +48,10 @@ public class ObservableWebView extends WebView {
         if (mCallbacks != null) {
             mScrollY = t;
 
-            mCallbacks.onScrollChanged(t);
+            mCallbacks.onScrollChanged(t, mFirstScroll, mDragging);
+            if (mFirstScroll) {
+                mFirstScroll = false;
+            }
 
             if (mPrevScrollY < t) {
                 //down
@@ -66,10 +71,12 @@ public class ObservableWebView extends WebView {
         if (mCallbacks != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
+                    mFirstScroll = mDragging = true;
                     mCallbacks.onDownMotionEvent();
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
+                    mDragging = false;
                     mCallbacks.onUpOrCancelMotionEvent(mScrollState);
                     break;
             }
