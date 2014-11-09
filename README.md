@@ -4,7 +4,8 @@ Android-ObservableScrollView
 [![Build Status](https://travis-ci.org/ksoichiro/Android-ObservableScrollView.svg?branch=master)](https://travis-ci.org/ksoichiro/Android-ObservableScrollView)
 [![Maven Central](http://img.shields.io/maven-central/v/com.github.ksoichiro/android-observablescrollview.svg)](https://github.com/ksoichiro/Android-ObservableScrollView/releases/latest)
 
-Observe scroll events on scrollable views.
+Android library to observe scroll events on scrollable views.  
+It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and may be helpful to implement look and feel of Material Design apps.
 
 ![](observablescrollview-samples/demo1.gif)
 ![](observablescrollview-samples/demo2.gif)
@@ -38,6 +39,43 @@ $ ./gradlew installDebug
 * ScrollView
 * WebView
 
+
+## How to use
+
+### Add widgets to your layout
+
+Use one of the `ObservableListView`, `ObservableScrollView`, `ObservableWebView` in your XML layout file.
+
+### Control scroll events with callbacks
+
+Widgets above provides callbacks with `ObservableScrollViewCallbacks` interface.  
+You can listen scroll events of the widgets by using `setScrollViewCallbacks()`.
+
+```java
+    ObservableListView listView = (ObservableListView) findViewById(R.id.list);
+    listView.setScrollViewCallbacks(this);
+```
+
+Then implement your interaction codes to the callbacks.  
+Example:
+
+```java
+    @Override
+    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+        ActionBar ab = getSupportActionBar();
+        if (scrollState == ScrollState.UP) {
+            if (ab.isShowing()) {
+                ab.hide();
+            }
+        } else if (scrollState == ScrollState.DOWN) {
+            if (!ab.isShowing()) {
+                ab.show();
+            }
+        }
+    }
+```
+
+See sample project's `Activity` codes for more details.
 
 ## Developed By
 
