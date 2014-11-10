@@ -10,10 +10,12 @@ It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and m
 ![](observablescrollview-samples/demo1.gif)
 ![](observablescrollview-samples/demo2.gif)
 ![](observablescrollview-samples/demo3.gif)
-
 ![](observablescrollview-samples/demo4.gif)
+
 ![](observablescrollview-samples/demo5.gif)
 ![](observablescrollview-samples/demo6.gif)
+![](observablescrollview-samples/demo7.gif)
+![](observablescrollview-samples/demo8.gif)
 
 ## Installation
 
