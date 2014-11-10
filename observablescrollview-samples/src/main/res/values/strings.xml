@@ -19,6 +19,7 @@
     <string name="title_activity_main">AOSV-Demos</string>
     <string name="title_activity_about">About this app</string>
 
+    <string name="title_activity_actionbarcontrolgridview">GridView &amp; Action Bar</string>
     <string name="title_activity_actionbarcontrollistview">ListView &amp; Action Bar</string>
     <string name="title_activity_actionbarcontrolrecyclerview">RecyclerView &amp; Action Bar</string>
     <string name="title_activity_actionbarcontrolscrollview">ScrollView &amp; Action Bar</string>

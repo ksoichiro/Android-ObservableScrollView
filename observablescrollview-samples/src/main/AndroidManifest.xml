@@ -34,6 +34,15 @@
             android:name=".AboutActivity"
             android:label="@string/title_activity_about" />
         <activity
+            android:name=".ActionBarControlGridViewActivity"
+            android:label="@string/title_activity_actionbarcontrolgridview">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.github.ksoichiro.android.observablescrollview.samples" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ActionBarControlListViewActivity"
             android:label="@string/title_activity_actionbarcontrollistview">
             <intent-filter>
