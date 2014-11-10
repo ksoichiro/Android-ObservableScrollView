@@ -21,7 +21,7 @@ It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and m
 
 ```groovy
 dependencies {
-    compile 'com.github.ksoichiro:android-observablescrollview:1.0.0'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.1.0'
 }
 ```
 
