@@ -38,16 +38,17 @@ $ ./gradlew installDebug
 ## Supported widgets
 
 * ListView
-* RecyclerView
 * ScrollView
 * WebView
-
+* RecyclerView
+    * Note: It's supported but RecyclerView provides scroll states and position with [OnScrollListener](https://developer.android.com/reference/android/support/v7/widget/RecyclerView.OnScrollListener.html).  
+      You should use it if you don't have any reason.
 
 ## How to use
 
 ### Add widgets to your layout
 
-Use one of the `ObservableListView`, `ObservableScrollView`, `ObservableWebView` in your XML layout file.
+Use one of the `ObservableListView`, `ObservableScrollView`, `ObservableWebView`, `ObservableRecyclerView` in your XML layout file.
 
 ### Control scroll events with callbacks
 
