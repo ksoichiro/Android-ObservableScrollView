@@ -36,6 +36,7 @@ $ ./gradlew installDebug
 ## Supported widgets
 
 * ListView
+* RecyclerView
 * ScrollView
 * WebView
 

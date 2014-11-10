@@ -20,9 +20,11 @@
     <string name="title_activity_about">About this app</string>
 
     <string name="title_activity_actionbarcontrollistview">ListView &amp; Action Bar</string>
+    <string name="title_activity_actionbarcontrolrecyclerview">RecyclerView &amp; Action Bar</string>
     <string name="title_activity_actionbarcontrolscrollview">ScrollView &amp; Action Bar</string>
     <string name="title_activity_actionbarcontrolwebview">WebView &amp; Action Bar</string>
     <string name="title_activity_toolbarcontrollistview">ListView &amp; Quick return toolbar &amp; Sticky view</string>
+    <string name="title_activity_toolbarcontrolrecyclerview">RecyclerView &amp; Quick return toolbar &amp; Sticky view</string>
     <string name="title_activity_toolbarcontrolscrollview">ScrollView &amp; Quick return toolbar &amp; Sticky view</string>
     <string name="title_activity_toolbarcontrolwebview">WebView &amp; Quick return toolbar &amp; Sticky view</string>
 
