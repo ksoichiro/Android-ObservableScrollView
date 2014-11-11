@@ -24,4 +24,5 @@
 
     <dimen name="toolbar_elevation">8dp</dimen>
 
+    <dimen name="parallax_image_height">180dp</dimen>
 </resources>
