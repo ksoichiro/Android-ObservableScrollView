@@ -7,6 +7,9 @@ Android-ObservableScrollView
 Android library to observe scroll events on scrollable views.  
 It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and may be helpful to implement look and feel of Material Design apps.
 
+![](observablescrollview-samples/demo9.gif)
+![](observablescrollview-samples/demo10.gif)
+
 ![](observablescrollview-samples/demo1.gif)
 ![](observablescrollview-samples/demo2.gif)
 ![](observablescrollview-samples/demo3.gif)
@@ -37,12 +40,13 @@ $ ./gradlew installDebug
 
 ## Supported widgets
 
-* ListView
-* ScrollView
-* WebView
-* RecyclerView
-    * Note: It's supported but RecyclerView provides scroll states and position with [OnScrollListener](https://developer.android.com/reference/android/support/v7/widget/RecyclerView.OnScrollListener.html).  
-      You should use it if you don't have any reason.
+| Widget | Since | Note |
+|:------:|:-----:| ---- |
+| ListView | v1.0.0 |    |
+| ScrollView | v1.0.0 |  |
+| WebView | v1.0.0 |     |
+| RecyclerView | v1.1.0 | It's supported but RecyclerView provides scroll states and position with [OnScrollListener](https://developer.android.com/reference/android/support/v7/widget/RecyclerView.OnScrollListener.html). You should use it if you don't have any reason. |
+| GridView | - | |
 
 ## How to use
 
