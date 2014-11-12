@@ -38,6 +38,8 @@
 
     </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
 
+    <include layout="@layout/gradient_header" />
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"

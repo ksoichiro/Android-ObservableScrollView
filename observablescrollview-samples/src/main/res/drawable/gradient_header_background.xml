@@ -3,7 +3,7 @@
 
     <gradient
         android:angle="270"
-        android:endColor="#009E9E9E"
-        android:startColor="#999E9E9E" />
+        android:endColor="#00616161"
+        android:startColor="#CC616161" />
 
 </shape>
