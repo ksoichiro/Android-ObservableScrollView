@@ -79,6 +79,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FlexibleSpaceToolbarScrollViewActivity"
+            android:label="@string/title_activity_flexiblespacetoolbarscrollview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.github.ksoichiro.android.observablescrollview.samples" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ParallaxToolbarScrollViewActivity"
             android:label="@string/title_activity_parallaxtoolbarscrollview"
             android:theme="@style/AppTheme.Toolbar">

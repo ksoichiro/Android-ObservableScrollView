@@ -24,5 +24,8 @@
 
     <dimen name="toolbar_elevation">8dp</dimen>
 
+    <dimen name="toolbar_margin_start">72dp</dimen>
+    <dimen name="flexible_space_height">72dp</dimen>
+
     <dimen name="parallax_image_height">180dp</dimen>
 </resources>
