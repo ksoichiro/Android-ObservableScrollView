@@ -17,6 +17,7 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -46,6 +47,7 @@ public class ToolbarControlRecyclerViewActivity extends ActionBarActivity implem
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         mHeaderView = findViewById(R.id.header);
+        ViewCompat.setElevation(mHeaderView, getResources().getDimension(R.dimen.toolbar_elevation));
         mToolbarView = findViewById(R.id.toolbar);
 
         mRecyclerView = (ObservableRecyclerView) findViewById(R.id.recycler);

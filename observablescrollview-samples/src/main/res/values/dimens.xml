@@ -22,7 +22,7 @@
     <dimen name="margin_short">8dp</dimen>
     <dimen name="margin_extra_short">4dp</dimen>
 
-    <dimen name="toolbar_elevation">8dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
 
     <dimen name="toolbar_margin_start">72dp</dimen>
     <dimen name="flexible_space_height">72dp</dimen>

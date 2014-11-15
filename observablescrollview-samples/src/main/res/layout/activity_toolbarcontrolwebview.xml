@@ -11,6 +11,7 @@
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -37,38 +38,27 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/primary"
         android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primary"
-            android:orientation="vertical">
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
+            app:theme="@style/Toolbar" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                android:minHeight="?attr/actionBarSize"
-                app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
-                app:theme="@style/Toolbar" />
-
-            <TextView
-                android:id="@+id/sticky"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/margin_standard"
-                android:paddingRight="@dimen/margin_standard"
-                android:text="@string/sticky_header"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-        <ImageView
+        <TextView
+            android:id="@+id/sticky"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_elevation"
-            android:src="@drawable/shadow" />
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/margin_standard"
+            android:paddingRight="@dimen/margin_standard"
+            android:text="@string/sticky_header"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </FrameLayout>
