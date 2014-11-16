@@ -58,8 +58,12 @@ public class ObservableScrollView extends ScrollView {
             } else if (t < mPrevScrollY) {
                 //up
                 mScrollState = ScrollState.DOWN;
-            } else {
-                mScrollState = ScrollState.STOP;
+                //} else {
+                // Keep previous state while dragging.
+                // Never makes it STOP even if scrollY not changed.
+                // Before Android 4.4, onTouchEvent calls onScrollChanged directly for ACTION_MOVE,
+                // which makes mScrollState always STOP when onUpOrCancelMotionEvent is called.
+                // STOP state is now meaningless for ScrollView.
             }
             mPrevScrollY = t;
         }
