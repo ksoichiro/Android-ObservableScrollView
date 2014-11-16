@@ -47,16 +47,41 @@
         app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
         app:theme="@style/Toolbar" />
 
-    <TextView
-        android:id="@+id/title"
+    <!--
+    android:layout_marginLeft on FrameLayout seems to be ignored on Android 2.3
+    so add a parent RelativeLayout and set padding to it.
+    -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/toolbar_margin_start"
-        android:layout_marginStart="@dimen/toolbar_margin_start"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:minHeight="?attr/actionBarSize"
-        android:textColor="@android:color/white"
-        android:textSize="20sp" />
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/toolbar_margin_start">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:minHeight="?attr/actionBarSize"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/flexible_space_height"
+                android:background="@android:color/transparent" />
+        </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>
