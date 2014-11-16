@@ -19,6 +19,8 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
@@ -29,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActionBarControlListViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+
+    private static final String TAG = ActionBarControlListViewActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,19 @@ public class ActionBarControlListViewActivity extends ActionBarActivity implemen
             items.add("Item " + i);
         }
         listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
+
+        // ObservableListView uses setOnScrollListener, but it still works.
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                Log.v(TAG, "onScrollStateChanged: " + scrollState);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                Log.v(TAG, "onScroll: firstVisibleItem: " + firstVisibleItem + " visibleItemCount: " + visibleItemCount + " totalItemCount: " + totalItemCount);
+            }
+        });
     }
 
     @Override

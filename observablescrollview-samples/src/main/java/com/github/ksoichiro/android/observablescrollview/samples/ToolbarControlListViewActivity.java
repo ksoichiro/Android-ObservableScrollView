@@ -20,8 +20,10 @@ import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
@@ -35,6 +37,7 @@ import java.util.List;
 
 public class ToolbarControlListViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
+    private static final String TAG = ToolbarControlListViewActivity.class.getSimpleName();
     private View mHeaderView;
     private View mToolbarView;
     private ObservableListView mListView;
@@ -62,6 +65,19 @@ public class ToolbarControlListViewActivity extends ActionBarActivity implements
             items.add("Item " + i);
         }
         mListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
+
+        // ObservableListView uses setOnScrollListener, but it still works.
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                Log.v(TAG, "onScrollStateChanged: " + scrollState);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                Log.v(TAG, "onScroll: firstVisibleItem: " + firstVisibleItem + " visibleItemCount: " + visibleItemCount + " totalItemCount: " + totalItemCount);
+            }
+        });
     }
 
     @Override
