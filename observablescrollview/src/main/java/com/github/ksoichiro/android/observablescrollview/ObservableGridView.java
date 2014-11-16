@@ -21,6 +21,7 @@ import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.GridView;
 
 import com.github.ksoichiro.android.observablescrollview.internal.LogUtils;
@@ -39,6 +40,27 @@ public class ObservableGridView extends GridView {
     private boolean mFirstScroll;
     private boolean mDragging;
 
+    private OnScrollListener mOriginalScrollListener;
+    private OnScrollListener mScrollListener = new OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            if (mOriginalScrollListener != null) {
+                mOriginalScrollListener.onScrollStateChanged(view, scrollState);
+            }
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if (mOriginalScrollListener != null) {
+                mOriginalScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+            }
+            // AbsListView#invokeOnItemScrollListener calls onScrollChanged(0, 0, 0, 0)
+            // on Android 4.0+, but Android 2.3 is not. (Android 3.0 is unknown)
+            // So call it with onScrollListener.
+            onScrollChanged();
+        }
+    };
+
     public ObservableGridView(Context context) {
         super(context);
         init();
@@ -55,8 +77,44 @@ public class ObservableGridView extends GridView {
     }
 
     @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        super.onScrollChanged(l, t, oldl, oldt);
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (mCallbacks != null) {
+            switch (ev.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    mFirstScroll = mDragging = true;
+                    mCallbacks.onDownMotionEvent();
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    mDragging = false;
+                    mCallbacks.onUpOrCancelMotionEvent(mScrollState);
+                    break;
+            }
+        }
+        return super.onTouchEvent(ev);
+    }
+
+    @Override
+    public void setOnScrollListener(OnScrollListener l) {
+        // Don't set l to super.setOnScrollListener().
+        // l receives all events through mScrollListener.
+        mOriginalScrollListener = l;
+    }
+
+    public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
+        mCallbacks = listener;
+    }
+
+    public int getCurrentScrollY() {
+        return mScrollY;
+    }
+
+    private void init() {
+        mChildrenHeights = new SparseIntArray();
+        super.setOnScrollListener(mScrollListener);
+    }
+
+    private void onScrollChanged() {
         if (mCallbacks != null) {
             if (getChildCount() > 0) {
                 int firstVisiblePosition = getFirstVisiblePosition();
@@ -130,35 +188,5 @@ public class ObservableGridView extends GridView {
                 }
             }
         }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null) {
-            switch (ev.getActionMasked()) {
-                case MotionEvent.ACTION_DOWN:
-                    mFirstScroll = mDragging = true;
-                    mCallbacks.onDownMotionEvent();
-                    break;
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL:
-                    mDragging = false;
-                    mCallbacks.onUpOrCancelMotionEvent(mScrollState);
-                    break;
-            }
-        }
-        return super.onTouchEvent(ev);
-    }
-
-    public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
-        mCallbacks = listener;
-    }
-
-    public int getCurrentScrollY() {
-        return mScrollY;
-    }
-
-    private void init() {
-        mChildrenHeights = new SparseIntArray();
     }
 }

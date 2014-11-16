@@ -54,6 +54,9 @@ public class ObservableListView extends ListView {
             if (mOriginalScrollListener != null) {
                 mOriginalScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
             }
+            // AbsListView#invokeOnItemScrollListener calls onScrollChanged(0, 0, 0, 0)
+            // on Android 4.0+, but Android 2.3 is not. (Android 3.0 is unknown)
+            // So call it with onScrollListener.
             onScrollChanged();
         }
     };
