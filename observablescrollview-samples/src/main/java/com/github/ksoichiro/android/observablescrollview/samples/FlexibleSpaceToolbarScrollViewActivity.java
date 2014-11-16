@@ -24,7 +24,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
@@ -59,7 +58,7 @@ public class FlexibleSpaceToolbarScrollViewActivity extends ActionBarActivity im
         mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_height);
         int flexibleSpaceAndToolbarHeight = mFlexibleSpaceHeight + getActionBarSize();
 
-        ((FrameLayout.LayoutParams) findViewById(R.id.body).getLayoutParams()).topMargin = flexibleSpaceAndToolbarHeight;
+        findViewById(R.id.body).setPadding(0, flexibleSpaceAndToolbarHeight, 0, 0);
         mFlexibleSpaceView.getLayoutParams().height = flexibleSpaceAndToolbarHeight;
 
         ViewTreeObserver vto = mTitleView.getViewTreeObserver();

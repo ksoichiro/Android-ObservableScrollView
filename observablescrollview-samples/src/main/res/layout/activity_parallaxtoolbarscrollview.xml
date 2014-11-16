@@ -11,30 +11,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="@dimen/parallax_image_height"
                 android:scaleType="centerCrop"
                 android:src="@drawable/example" />
+
+            <View
+                android:id="@+id/anchor"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/parallax_image_height"
+                android:minHeight="@dimen/parallax_image_height" />
 
             <TextView
                 android:id="@+id/body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/parallax_image_height"
+                android:layout_below="@id/anchor"
                 android:background="@android:color/white"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:text="@string/lipsum" />
-        </FrameLayout>
+        </RelativeLayout>
 
     </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
 
