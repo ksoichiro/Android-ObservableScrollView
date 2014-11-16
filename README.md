@@ -25,7 +25,7 @@ It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and m
 
 ```groovy
 dependencies {
-    compile 'com.github.ksoichiro:android-observablescrollview:1.1.0'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.2.0'
 }
 ```
 
@@ -47,7 +47,7 @@ $ ./gradlew installDebug
 | ScrollView | v1.0.0 |  |
 | WebView | v1.0.0 |     |
 | RecyclerView | v1.1.0 | It's supported but RecyclerView provides scroll states and position with [OnScrollListener](https://developer.android.com/reference/android/support/v7/widget/RecyclerView.OnScrollListener.html). You should use it if you don't have any reason. |
-| GridView | - | |
+| GridView | v1.2.0 | |
 
 ## How to use
 
