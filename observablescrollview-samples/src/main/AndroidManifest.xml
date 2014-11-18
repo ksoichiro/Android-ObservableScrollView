@@ -14,7 +14,10 @@
   limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.github.ksoichiro.android.observablescrollview.samples">
+
+    <uses-sdk tools:overrideLibrary="com.melnykov.fab" />
 
     <application
         android:allowBackup="true"
@@ -81,6 +84,16 @@
         <activity
             android:name=".FlexibleSpaceToolbarScrollViewActivity"
             android:label="@string/title_activity_flexiblespacetoolbarscrollview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.github.ksoichiro.android.observablescrollview.samples" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".FlexibleSpaceWithImageScrollViewActivity"
+            android:label="@string/title_activity_flexiblespacewithimagescrollview"
             android:theme="@style/AppTheme.Toolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

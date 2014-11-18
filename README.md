@@ -7,9 +7,10 @@ Android-ObservableScrollView
 Android library to observe scroll events on scrollable views.  
 It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and may be helpful to implement look and feel of Material Design apps.
 
-![](observablescrollview-samples/demo9.gif)
+![](observablescrollview-samples/demo12.gif)
 ![](observablescrollview-samples/demo10.gif)
 ![](observablescrollview-samples/demo11.gif)
+![](observablescrollview-samples/demo9.gif)
 
 ![](observablescrollview-samples/demo1.gif)
 ![](observablescrollview-samples/demo2.gif)
