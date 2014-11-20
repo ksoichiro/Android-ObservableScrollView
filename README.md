@@ -1,8 +1,9 @@
 Android-ObservableScrollView
 ===
 
-[![Build Status](https://travis-ci.org/ksoichiro/Android-ObservableScrollView.svg?branch=master)](https://travis-ci.org/ksoichiro/Android-ObservableScrollView)
-[![Maven Central](http://img.shields.io/maven-central/v/com.github.ksoichiro/android-observablescrollview.svg)](https://github.com/ksoichiro/Android-ObservableScrollView/releases/latest)
+[![Build Status](http://img.shields.io/travis/ksoichiro/Android-ObservableScrollView.svg?style=flat)](https://travis-ci.org/ksoichiro/Android-ObservableScrollView)
+[![Maven Central](http://img.shields.io/maven-central/v/com.github.ksoichiro/android-observablescrollview.svg?style=flat)](https://github.com/ksoichiro/Android-ObservableScrollView/releases/latest)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--ObservableScrollView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1136)
 
 Android library to observe scroll events on scrollable views.  
 It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and may be helpful to implement look and feel of Material Design apps.
