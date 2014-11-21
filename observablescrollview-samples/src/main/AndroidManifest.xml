@@ -161,6 +161,16 @@
                 <category android:name="com.github.ksoichiro.android.observablescrollview.samples" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ViewPagerTabScrollViewActivity"
+            android:label="@string/title_activity_viewpagertabscrollview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.github.ksoichiro.android.observablescrollview.samples" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

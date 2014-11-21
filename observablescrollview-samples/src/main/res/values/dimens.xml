@@ -30,4 +30,5 @@
     <dimen name="flexible_space_show_fab_offset">120dp</dimen>
 
     <dimen name="parallax_image_height">180dp</dimen>
+    <dimen name="tab_height">48dp</dimen>
 </resources>
