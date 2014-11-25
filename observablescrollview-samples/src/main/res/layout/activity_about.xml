@@ -21,15 +21,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_short"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/margin_standard">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_short"
-            android:layout_marginTop="@dimen/margin_extra_short"
             android:gravity="center"
             android:text="@string/app_name"
             android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -58,8 +56,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_short"
-                android:layout_marginEnd="@dimen/margin_short"
+                android:layout_marginEnd="@dimen/margin_extra_short"
+                android:layout_marginRight="@dimen/margin_extra_short"
                 android:text="@string/msg_version" />
 
             <TextView
@@ -74,7 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_standard"
             android:layout_marginTop="@dimen/margin_short"
-            android:gravity="center" />
+            android:gravity="center"
+            android:text="@string/msg_copyright" />
 
         <TextView
             android:layout_width="match_parent"
@@ -98,5 +97,28 @@
             android:layout_marginTop="@dimen/margin_short"
             android:gravity="center"
             android:text="@string/msg_about_library_description" />
+
+        <include layout="@layout/divider" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:gravity="center"
+            android:text="@string/license"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_short"
+            android:text="@string/msg_license" />
+
+        <LinearLayout
+            android:id="@+id/licenses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_short"
+            android:orientation="vertical" />
     </LinearLayout>
 </ScrollView>
