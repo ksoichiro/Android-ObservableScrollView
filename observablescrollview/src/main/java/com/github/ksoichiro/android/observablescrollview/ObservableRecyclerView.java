@@ -17,6 +17,8 @@
 package com.github.ksoichiro.android.observablescrollview;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.SparseIntArray;
@@ -52,6 +54,31 @@ public class ObservableRecyclerView extends RecyclerView {
     public ObservableRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        SavedState ss = (SavedState) state;
+        mPrevFirstVisiblePosition = ss.prevFirstVisiblePosition;
+        mPrevFirstVisibleChildHeight = ss.prevFirstVisibleChildHeight;
+        mPrevScrolledChildrenHeight = ss.prevScrolledChildrenHeight;
+        mPrevScrollY = ss.prevScrollY;
+        mScrollY = ss.scrollY;
+        mChildrenHeights = ss.childrenHeights;
+        super.onRestoreInstanceState(ss.getSuperState());
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState ss = new SavedState(superState);
+        ss.prevFirstVisiblePosition = mPrevFirstVisiblePosition;
+        ss.prevFirstVisibleChildHeight = mPrevFirstVisibleChildHeight;
+        ss.prevScrolledChildrenHeight = mPrevScrolledChildrenHeight;
+        ss.prevScrollY = mPrevScrollY;
+        ss.scrollY = mScrollY;
+        ss.childrenHeights = mChildrenHeights;
+        return ss;
     }
 
     @Override
@@ -161,5 +188,67 @@ public class ObservableRecyclerView extends RecyclerView {
 
     private void init() {
         mChildrenHeights = new SparseIntArray();
+    }
+
+    static class SavedState extends BaseSavedState {
+        int prevFirstVisiblePosition;
+        int prevFirstVisibleChildHeight = -1;
+        int prevScrolledChildrenHeight;
+        int prevScrollY;
+        int scrollY;
+        SparseIntArray childrenHeights;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            prevFirstVisiblePosition = in.readInt();
+            prevFirstVisibleChildHeight = in.readInt();
+            prevScrolledChildrenHeight = in.readInt();
+            prevScrollY = in.readInt();
+            scrollY = in.readInt();
+            childrenHeights = new SparseIntArray();
+            final int numOfChildren = in.readInt();
+            if (0 < numOfChildren) {
+                for (int i = 0; i < numOfChildren; i++) {
+                    final int key = in.readInt();
+                    final int value = in.readInt();
+                    childrenHeights.put(key, value);
+                }
+            }
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeInt(prevFirstVisiblePosition);
+            out.writeInt(prevFirstVisibleChildHeight);
+            out.writeInt(prevScrolledChildrenHeight);
+            out.writeInt(prevScrollY);
+            out.writeInt(scrollY);
+            final int numOfChildren = childrenHeights == null ? 0 : childrenHeights.size();
+            out.writeInt(numOfChildren);
+            if (0 < numOfChildren) {
+                for (int i = 0; i < numOfChildren; i++) {
+                    out.writeInt(childrenHeights.keyAt(i));
+                    out.writeInt(childrenHeights.valueAt(i));
+                }
+            }
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR
+                = new Parcelable.Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 }
