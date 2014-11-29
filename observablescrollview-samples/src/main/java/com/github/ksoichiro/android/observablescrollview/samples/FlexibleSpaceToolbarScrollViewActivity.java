@@ -52,7 +52,7 @@ public class FlexibleSpaceToolbarScrollViewActivity extends ActionBarActivity im
         setTitle(null);
         mToolbarView = findViewById(R.id.toolbar);
 
-        ObservableScrollView scrollView = (ObservableScrollView) findViewById(R.id.scroll);
+        final ObservableScrollView scrollView = (ObservableScrollView) findViewById(R.id.scroll);
         scrollView.setScrollViewCallbacks(this);
 
         mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_height);
@@ -70,14 +70,13 @@ public class FlexibleSpaceToolbarScrollViewActivity extends ActionBarActivity im
                 } else {
                     mTitleView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
-                updateFlexibleSpaceText(0);
+                updateFlexibleSpaceText(scrollView.getCurrentScrollY());
             }
         });
     }
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        ViewHelper.setTranslationY(mFlexibleSpaceView, -scrollY);
         updateFlexibleSpaceText(scrollY);
     }
 
@@ -90,6 +89,7 @@ public class FlexibleSpaceToolbarScrollViewActivity extends ActionBarActivity im
     }
 
     private void updateFlexibleSpaceText(final int scrollY) {
+        ViewHelper.setTranslationY(mFlexibleSpaceView, -scrollY);
         int adjustedScrollY = scrollY;
         if (scrollY < 0) {
             adjustedScrollY = 0;
