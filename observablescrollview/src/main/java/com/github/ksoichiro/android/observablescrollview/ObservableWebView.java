@@ -17,6 +17,8 @@
 package com.github.ksoichiro.android.observablescrollview;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.webkit.WebView;
@@ -39,6 +41,23 @@ public class ObservableWebView extends WebView {
 
     public ObservableWebView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        SavedState ss = (SavedState) state;
+        mPrevScrollY = ss.prevScrollY;
+        mScrollY = ss.scrollY;
+        super.onRestoreInstanceState(ss.getSuperState());
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState ss = new SavedState(superState);
+        ss.prevScrollY = mPrevScrollY;
+        ss.scrollY = mScrollY;
+        return ss;
     }
 
     @Override
@@ -89,5 +108,40 @@ public class ObservableWebView extends WebView {
 
     public int getCurrentScrollY() {
         return mScrollY;
+    }
+
+    static class SavedState extends BaseSavedState {
+        int prevScrollY;
+        int scrollY;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            prevScrollY = in.readInt();
+            scrollY = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeInt(prevScrollY);
+            out.writeInt(scrollY);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR
+                = new Parcelable.Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 }
