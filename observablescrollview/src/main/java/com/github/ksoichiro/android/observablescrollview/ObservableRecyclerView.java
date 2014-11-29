@@ -107,6 +107,10 @@ public class ObservableRecyclerView extends RecyclerView {
                                     LogUtils.v(TAG, "Calculate skipped child height at " + i + ": " + mChildrenHeights.get(i));
                                 } else {
                                     LogUtils.v(TAG, "Could not calculate skipped child height at " + i);
+                                    // Approximate each item's height to the first visible child.
+                                    // It may be incorrect, but without this, scrollY will be broken
+                                    // when scrolling from the bottom.
+                                    skippedChildrenHeight += firstVisibleChild.getHeight();
                                 }
                             }
                         }
@@ -123,6 +127,10 @@ public class ObservableRecyclerView extends RecyclerView {
                                     LogUtils.v(TAG, "Calculate skipped child height at " + i + ": " + mChildrenHeights.get(i));
                                 } else {
                                     LogUtils.v(TAG, "Could not calculate skipped child height at " + i);
+                                    // Approximate each item's height to the first visible child.
+                                    // It may be incorrect, but without this, scrollY will be broken
+                                    // when scrolling from the bottom.
+                                    skippedChildrenHeight += firstVisibleChild.getHeight();
                                 }
                             }
                         }
