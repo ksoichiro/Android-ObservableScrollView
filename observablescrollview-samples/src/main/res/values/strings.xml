@@ -43,7 +43,8 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="sticky_header">Sticky</string>
 
     <string name="menu_about">About</string>
-    <string name="msg_version">Version</string>
+    <string name="msg_app_version">App Version: %1$s (Build: %2$s)</string>
+    <string name="msg_lib_version">Library Version: %1$s</string>
     <string name="msg_copyright">© 2014 Soichiro Kashima All rights reserved.</string>
     <string name="msg_about_description">Demo app for Android-ObservableScrollView.</string>
     <string name="msg_about_fork_me_on_github">Fork me on GitHub!</string>

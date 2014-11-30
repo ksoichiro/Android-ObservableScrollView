@@ -38,7 +38,7 @@ import java.util.Map;
 
 
 public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
-    private static final String CATEGORY_SAMPLES = "com.github.ksoichiro.android.observablescrollview.samples";
+    private static final String CATEGORY_SAMPLES = BuildConfig.APPLICATION_ID;
     private static final String TAG_CLASS_NAME = "className";
     private static final String TAG_DESCRIPTION = "description";
     private static final String TAG_INTENT = "intent";
@@ -106,8 +106,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
             if (labelPath.length == 1) {
                 String nameLabel = info.activityInfo.name.replace(info.activityInfo.packageName + "", "");
-                if (nameLabel.startsWith(".")) {
-                    nameLabel = nameLabel.substring(1);
+                // Remove package and get simple class name
+                if (nameLabel.contains(".")) {
+                    nameLabel = nameLabel.replaceAll("[^.]*\\.", "");
                 }
                 addItem(data,
                         nameLabel,

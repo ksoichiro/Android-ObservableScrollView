@@ -46,25 +46,21 @@
             android:contentDescription="@string/desc_about_app"
             android:src="@drawable/ic_launcher" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/app_version"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_standard"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:text="@string/msg_app_version" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_extra_short"
-                android:layout_marginRight="@dimen/margin_extra_short"
-                android:text="@string/msg_version" />
-
-            <TextView
-                android:id="@+id/version_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/lib_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_short"
+            android:text="@string/msg_lib_version" />
 
         <TextView
             android:id="@+id/copyright"

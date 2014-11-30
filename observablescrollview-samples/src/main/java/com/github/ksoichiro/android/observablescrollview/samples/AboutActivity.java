@@ -16,8 +16,6 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -41,7 +39,8 @@ public class AboutActivity extends ActionBarActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setHomeButtonEnabled(true);
         }
-        ((TextView) findViewById(R.id.version_name)).setText(getVersionName());
+        ((TextView) findViewById(R.id.app_version)).setText(getString(R.string.msg_app_version, BuildConfig.VERSION_NAME, BuildConfig.GIT_HASH));
+        ((TextView) findViewById(R.id.lib_version)).setText(getString(R.string.msg_lib_version, BuildConfig.LIB_VERSION));
 
         initLicenses();
     }
@@ -53,16 +52,6 @@ public class AboutActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public String getVersionName() {
-        try {
-            final PackageInfo info = getPackageManager().getPackageInfo(
-                    getPackageName(), PackageManager.GET_META_DATA);
-            return info.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            return "";
-        }
     }
 
     private void initLicenses() {

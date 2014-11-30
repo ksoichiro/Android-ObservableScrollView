@@ -1,6 +1,8 @@
 .gradle
 *.iml
+*.keystore
 /local.properties
+private.properties
 /.idea/
 .DS_Store
 /build

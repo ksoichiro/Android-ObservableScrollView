@@ -7,6 +7,8 @@ buildscript {
     }
 }
 
+project.ext.gitHash = "git rev-parse --short HEAD".execute().text.trim()
+
 apply plugin: 'com.android.application'
 
 repositories {
@@ -22,7 +24,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.0'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.melnykov:floatingactionbutton:1.0.7'
-    compile project(':observablescrollview')
+    debugCompile project(':observablescrollview')
+    releaseCompile "com.github.ksoichiro:android-observablescrollview:$VERSION_NAME"
 
     // for using SNAPSHOT
     //compile "com.github.ksoichiro:android-observablescrollview:$VERSION_NAME"
@@ -38,17 +41,53 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        buildConfigField "String", "GIT_HASH", "\"${project.ext.gitHash}\""
+    }
+
+    signingConfigs {
+        release {
+            def filePrivateProperties = file("private.properties")
+            if (filePrivateProperties.exists()) {
+                Properties propsPrivate = new Properties()
+                propsPrivate.load(new FileInputStream(filePrivateProperties))
+
+                storeFile file(propsPrivate['key.store'])
+                keyAlias propsPrivate['key.alias']
+                storePassword propsPrivate['key.store.password']
+                keyPassword propsPrivate['key.alias.password']
+            }
+        }
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            buildConfigField "String", "LIB_VERSION", "\"${project.ext.gitHash}\""
+        }
+
         release {
+            buildConfigField "String", "LIB_VERSION", "\"${VERSION_NAME}\""
+
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            def filePrivateProperties = file("private.properties")
+            if (filePrivateProperties.exists()) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 
     lintOptions {
         abortOnError false
+    }
+
+    applicationVariants.all { variant ->
+        def output = variant.outputs.get(0)
+        File apk = output.outputFile
+        String newName = output.outputFile.name.replace(".apk", "-${variant.mergedFlavor.versionCode}-${variant.mergedFlavor.versionName}-${project.ext.gitHash}.apk")
+                .replace("app-", "${variant.mergedFlavor.applicationId}-")
+        output.outputFile = new File(apk.parentFile, newName)
     }
 }

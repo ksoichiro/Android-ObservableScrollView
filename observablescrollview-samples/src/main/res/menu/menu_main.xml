@@ -22,6 +22,6 @@
         android:id="@+id/menu_about"
         android:orderInCategory="100"
         android:title="@string/menu_about"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
 </menu>
