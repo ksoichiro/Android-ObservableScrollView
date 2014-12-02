@@ -12,7 +12,7 @@ import android.view.ViewTreeObserver;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 
-public class ViewPagerTabFragment extends Fragment {
+public class ViewPagerTabScrollViewFragment extends Fragment {
 
     public static final String ARG_SCROLL_Y = "ARG_SCROLL_Y";
 
