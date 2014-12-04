@@ -1,0 +1,28 @@
+box: wercker/android
+# Build definition
+build:
+  # The steps that will be executed on build
+  steps:
+    - script:
+        name: show base information
+        code: |
+          ./gradle -v
+          echo $ANDROID_HOME
+          echo $ANDROID_SDK_VERSION
+          echo $ANDROID_BUILD_TOOLS
+          echo $ANDROID_UPDATE_FILTER
+          echo $ANDROID_NDK_HOME
+    - android-sdk-update:$
+        filter: tools,platform-tools,android-21,build-tools-21.1.0,extra-android-support,extra-android-m2repository
+    # A step that executes `gradle build` command
+    - script:
+        name: run gradle
+        code: |
+          ./gradlew --full-stacktrace -q --project-cache-dir=$WERCKER_CACHE_DIR assembleDebug
+  after-steps:
+    - script:
+        name: inspect build result
+        code: |
+          ls -la ./observablescrollview-samples/build/outputs/apk
+          cp ./observablescrollview-samples/build/outputs/apk/*.apk $WERCKER_REPORT_ARTIFACTS_DIR
+          rm -f $WERCKER_REPORT_ARTIFACTS_DIR/*-unaligned.apk
