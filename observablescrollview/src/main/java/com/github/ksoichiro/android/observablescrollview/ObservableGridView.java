@@ -28,7 +28,7 @@ import android.widget.GridView;
 
 import com.github.ksoichiro.android.observablescrollview.internal.LogUtils;
 
-public class ObservableGridView extends GridView {
+public class ObservableGridView extends GridView implements Scrollable {
     private static final String TAG = ObservableGridView.class.getSimpleName();
 
     private ObservableScrollViewCallbacks mCallbacks;
@@ -128,10 +128,17 @@ public class ObservableGridView extends GridView {
         mOriginalScrollListener = l;
     }
 
+    @Override
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
     }
 
+    @Override
+    public void scrollVerticallyTo(int y) {
+        scrollTo(0, y);
+    }
+
+    @Override
     public int getCurrentScrollY() {
         return mScrollY;
     }

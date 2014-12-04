@@ -25,7 +25,7 @@ public class ViewPagerTabListViewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_listview, container, false);
 
         Activity parentActivity = getActivity();
-        final ObservableListView listView = (ObservableListView) view.findViewById(R.id.list);
+        final ObservableListView listView = (ObservableListView) view.findViewById(R.id.scroll);
         listView.addHeaderView(inflater.inflate(R.layout.padding, null));
         List<String> items = new ArrayList<String>();
         for (int i = 1; i <= 100; i++) {

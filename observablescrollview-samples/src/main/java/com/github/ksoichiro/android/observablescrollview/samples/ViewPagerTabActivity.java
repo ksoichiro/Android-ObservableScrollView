@@ -28,10 +28,9 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableListView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.ksoichiro.android.observablescrollview.Scrollable;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
@@ -126,13 +125,12 @@ public class ViewPagerTabActivity extends ActionBarActivity implements Observabl
 
         // ObservableXxxViews have same API
         // but currently they don't have any common interfaces.
-        adjustToolbarForScrollViews(scrollState, view);
-        adjustToolbarForListViews(scrollState, view);
+        adjustToolbar(scrollState, view);
     }
 
-    private void adjustToolbarForScrollViews(ScrollState scrollState, View view) {
+    private void adjustToolbar(ScrollState scrollState, View view) {
         int toolbarHeight = mToolbarView.getHeight();
-        final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
+        final Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
         if (scrollView == null) {
             return;
         }
@@ -144,25 +142,6 @@ public class ViewPagerTabActivity extends ActionBarActivity implements Observabl
             }
         } else if (scrollState == ScrollState.DOWN) {
             if (toolbarHeight < scrollView.getCurrentScrollY()) {
-                showToolbar();
-            }
-        }
-    }
-
-    private void adjustToolbarForListViews(ScrollState scrollState, View view) {
-        int toolbarHeight = mToolbarView.getHeight();
-        final ObservableListView listView = (ObservableListView) view.findViewById(R.id.list);
-        if (listView == null) {
-            return;
-        }
-        if (scrollState == ScrollState.UP) {
-            if (toolbarHeight < listView.getCurrentScrollY()) {
-                hideToolbar();
-            } else if (listView.getCurrentScrollY() < toolbarHeight) {
-                showToolbar();
-            }
-        } else if (scrollState == ScrollState.DOWN) {
-            if (toolbarHeight < listView.getCurrentScrollY()) {
                 showToolbar();
             }
         }
@@ -195,43 +174,24 @@ public class ViewPagerTabActivity extends ActionBarActivity implements Observabl
             if (view == null) {
                 continue;
             }
-            propagateToolbarStateForScrollView(isShown, view, toolbarHeight);
-            propagateToolbarStateForListView(isShown, view, toolbarHeight);
+            propagateToolbarState(isShown, view, toolbarHeight);
         }
     }
 
-    private void propagateToolbarStateForScrollView(boolean isShown, View view, int toolbarHeight) {
-        ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
+    private void propagateToolbarState(boolean isShown, View view, int toolbarHeight) {
+        Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
         if (scrollView == null) {
             return;
         }
         if (isShown) {
             // Scroll up
             if (0 < scrollView.getCurrentScrollY()) {
-                scrollView.scrollTo(0, 0);
+                scrollView.scrollVerticallyTo(0);
             }
         } else {
             // Scroll down (to hide padding)
             if (scrollView.getCurrentScrollY() < toolbarHeight) {
-                scrollView.scrollTo(0, toolbarHeight);
-            }
-        }
-    }
-
-    private void propagateToolbarStateForListView(boolean isShown, View view, int toolbarHeight) {
-        ObservableListView listView = (ObservableListView) view.findViewById(R.id.list);
-        if (listView == null) {
-            return;
-        }
-        if (isShown) {
-            // Scroll up
-            if (0 < listView.getCurrentScrollY()) {
-                listView.setSelection(0);
-            }
-        } else {
-            // Scroll down (to hide padding)
-            if (listView.getCurrentScrollY() < toolbarHeight) {
-                listView.setSelection(1);
+                scrollView.scrollVerticallyTo(toolbarHeight);
             }
         }
     }

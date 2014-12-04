@@ -23,7 +23,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
-public class ObservableScrollView extends ScrollView {
+public class ObservableScrollView extends ScrollView implements Scrollable {
     private ObservableScrollViewCallbacks mCallbacks;
     private int mPrevScrollY;
     private int mScrollY;
@@ -106,10 +106,17 @@ public class ObservableScrollView extends ScrollView {
         return super.onTouchEvent(ev);
     }
 
+    @Override
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
     }
 
+    @Override
+    public void scrollVerticallyTo(int y) {
+        scrollTo(0, y);
+    }
+
+    @Override
     public int getCurrentScrollY() {
         return mScrollY;
     }

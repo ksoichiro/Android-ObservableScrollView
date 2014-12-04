@@ -121,7 +121,7 @@ public class ViewPagerTabListViewActivity extends ActionBarActivity implements O
         }
 
         int toolbarHeight = mToolbarView.getHeight();
-        final ObservableListView listView = (ObservableListView) view.findViewById(R.id.list);
+        final ObservableListView listView = (ObservableListView) view.findViewById(R.id.scroll);
         if (scrollState == ScrollState.UP) {
             if (toolbarHeight < listView.getCurrentScrollY()) {
                 hideToolbar();
@@ -158,7 +158,7 @@ public class ViewPagerTabListViewActivity extends ActionBarActivity implements O
                 continue;
             }
 
-            ObservableListView listView = (ObservableListView) f.getView().findViewById(R.id.list);
+            ObservableListView listView = (ObservableListView) f.getView().findViewById(R.id.scroll);
             if (isShown) {
                 // Scroll up
                 if (0 < listView.getCurrentScrollY()) {

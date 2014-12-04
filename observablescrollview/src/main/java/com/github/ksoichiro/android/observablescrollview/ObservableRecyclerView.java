@@ -27,7 +27,7 @@ import android.view.View;
 
 import com.github.ksoichiro.android.observablescrollview.internal.LogUtils;
 
-public class ObservableRecyclerView extends RecyclerView {
+public class ObservableRecyclerView extends RecyclerView implements Scrollable {
     private static final String TAG = ObservableRecyclerView.class.getSimpleName();
 
     private ObservableScrollViewCallbacks mCallbacks;
@@ -186,10 +186,22 @@ public class ObservableRecyclerView extends RecyclerView {
         return super.onTouchEvent(ev);
     }
 
+    @Override
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
     }
 
+    @Override
+    public void scrollVerticallyTo(int y) {
+        View firstVisibleChild = getChildAt(0);
+        if (firstVisibleChild != null) {
+            int baseHeight = firstVisibleChild.getHeight();
+            int position = y / baseHeight;
+            scrollToPosition(position);
+        }
+    }
+
+    @Override
     public int getCurrentScrollY() {
         return mScrollY;
     }

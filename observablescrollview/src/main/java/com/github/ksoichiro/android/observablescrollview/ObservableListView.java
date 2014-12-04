@@ -28,7 +28,7 @@ import android.widget.ListView;
 
 import com.github.ksoichiro.android.observablescrollview.internal.LogUtils;
 
-public class ObservableListView extends ListView {
+public class ObservableListView extends ListView implements Scrollable {
     private static final String TAG = ObservableListView.class.getSimpleName();
 
     private ObservableScrollViewCallbacks mCallbacks;
@@ -130,10 +130,22 @@ public class ObservableListView extends ListView {
         mOriginalScrollListener = l;
     }
 
+    @Override
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
     }
 
+    @Override
+    public void scrollVerticallyTo(int y) {
+        View firstVisibleChild = getChildAt(0);
+        if (firstVisibleChild != null) {
+            int baseHeight = firstVisibleChild.getHeight();
+            int position = y / baseHeight;
+            setSelection(position);
+        }
+    }
+
+    @Override
     public int getCurrentScrollY() {
         return mScrollY;
     }
