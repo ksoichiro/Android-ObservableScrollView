@@ -10,9 +10,12 @@ android:
     - extra-android-m2repository
   licenses:
     - 'android-sdk-license-.+'
-before_script:
-    - echo no | android create avd --force -n test -t android-19 --abi default/armeabi-v7a
-    - emulator -avd test -no-skin -no-audio -no-window &
-    - android-wait-for-emulator
+#before_script:
+    #- echo no | android create avd --force -n test -t android-19 --abi default/armeabi-v7a
+    #- emulator -avd test -no-skin -no-audio -no-window &
+    #- android-wait-for-emulator
 script:
-    - travis_retry ./gradlew build
+    # Release build type is only for Google Play store currently,
+    # which resolve dependency from Maven Central.
+    # This causes build errors while developing a new feature, so disable buildRelease.
+    - travis_retry ./gradlew buildDebug
