@@ -17,5 +17,5 @@ android:
 script:
     # Release build type is only for Google Play store currently,
     # which resolve dependency from Maven Central.
-    # This causes build errors while developing a new feature, so disable buildRelease.
-    - travis_retry ./gradlew buildDebug
+    # This causes build errors while developing a new feature, so disable release build.
+    - travis_retry ./gradlew assembleDebug
