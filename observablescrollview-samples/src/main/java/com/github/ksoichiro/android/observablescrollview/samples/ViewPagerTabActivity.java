@@ -244,19 +244,35 @@ public class ViewPagerTabActivity extends ActionBarActivity implements Observabl
             // Initialize fragments.
             // Please be sure to pass scroll position to each fragments using setArguments.
             Fragment f;
-            if (position % 2 == 0) {
-                f = new ViewPagerTabScrollViewFragment();
-                if (0 <= mScrollY) {
-                    Bundle args = new Bundle();
-                    args.putInt(ViewPagerTabScrollViewFragment.ARG_SCROLL_Y, mScrollY);
-                    f.setArguments(args);
+            final int pattern = position % 3;
+            switch (pattern) {
+                case 0: {
+                    f = new ViewPagerTabScrollViewFragment();
+                    if (0 <= mScrollY) {
+                        Bundle args = new Bundle();
+                        args.putInt(ViewPagerTabScrollViewFragment.ARG_SCROLL_Y, mScrollY);
+                        f.setArguments(args);
+                    }
+                    break;
                 }
-            } else {
-                f = new ViewPagerTabListViewFragment();
-                if (0 < mScrollY) {
-                    Bundle args = new Bundle();
-                    args.putInt(ViewPagerTabListViewFragment.ARG_INITIAL_POSITION, 1);
-                    f.setArguments(args);
+                case 1: {
+                    f = new ViewPagerTabListViewFragment();
+                    if (0 < mScrollY) {
+                        Bundle args = new Bundle();
+                        args.putInt(ViewPagerTabListViewFragment.ARG_INITIAL_POSITION, 1);
+                        f.setArguments(args);
+                    }
+                    break;
+                }
+                case 2:
+                default: {
+                    f = new ViewPagerTabRecyclerViewFragment();
+                    if (0 < mScrollY) {
+                        Bundle args = new Bundle();
+                        args.putInt(ViewPagerTabRecyclerViewFragment.ARG_INITIAL_POSITION, 1);
+                        f.setArguments(args);
+                    }
+                    break;
                 }
             }
             // We should cache fragments manually to access to them later

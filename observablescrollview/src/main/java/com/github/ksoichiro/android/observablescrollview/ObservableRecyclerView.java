@@ -19,6 +19,7 @@ package com.github.ksoichiro.android.observablescrollview;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.SparseIntArray;
@@ -197,6 +198,29 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         if (firstVisibleChild != null) {
             int baseHeight = firstVisibleChild.getHeight();
             int position = y / baseHeight;
+            scrollVerticallyToPosition(position);
+        }
+    }
+
+    /**
+     * <p>Same as {@linkplain #scrollToPosition(int)} but it scrolls to the position not only make
+     * the position visible.</p>
+     * <p>It depends on {@code LayoutManager} how {@linkplain #scrollToPosition(int)} works,
+     * and currently we know that {@linkplain LinearLayoutManager#scrollToPosition(int)} just
+     * make the position visible.</p>
+     * <p>In LinearLayoutManager, scrollToPositionWithOffset() is provided for scrolling to the position.
+     * This method checks which LayoutManager is set,
+     * and handles which method should be called for scrolling.</p>
+     * <p>Other know classes (StaggeredGridLayoutManager and GridLayoutManager) are not tested.</p>
+     *
+     * @param position position to scroll
+     */
+    public void scrollVerticallyToPosition(int position) {
+        LayoutManager lm = getLayoutManager();
+
+        if (lm != null && lm instanceof LinearLayoutManager) {
+            ((LinearLayoutManager) lm).scrollToPositionWithOffset(position, 0);
+        } else {
             scrollToPosition(position);
         }
     }
