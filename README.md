@@ -28,6 +28,19 @@ It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and m
 
 ## Samples
 
+### Google Play store
+
+[![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.github.ksoichiro.android.observablescrollview.samples)
+
+### wercker
+
+If you are a wercker user, you can download the latest build artifact.
+[See here for details](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/docs/wercker.md).
+
+[![wercker status](https://app.wercker.com/status/8d1e27d9f4a662b25dbe70402733582b/m/master "wercker status")](https://app.wercker.com/project/bykey/8d1e27d9f4a662b25dbe70402733582b)
+
+### Install manually with Gradle
+
 Clone this repository and build the app using Gradle wrapper.
 
 ```sh
@@ -35,10 +48,6 @@ $ git clone https://github.com/ksoichiro/Android-ObservableScrollView.git
 $ cd Android-ObservableScrollView
 $ ./gradlew installDebug
 ```
-
-If you are a wercker user, you can also download the latest build artifact.
-
-[![wercker status](https://app.wercker.com/status/8d1e27d9f4a662b25dbe70402733582b/m/master "wercker status")](https://app.wercker.com/project/bykey/8d1e27d9f4a662b25dbe70402733582b)
 
 ## Usage
 
@@ -52,7 +61,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ksoichiro:android-observablescrollview:1.2.1'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.3.0'
 }
 ```
 
