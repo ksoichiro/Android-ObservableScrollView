@@ -115,6 +115,23 @@ See [sample app's Activity codes](https://github.com/ksoichiro/Android-Observabl
 | GridView | v1.2.0 | |
 
 
+## Release notes
+
+* v1.3.0
+    * Add new interface `Scrollable` to provide common API for scrollable widgets. 
+* v1.2.1
+    * Fix that the scroll states and other internal information are lost after `onSaveInstanceState()`.
+    * Fix that the scrollY is incorrect if the ListView/RecyclerView don't scroll from the top.
+      (It's just approximating the scroll offset and not the complete solution but better than before.)
+* v1.2.0
+    * Add GridView support.
+    * Fix ObservableListView cannot detect onScrollChanged on Android 2.3.
+    * Fix ObservableScrollView cannot detect UP and DOWN state in onUpOrCancelMotionEvent before Android 4.4.
+* v1.1.0
+    * Add RecyclerView support.
+* v1.0.0
+    * Initial release.
+
 ## Contributions
 
 Any contributions are welcome!  
