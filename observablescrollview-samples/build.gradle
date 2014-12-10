@@ -7,7 +7,12 @@ buildscript {
     }
 }
 
-project.ext.gitHash = "git rev-parse --short HEAD".execute().text.trim()
+// Get git commit hash for naming the APK file if 'git' is available
+try {
+    project.ext.gitHash = "git rev-parse --short HEAD".execute().text.trim()
+} catch (all) {
+    project.ext.gitHash = "unknown"
+}
 
 apply plugin: 'com.android.application'
 
