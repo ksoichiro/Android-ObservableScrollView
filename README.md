@@ -118,11 +118,10 @@ See [sample app's Activity codes](https://github.com/ksoichiro/Android-Observabl
 ## Environment
 
 This project is built and tested under the following environment.
-Android Studio 1.0 will be supported soon.
 
 | OS             | IDE            |
 | -------------- | -------------- |
-| Mac OS X 10.10 | Android Studio 1.0 RC1 |
+| Mac OS X 10.10 | Android Studio 1.0 |
 
 ## Release notes
 

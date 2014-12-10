@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.14.1'
+        classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
 
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.melnykov:floatingactionbutton:1.0.7'
     debugCompile project(':observablescrollview')
@@ -34,7 +34,7 @@ dependencies {
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.0"
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
         applicationId "com.github.ksoichiro.android.observablescrollview.samples"

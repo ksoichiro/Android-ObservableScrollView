@@ -1,11 +1,11 @@
 language: android
 android:
   components:
-    - build-tools-21.1.0
+    - build-tools-21.1.1
     - tools
-    - android-19
+    #- android-19
     - android-21
-    - system-image
+    #- system-image
     - extra-android-support
     - extra-android-m2repository
   licenses:
