@@ -35,6 +35,7 @@
     <string name="title_activity_toolbarcontrolscrollview">ScrollView &amp; Quick return toolbar &amp; Sticky view</string>
     <string name="title_activity_toolbarcontrolwebview">WebView &amp; Quick return toolbar &amp; Sticky view</string>
     <string name="title_activity_viewpagertab">ViewPager &amp; Tab &amp; Different fragments</string>
+    <string name="title_activity_viewpagertab2">ViewPager &amp; Tab, callback to fragments</string>
     <string name="title_activity_viewpagertablistview">ViewPager &amp; Tab &amp; ListView</string>
     <string name="title_activity_viewpagertabscrollview">ViewPager &amp; Tab &amp; ScrollView</string>
 
