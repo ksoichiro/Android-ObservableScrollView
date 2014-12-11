@@ -31,4 +31,6 @@
 
     <dimen name="parallax_image_height">180dp</dimen>
     <dimen name="tab_height">48dp</dimen>
+
+    <dimen name="header_bar_height">72dp</dimen>
 </resources>

@@ -26,6 +26,7 @@
     <string name="title_activity_actionbarcontrolwebview">WebView &amp; Action Bar</string>
     <string name="title_activity_flexiblespacetoolbarscrollview">Flexible Space</string>
     <string name="title_activity_flexiblespacewithimagescrollview">Flexible Space</string>
+    <string name="title_activity_flexiblespacewithimage2scrollview">Flexible Space 2</string>
     <string name="title_activity_flexiblespacewithimagelistview">Flexible Space</string>
     <string name="title_activity_parallaxtoolbarscrollview">Parallax scrollView &amp; toolbar</string>
     <string name="title_activity_scrollfrombottomlistview">ListView, scrolling from bottom</string>
