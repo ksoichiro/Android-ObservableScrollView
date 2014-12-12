@@ -35,7 +35,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
-public class FlexibleSpaceWithImage2ScrollViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class FillGapScrollViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
     private View mImageHolder;
     private View mHeader;
@@ -51,7 +51,7 @@ public class FlexibleSpaceWithImage2ScrollViewActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_flexiblespacewithimage2scrollview);
+        setContentView(R.layout.activity_fillgapscrollview);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
