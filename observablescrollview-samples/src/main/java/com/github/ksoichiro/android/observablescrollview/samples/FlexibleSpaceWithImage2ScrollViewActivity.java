@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -133,7 +134,8 @@ public class FlexibleSpaceWithImage2ScrollViewActivity extends ActionBarActivity
     private void changeHeaderBackgroundHeight(float from, float to) {
         ViewPropertyAnimator.animate(mHeaderBackground).cancel();
         ValueAnimator a = ValueAnimator.ofFloat(from, to);
-        a.setDuration(200);
+        a.setDuration(100);
+        a.setInterpolator(new AccelerateDecelerateInterpolator());
         a.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
