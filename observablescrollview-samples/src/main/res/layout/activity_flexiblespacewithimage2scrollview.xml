@@ -6,13 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/flexible_space_image_height"
-        android:scaleType="centerCrop"
-        android:src="@drawable/example" />
-
     <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
@@ -20,33 +13,70 @@
         android:overScrollMode="never"
         android:scrollbars="none">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:clipChildren="false">
 
-            <View
+            <FrameLayout
+                android:id="@+id/image_holder"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/flexible_space_image_height"
-                android:background="@android:color/transparent" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/flexible_space_image_height"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/example" />
+            </FrameLayout>
 
             <TextView
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/flexible_space_image_height"
                 android:background="@android:color/white"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:text="@string/lipsum" />
-        </LinearLayout>
-    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
 
-    <View
-        android:id="@+id/filler"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary" />
+            <FrameLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false">
+
+                <View
+                    android:id="@+id/header_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/header_bar_height"
+                    android:background="?attr/colorPrimary"
+                    android:minHeight="@dimen/header_bar_height" />
+
+                <LinearLayout
+                    android:id="@+id/header_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/header_bar_height"
+                    android:minHeight="@dimen/header_bar_height"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/margin_standard"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </FrameLayout>
+        </FrameLayout>
+    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -56,24 +86,4 @@
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
         app:theme="@style/Toolbar" />
-
-    <LinearLayout
-        android:id="@+id/header_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/header_bar_height"
-        android:background="?attr/colorPrimary"
-        android:minHeight="@dimen/header_bar_height"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:paddingLeft="@dimen/margin_standard"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
-    </LinearLayout>
 </FrameLayout>

@@ -24,22 +24,26 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
 public class FlexibleSpaceWithImage2ScrollViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
-    private View mImageView;
+    private View mImageHolder;
+    private View mHeader;
     private View mHeaderBar;
-    private View mGapFiller;
+    private View mHeaderBackground;
     private ObservableScrollView mScrollView;
     private int mActionBarSize;
     private int mFlexibleSpaceImageHeight;
+    private int mIntersectionHeight;
     private int mPrevScrollY;
     private boolean mGapFilled;
 
@@ -51,11 +55,13 @@ public class FlexibleSpaceWithImage2ScrollViewActivity extends ActionBarActivity
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         mFlexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
+        mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height);
         mActionBarSize = getActionBarSize();
 
-        mImageView = findViewById(R.id.image);
+        mImageHolder = findViewById(R.id.image_holder);
+        mHeader = findViewById(R.id.header);
         mHeaderBar = findViewById(R.id.header_bar);
-        mGapFiller = findViewById(R.id.filler);
+        mHeaderBackground = findViewById(R.id.header_background);
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
         mScrollView.setScrollViewCallbacks(this);
         ((TextView) findViewById(R.id.title)).setText(getTitle());
@@ -78,33 +84,32 @@ public class FlexibleSpaceWithImage2ScrollViewActivity extends ActionBarActivity
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         // Translate image
-        ViewHelper.setTranslationY(mImageView, Math.min(0, -scrollY / 2));
+        ViewHelper.setTranslationY(mImageHolder, scrollY / 2);
 
-        // Translate header bar
-        int headerBarTranslationY = Math.max(mActionBarSize, mFlexibleSpaceImageHeight - mHeaderBar.getHeight() - scrollY);
-        ViewHelper.setTranslationY(mHeaderBar, headerBarTranslationY);
+        // Translate header
+        final int headerHeight = mHeaderBar.getHeight();
+        int headerTranslationY = mFlexibleSpaceImageHeight - headerHeight;
+        if (mFlexibleSpaceImageHeight - headerHeight - mActionBarSize + mIntersectionHeight <= scrollY) {
+            headerTranslationY = scrollY + mActionBarSize - mIntersectionHeight;
+        }
+        ViewHelper.setTranslationY(mHeader, headerTranslationY);
 
-        // Translate gap filler
-        if (scrollY <= mFlexibleSpaceImageHeight - mHeaderBar.getHeight() - mActionBarSize) {
-            ViewPropertyAnimator.animate(mGapFiller).cancel();
-            ViewHelper.setTranslationY(mGapFiller, headerBarTranslationY);
-        } else if (mFlexibleSpaceImageHeight - mHeaderBar.getHeight() - mActionBarSize < scrollY
-                && scrollY <= mFlexibleSpaceImageHeight - mActionBarSize) {
-            boolean scrollUp = mPrevScrollY < scrollY;
-
-            if (!mGapFilled && scrollUp) {
-                mGapFilled = true;
-                hideGap();
-            } else if (mGapFilled && !scrollUp) {
-                mGapFilled = false;
-                showGap();
+        // Show/hide gap
+        boolean scrollUp = mPrevScrollY < scrollY;
+        if (scrollUp) {
+            if (mFlexibleSpaceImageHeight - headerHeight - mActionBarSize <= scrollY) {
+                if (!mGapFilled) {
+                    mGapFilled = true;
+                    hideGap();
+                }
             }
         } else {
-            if (!mGapFilled) {
-                mGapFilled = true;
+            if (scrollY <= mFlexibleSpaceImageHeight - headerHeight - mActionBarSize) {
+                if (mGapFilled) {
+                    mGapFilled = false;
+                    showGap();
+                }
             }
-            ViewPropertyAnimator.animate(mGapFiller).cancel();
-            ViewHelper.setTranslationY(mGapFiller, Math.max(0, -scrollY + mFlexibleSpaceImageHeight - mHeaderBar.getHeight()));
         }
         mPrevScrollY = scrollY;
     }
@@ -118,13 +123,28 @@ public class FlexibleSpaceWithImage2ScrollViewActivity extends ActionBarActivity
     }
 
     private void showGap() {
-        ViewPropertyAnimator.animate(mGapFiller).cancel();
-        ViewPropertyAnimator.animate(mGapFiller).translationY(mActionBarSize).setDuration(200).start();
+        changeHeaderBackgroundHeight(mHeaderBar.getHeight() + mActionBarSize, mHeaderBar.getHeight());
     }
 
     private void hideGap() {
-        ViewPropertyAnimator.animate(mGapFiller).cancel();
-        ViewPropertyAnimator.animate(mGapFiller).translationY(0).setDuration(200).start();
+        changeHeaderBackgroundHeight(mHeaderBar.getHeight(), mHeaderBar.getHeight() + mActionBarSize);
+    }
+
+    private void changeHeaderBackgroundHeight(float from, float to) {
+        ViewPropertyAnimator.animate(mHeaderBackground).cancel();
+        ValueAnimator a = ValueAnimator.ofFloat(from, to);
+        a.setDuration(200);
+        a.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float height = (float) animation.getAnimatedValue();
+                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mHeaderBackground.getLayoutParams();
+                lp.height = (int) height;
+                lp.topMargin = (int) (mHeaderBar.getHeight() - height);
+                mHeaderBackground.requestLayout();
+            }
+        });
+        a.start();
     }
 
     private int getActionBarSize() {
