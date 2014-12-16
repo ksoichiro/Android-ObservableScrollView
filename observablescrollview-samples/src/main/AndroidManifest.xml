@@ -82,6 +82,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FillGapListViewActivity"
+            android:label="@string/title_activity_fillgaplistview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".FillGapScrollViewActivity"
             android:label="@string/title_activity_fillgapscrollview"
             android:theme="@style/AppTheme.Toolbar">
