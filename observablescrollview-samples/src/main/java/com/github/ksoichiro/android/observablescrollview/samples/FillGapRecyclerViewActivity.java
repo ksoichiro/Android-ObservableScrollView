@@ -65,8 +65,11 @@ public class FillGapRecyclerViewActivity extends ActionBarActivity implements Ob
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         mFlexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
-        mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height);
         mActionBarSize = getActionBarSize();
+
+        // Even when the top gap has began to change, header bar still can move
+        // within mIntersectionHeight.
+        mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height) ;
 
         mImageHolder = findViewById(R.id.image_holder);
         mHeader = findViewById(R.id.header);
