@@ -17,10 +17,12 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.annotation.TargetApi;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -35,8 +37,10 @@ import com.nineoldandroids.view.ViewHelper;
 public class SlidingUpScrollViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
     private View mHeader;
+    private TextView mTitle;
     private ObservableScrollView mScrollView;
     private ScrollInterceptionFrameLayout mInterceptionLayout;
+    private int mActionBarSize;
     private int mIntersectionHeight;
     private int mHeaderBarHeight;
     private float mScrollYOnDownMotion;
@@ -50,13 +54,17 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
 
         mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height);
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
+        mActionBarSize = getActionBarSize();
 
         mHeader = findViewById(R.id.header);
+
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
         mScrollView.setScrollViewCallbacks(this);
         mInterceptionLayout = (ScrollInterceptionFrameLayout) findViewById(R.id.scroll_wrapper);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
-        ((TextView) findViewById(R.id.title)).setText(getTitle());
+        mTitle = (TextView) findViewById(R.id.title);
+        mTitle.setText(getTitle());
+        ViewHelper.setTranslationY(mTitle, (mHeaderBarHeight - mActionBarSize) / 2);
         setTitle(null);
 
         ViewTreeObserver vto = mInterceptionLayout.getViewTreeObserver();
@@ -77,6 +85,9 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         // Translate header
         ViewHelper.setTranslationY(mHeader, scrollY);
+
+        // Translate title (fixed)
+        ViewHelper.setTranslationY(mTitle, mIntersectionHeight);
     }
 
     @Override
@@ -119,12 +130,26 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
                 lp.height = (int) -translationY + getScreenHeight();
                 mInterceptionLayout.requestLayout();
             }
+
+            // Translate title
+            float hiddenHeight = translationY < 0 ? -translationY : 0;
+            ViewHelper.setTranslationY(mTitle, Math.min(mIntersectionHeight, (mHeaderBarHeight + hiddenHeight - mActionBarSize) / 2));
         }
 
         @Override
         public void onUpOrCancelMotionEvent(MotionEvent ev) {
         }
     };
+
+    private int getActionBarSize() {
+        TypedValue typedValue = new TypedValue();
+        int[] textSizeAttr = new int[]{R.attr.actionBarSize};
+        int indexOfAttrTextSize = 0;
+        TypedArray a = obtainStyledAttributes(typedValue.data, textSizeAttr);
+        int actionBarSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
+        a.recycle();
+        return actionBarSize;
+    }
 
     private int getScreenHeight() {
         return findViewById(android.R.id.content).getHeight();

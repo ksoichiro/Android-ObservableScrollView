@@ -108,7 +108,7 @@
                         <TextView
                             android:id="@+id/title"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="?attr/actionBarSize"
                             android:ellipsize="end"
                             android:gravity="center_vertical"
                             android:maxLines="1"
