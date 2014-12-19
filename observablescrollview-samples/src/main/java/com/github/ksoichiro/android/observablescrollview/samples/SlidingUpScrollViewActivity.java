@@ -39,7 +39,7 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
     private View mHeader;
     private TextView mTitle;
     private ObservableScrollView mScrollView;
-    private ScrollInterceptionFrameLayout mInterceptionLayout;
+    private TouchInterceptionFrameLayout mInterceptionLayout;
     private int mActionBarSize;
     private int mIntersectionHeight;
     private int mHeaderBarHeight;
@@ -60,7 +60,7 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
 
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
         mScrollView.setScrollViewCallbacks(this);
-        mInterceptionLayout = (ScrollInterceptionFrameLayout) findViewById(R.id.scroll_wrapper);
+        mInterceptionLayout = (TouchInterceptionFrameLayout) findViewById(R.id.scroll_wrapper);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
         mTitle = (TextView) findViewById(R.id.title);
         mTitle.setText(getTitle());
@@ -98,7 +98,7 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
     }
 
-    private ScrollInterceptionFrameLayout.ScrollInterceptionListener mInterceptionListener = new ScrollInterceptionFrameLayout.ScrollInterceptionListener() {
+    private TouchInterceptionFrameLayout.TouchInterceptionListener mInterceptionListener = new TouchInterceptionFrameLayout.TouchInterceptionListener() {
         @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
         @Override
         public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffY) {
@@ -115,7 +115,7 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
         }
 
         @Override
-        public void onMoveMotionEvent(MotionEvent ev, float y, float diffY) {
+        public void onMoveMotionEvent(MotionEvent ev, float diffY) {
             float translationY = ViewHelper.getTranslationY(mInterceptionLayout) - mScrollYOnDownMotion + diffY;
             if (translationY < -mIntersectionHeight) {
                 translationY = -mIntersectionHeight;

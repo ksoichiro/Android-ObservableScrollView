@@ -25,15 +25,45 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-public class ScrollInterceptionFrameLayout extends FrameLayout {
+/**
+ * A layout that delegates interception of touch motion events.
+ */
+public class TouchInterceptionFrameLayout extends FrameLayout {
 
-    public interface ScrollInterceptionListener {
+    /**
+     * Callbacks for TouchInterceptionFrameLayout.
+     */
+    public interface TouchInterceptionListener {
+        /**
+         * Determines whether the layout should intercept this event.
+         *
+         * @param ev     motion event
+         * @param moving true if this event is ACTION_MOVE type
+         * @param diffY  difference between previous Y and current Y, if moving is true
+         * @return true if the layout should intercept
+         */
         boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffY);
 
+        /**
+         * Called if the down motion event is intercepted by this layout.
+         *
+         * @param ev motion event
+         */
         void onDownMotionEvent(MotionEvent ev);
 
-        void onMoveMotionEvent(MotionEvent ev, float y, float diffY);
+        /**
+         * Called if the move motion event is intercepted by this layout.
+         *
+         * @param ev    motion event
+         * @param diffY difference between previous Y and current Y
+         */
+        void onMoveMotionEvent(MotionEvent ev, float diffY);
 
+        /**
+         * Called if the up (or cancel) motion event is intercepted by this layout.
+         *
+         * @param ev motion event
+         */
         void onUpOrCancelMotionEvent(MotionEvent ev);
     }
 
@@ -42,32 +72,32 @@ public class ScrollInterceptionFrameLayout extends FrameLayout {
     private boolean mBeganFromDownMotionEvent;
     private float mInitialY;
     private MotionEvent mPendingDownMotionEvent;
-    private ScrollInterceptionListener mScrollInterceptionListener;
+    private TouchInterceptionListener mTouchInterceptionListener;
 
-    public ScrollInterceptionFrameLayout(Context context) {
+    public TouchInterceptionFrameLayout(Context context) {
         super(context);
     }
 
-    public ScrollInterceptionFrameLayout(Context context, AttributeSet attrs) {
+    public TouchInterceptionFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ScrollInterceptionFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TouchInterceptionFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ScrollInterceptionFrameLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TouchInterceptionFrameLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void setScrollInterceptionListener(ScrollInterceptionListener listener) {
-        mScrollInterceptionListener = listener;
+    public void setScrollInterceptionListener(TouchInterceptionListener listener) {
+        mTouchInterceptionListener = listener;
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mScrollInterceptionListener == null) {
+        if (mTouchInterceptionListener == null) {
             return super.onInterceptTouchEvent(ev);
         }
         switch (ev.getActionMasked()) {
@@ -76,7 +106,7 @@ public class ScrollInterceptionFrameLayout extends FrameLayout {
                 mPendingDownMotionEvent = MotionEvent.obtainNoHistory(ev);
                 mBeganFromDownMotionEvent = true;
                 mDownMotionEventPended = true;
-                mIntercepting = mScrollInterceptionListener.shouldInterceptTouchEvent(ev, false, 0);
+                mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, false, 0);
                 return mIntercepting;
         }
         return super.onInterceptTouchEvent(ev);
@@ -84,14 +114,14 @@ public class ScrollInterceptionFrameLayout extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mScrollInterceptionListener != null) {
+        if (mTouchInterceptionListener != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
-                    mScrollInterceptionListener.onDownMotionEvent(ev);
+                    mTouchInterceptionListener.onDownMotionEvent(ev);
                     return true;
                 case MotionEvent.ACTION_MOVE:
                     float diffY = ev.getY() - mInitialY;
-                    mIntercepting = mScrollInterceptionListener.shouldInterceptTouchEvent(ev, true, diffY);
+                    mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, true, diffY);
                     if (mIntercepting) {
                         if (!mBeganFromDownMotionEvent) {
                             mBeganFromDownMotionEvent = true;
@@ -102,9 +132,9 @@ public class ScrollInterceptionFrameLayout extends FrameLayout {
                             event.setLocation(ev.getX(), ev.getY());
                             mInitialY = ev.getY();
                             diffY = 0;
-                            mScrollInterceptionListener.onDownMotionEvent(event);
+                            mTouchInterceptionListener.onDownMotionEvent(event);
                         }
-                        mScrollInterceptionListener.onMoveMotionEvent(ev, ev.getY(), diffY);
+                        mTouchInterceptionListener.onMoveMotionEvent(ev, diffY);
 
                         // If next mIntercepting become false,
                         // then we should generate fake ACTION_DOWN event.
@@ -150,7 +180,7 @@ public class ScrollInterceptionFrameLayout extends FrameLayout {
                 case MotionEvent.ACTION_CANCEL:
                     mBeganFromDownMotionEvent = false;
                     if (mIntercepting) {
-                        mScrollInterceptionListener.onUpOrCancelMotionEvent(ev);
+                        mTouchInterceptionListener.onUpOrCancelMotionEvent(ev);
                     } else {
                         for (int i = 0; i < getChildCount(); i++) {
                             View childView = getChildAt(i);

@@ -56,7 +56,7 @@
             android:background="#FF9800" />
     </LinearLayout>
 
-    <com.github.ksoichiro.android.observablescrollview.samples.ScrollInterceptionFrameLayout
+    <com.github.ksoichiro.android.observablescrollview.samples.TouchInterceptionFrameLayout
         android:id="@+id/scroll_wrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -119,7 +119,7 @@
                 </FrameLayout>
             </FrameLayout>
         </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
-    </com.github.ksoichiro.android.observablescrollview.samples.ScrollInterceptionFrameLayout>
+    </com.github.ksoichiro.android.observablescrollview.samples.TouchInterceptionFrameLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
