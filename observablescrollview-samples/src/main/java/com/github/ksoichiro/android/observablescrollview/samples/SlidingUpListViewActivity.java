@@ -21,28 +21,29 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
+import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.nineoldandroids.view.ViewHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class SlidingUpListViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
     private View mHeader;
     private TextView mTitle;
-    private ObservableRecyclerView mRecyclerView;
+    private ObservableListView mListView;
     private TouchInterceptionFrameLayout mInterceptionLayout;
     private int mActionBarSize;
     private int mIntersectionHeight;
@@ -52,7 +53,7 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_slidinguprecyclerview);
+        setContentView(R.layout.activity_slidinguplistview);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
@@ -62,14 +63,13 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
 
         mHeader = findViewById(R.id.header);
 
-        mRecyclerView = (ObservableRecyclerView) findViewById(R.id.scroll);
-        mRecyclerView.setScrollViewCallbacks(this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setHasFixedSize(false);
-        ArrayList<String> items = new ArrayList<String>();
+        mListView = (ObservableListView) findViewById(R.id.scroll);
+        mListView.setScrollViewCallbacks(this);
+        List<String> items = new ArrayList<String>();
         for (int i = 1; i <= 100; i++) {
             items.add("Item " + i);
         }
+        mListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));
 
         View paddingView = new View(this);
         paddingView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
@@ -77,7 +77,7 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
         paddingView.setMinimumHeight(mHeaderBarHeight);
         // This is required to disable header's list selector effect
         paddingView.setClickable(true);
-        mRecyclerView.setAdapter(new SimpleHeaderRecyclerAdapter(this, items, paddingView));
+        mListView.addHeaderView(paddingView);
 
         mInterceptionLayout = (TouchInterceptionFrameLayout) findViewById(R.id.scroll_wrapper);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
@@ -122,12 +122,12 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
             return minInterceptionLayoutY < (int) ViewHelper.getY(mInterceptionLayout)
                     || !moving
                     // canScrollVertically is API level 14
-                    || !mRecyclerView.canScrollVertically((int) -diffY);
+                    || !mListView.canScrollVertically((int) -diffY);
         }
 
         @Override
         public void onDownMotionEvent(MotionEvent ev) {
-            mScrollYOnDownMotion = mRecyclerView.getCurrentScrollY();
+            mScrollYOnDownMotion = mListView.getCurrentScrollY();
         }
 
         @Override
@@ -149,7 +149,7 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
 
             // Translate title
             float hiddenHeight = translationY < 0 ? -translationY : 0;
-            ViewHelper.setTranslationY(mTitle, Math.min(mIntersectionHeight, (mHeaderBarHeight + hiddenHeight - mActionBarSize) / 2));
+            ViewHelper.setTranslationY(mTitle, Math.min(mIntersectionHeight, (mHeaderBarHeight + hiddenHeight - mActionBarSize) / 2.0f));
         }
 
         @Override

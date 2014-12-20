@@ -85,9 +85,6 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         // Translate header
         ViewHelper.setTranslationY(mHeader, scrollY);
-
-        // Translate title (fixed)
-        ViewHelper.setTranslationY(mTitle, mIntersectionHeight);
     }
 
     @Override
