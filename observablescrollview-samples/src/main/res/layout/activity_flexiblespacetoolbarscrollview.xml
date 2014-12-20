@@ -10,14 +10,15 @@
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:scrollbars="none">
 
         <FrameLayout
             android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/flexible_space_height"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/flexible_space_height">
 
             <TextView
                 android:layout_width="match_parent"
