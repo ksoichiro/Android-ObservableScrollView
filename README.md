@@ -61,7 +61,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ksoichiro:android-observablescrollview:1.3.0'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.3.1'
 }
 ```
 
@@ -125,6 +125,9 @@ This project is built and tested under the following environment.
 
 ## Release notes
 
+* v1.3.1
+    * Fix that `onDownMotionEvent` not called and parameters of `onScrollChanged` are incorrect
+      when children views handle touch events.
 * v1.3.0
     * Add new interface `Scrollable` to provide common API for scrollable widgets. 
 * v1.2.1
