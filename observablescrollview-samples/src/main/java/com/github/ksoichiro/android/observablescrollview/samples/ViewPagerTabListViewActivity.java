@@ -122,14 +122,27 @@ public class ViewPagerTabListViewActivity extends ActionBarActivity implements O
 
         int toolbarHeight = mToolbarView.getHeight();
         final ObservableListView listView = (ObservableListView) view.findViewById(R.id.scroll);
-        if (scrollState == ScrollState.UP) {
-            if (toolbarHeight < listView.getCurrentScrollY()) {
+        if (listView == null) {
+            return;
+        }
+        int scrollY = listView.getCurrentScrollY();
+        if (scrollState == ScrollState.DOWN) {
+            showToolbar();
+        } else if (scrollState == ScrollState.UP) {
+            if (toolbarHeight <= scrollY) {
                 hideToolbar();
-            } else if (listView.getCurrentScrollY() < toolbarHeight) {
+            } else {
                 showToolbar();
             }
-        } else if (scrollState == ScrollState.DOWN) {
-            if (toolbarHeight < listView.getCurrentScrollY()) {
+        } else {
+            // Even if onScrollChanged occurs without scrollY changing, toolbar should be adjusted
+            if (toolbarIsShown() || toolbarIsHidden()) {
+                // Toolbar is completely moved, so just keep its state
+                // and propagate it to other pages
+                propagateToolbarState(toolbarIsShown());
+            } else {
+                // Toolbar is moving but doesn't know which to move:
+                // you can change this to hideToolbar()
                 showToolbar();
             }
         }
@@ -175,6 +188,10 @@ public class ViewPagerTabListViewActivity extends ActionBarActivity implements O
 
     private boolean toolbarIsShown() {
         return ViewHelper.getTranslationY(mHeaderView) == 0;
+    }
+
+    private boolean toolbarIsHidden() {
+        return ViewHelper.getTranslationY(mHeaderView) == -mToolbarView.getHeight();
     }
 
     private void showToolbar() {
