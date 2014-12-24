@@ -24,7 +24,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -36,7 +35,6 @@ import com.nineoldandroids.view.ViewHelper;
 
 public class SlidingUpScrollViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
-    private View mHeader;
     private TextView mTitle;
     private ObservableScrollView mScrollView;
     private TouchInterceptionFrameLayout mInterceptionLayout;
@@ -55,8 +53,6 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
         mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height);
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
         mActionBarSize = getActionBarSize();
-
-        mHeader = findViewById(R.id.header);
 
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
         mScrollView.setScrollViewCallbacks(this);
@@ -83,8 +79,6 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        // Translate header
-        ViewHelper.setTranslationY(mHeader, scrollY);
     }
 
     @Override
@@ -101,9 +95,7 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
         public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffY) {
             final int minInterceptionLayoutY = -mIntersectionHeight;
             return minInterceptionLayoutY < (int) ViewHelper.getY(mInterceptionLayout)
-                    || !moving
-                    // canScrollVertically is API level 14
-                    || !mScrollView.canScrollVertically((int) -diffY);
+                    || (moving && mScrollView.getCurrentScrollY() - diffY < 0);
         }
 
         @Override

@@ -70,6 +70,7 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
     private boolean mIntercepting;
     private boolean mDownMotionEventPended;
     private boolean mBeganFromDownMotionEvent;
+    private boolean mChildrenEventsCanceled;
     private float mInitialY;
     private MotionEvent mPendingDownMotionEvent;
     private TouchInterceptionListener mTouchInterceptionListener;
@@ -98,18 +99,23 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (mTouchInterceptionListener == null) {
-            return super.onInterceptTouchEvent(ev);
+            return false;
         }
         switch (ev.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 mInitialY = ev.getY();
                 mPendingDownMotionEvent = MotionEvent.obtainNoHistory(ev);
-                mBeganFromDownMotionEvent = true;
                 mDownMotionEventPended = true;
                 mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, false, 0);
+                mBeganFromDownMotionEvent = mIntercepting;
+                mChildrenEventsCanceled = false;
+                return mIntercepting;
+            case MotionEvent.ACTION_MOVE:
+                float diffY = ev.getY() - mInitialY;
+                mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, true, diffY);
                 return mIntercepting;
         }
-        return super.onInterceptTouchEvent(ev);
+        return false;
     }
 
     @Override
@@ -117,8 +123,12 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
         if (mTouchInterceptionListener != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
-                    mTouchInterceptionListener.onDownMotionEvent(ev);
-                    return true;
+                    if (mIntercepting) {
+                        mTouchInterceptionListener.onDownMotionEvent(ev);
+                        duplicateTouchEventForChildren(ev);
+                        return true;
+                    }
+                    break;
                 case MotionEvent.ACTION_MOVE:
                     float diffY = ev.getY() - mInitialY;
                     mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, true, diffY);
@@ -130,43 +140,33 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                             // so generate down motion event with current position.
                             MotionEvent event = MotionEvent.obtainNoHistory(mPendingDownMotionEvent);
                             event.setLocation(ev.getX(), ev.getY());
+                            mTouchInterceptionListener.onDownMotionEvent(event);
+
                             mInitialY = ev.getY();
                             diffY = 0;
-                            mTouchInterceptionListener.onDownMotionEvent(event);
                         }
+
+                        if (!mChildrenEventsCanceled) {
+                            mChildrenEventsCanceled = true;
+                            // Children's clicks should be canceled
+                            duplicateTouchEventForChildren(obtainMotionEvent(ev, MotionEvent.ACTION_CANCEL));
+                        }
+
                         mTouchInterceptionListener.onMoveMotionEvent(ev, diffY);
 
                         // If next mIntercepting become false,
                         // then we should generate fake ACTION_DOWN event.
                         // Therefore we set pending flag to true as if this is a down motion event.
                         mDownMotionEventPended = true;
+                        return true;
                     } else {
-                        final boolean downMotionEventPended = mDownMotionEventPended;
                         if (mDownMotionEventPended) {
                             mDownMotionEventPended = false;
-                        }
-
-                        // We want to dispatch a down motion event and this ev event to
-                        // child views, but calling dispatchTouchEvent() causes StackOverflowError.
-                        // Therefore we do it manually.
-                        for (int i = getChildCount() - 1; 0 <= i; i--) {
-                            View childView = getChildAt(i);
-                            if (childView != null) {
-                                Rect childRect = new Rect();
-                                childView.getHitRect(childRect);
-                                if (!childRect.contains((int) ev.getX(), (int) ev.getY())) {
-                                    continue;
-                                }
-                                boolean consumed = false;
-                                if (downMotionEventPended) {
-                                    // Update location to prevent the point jumping
-                                    consumed = childView.onTouchEvent(mPendingDownMotionEvent);
-                                }
-                                consumed |= childView.onTouchEvent(ev);
-                                if (consumed) {
-                                    break;
-                                }
-                            }
+                            MotionEvent event = MotionEvent.obtainNoHistory(mPendingDownMotionEvent);
+                            event.setLocation(ev.getX(), ev.getY());
+                            duplicateTouchEventForChildren(ev, event);
+                        } else {
+                            duplicateTouchEventForChildren(ev);
                         }
 
                         // If next mIntercepting become true,
@@ -174,28 +174,74 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                         // Therefore we set beganFromDownMotionEvent flag to false
                         // as if we haven't received a down motion event.
                         mBeganFromDownMotionEvent = false;
+
+                        // Reserve children's click cancellation here if they've already canceled
+                        mChildrenEventsCanceled = false;
                     }
-                    return true;
+                    break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     mBeganFromDownMotionEvent = false;
                     if (mIntercepting) {
                         mTouchInterceptionListener.onUpOrCancelMotionEvent(ev);
-                    } else {
-                        for (int i = 0; i < getChildCount(); i++) {
-                            View childView = getChildAt(i);
-                            if (childView != null) {
-                                if (mDownMotionEventPended) {
-                                    mDownMotionEventPended = false;
-                                    childView.onTouchEvent(mPendingDownMotionEvent);
-                                }
-                                childView.onTouchEvent(ev);
-                            }
+                    }
+                    if (!mChildrenEventsCanceled) {
+                        mChildrenEventsCanceled = true;
+                        if (mDownMotionEventPended) {
+                            mDownMotionEventPended = false;
+                            MotionEvent event = MotionEvent.obtainNoHistory(mPendingDownMotionEvent);
+                            event.setLocation(ev.getX(), ev.getY());
+                            duplicateTouchEventForChildren(ev, event);
+                        } else {
+                            duplicateTouchEventForChildren(ev);
                         }
                     }
                     return true;
             }
         }
         return super.onTouchEvent(ev);
+    }
+
+    private MotionEvent obtainMotionEvent(MotionEvent base, int action) {
+        MotionEvent ev = MotionEvent.obtainNoHistory(base);
+        ev.setAction(action);
+        return ev;
+    }
+
+    /*
+     * We want to dispatch a down motion event and this ev event to
+     * child views, but calling dispatchTouchEvent() causes StackOverflowError.
+     * Therefore we do it manually.
+     */
+    private void duplicateTouchEventForChildren(MotionEvent ev, MotionEvent... pendingEvents) {
+        if (ev == null) {
+            return;
+        }
+        for (int i = getChildCount() - 1; 0 <= i; i--) {
+            View childView = getChildAt(i);
+            if (childView != null) {
+                Rect childRect = new Rect();
+                childView.getHitRect(childRect);
+                MotionEvent event = MotionEvent.obtainNoHistory(ev);
+                if (!childRect.contains((int) event.getX(), (int) event.getY())) {
+                    continue;
+                }
+                boolean consumed = false;
+                if (pendingEvents != null) {
+                    for (MotionEvent pe : pendingEvents) {
+                        if (pe != null) {
+                            MotionEvent peAdjusted = MotionEvent.obtainNoHistory(pe);
+                            peAdjusted.offsetLocation(-childView.getLeft(), -childView.getTop());
+                            consumed |= childView.onTouchEvent(peAdjusted);
+                        }
+                    }
+                }
+                event.offsetLocation(-childView.getLeft(), -childView.getTop());
+                consumed |= childView.onTouchEvent(event);
+                if (consumed) {
+                    break;
+                }
+            }
+        }
     }
 }

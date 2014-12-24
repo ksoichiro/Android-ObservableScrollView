@@ -65,9 +65,8 @@
             android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:overScrollMode="never"
-            android:scrollbars="none" />
+            android:layout_marginTop="@dimen/header_bar_height"
+            android:background="@android:color/white" />
 
         <FrameLayout
             android:id="@+id/header"

@@ -17,19 +17,23 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
@@ -40,7 +44,6 @@ import java.util.ArrayList;
 
 public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
-    private View mHeader;
     private TextView mTitle;
     private ObservableRecyclerView mRecyclerView;
     private TouchInterceptionFrameLayout mInterceptionLayout;
@@ -60,24 +63,15 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
         mActionBarSize = getActionBarSize();
 
-        mHeader = findViewById(R.id.header);
-
         mRecyclerView = (ObservableRecyclerView) findViewById(R.id.scroll);
         mRecyclerView.setScrollViewCallbacks(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setHasFixedSize(false);
+        mRecyclerView.setHasFixedSize(true);
         ArrayList<String> items = new ArrayList<String>();
         for (int i = 1; i <= 100; i++) {
             items.add("Item " + i);
         }
-
-        View paddingView = new View(this);
-        paddingView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
-                mHeaderBarHeight));
-        paddingView.setMinimumHeight(mHeaderBarHeight);
-        // This is required to disable header's list selector effect
-        paddingView.setClickable(true);
-        mRecyclerView.setAdapter(new SimpleHeaderRecyclerAdapter(this, items, paddingView));
+        mRecyclerView.setAdapter(new CustomAdapter(this, items));
 
         mInterceptionLayout = (TouchInterceptionFrameLayout) findViewById(R.id.scroll_wrapper);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
@@ -102,8 +96,6 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        // Translate header (fixed)
-        ViewHelper.setTranslationY(mHeader, 0);
     }
 
     @Override
@@ -120,9 +112,7 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
         public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffY) {
             final int minInterceptionLayoutY = -mIntersectionHeight;
             return minInterceptionLayoutY < (int) ViewHelper.getY(mInterceptionLayout)
-                    || !moving
-                    // canScrollVertically is API level 14
-                    || !mRecyclerView.canScrollVertically((int) -diffY);
+                    || (moving && mRecyclerView.getCurrentScrollY() - diffY < 0);
         }
 
         @Override
@@ -169,5 +159,53 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
 
     private int getScreenHeight() {
         return findViewById(android.R.id.content).getHeight();
+    }
+
+    public static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+        private Context mContext;
+        private LayoutInflater mInflater;
+        private ArrayList<String> mItems;
+
+        public CustomAdapter(Context context, ArrayList<String> items) {
+            mContext = context;
+            mInflater = LayoutInflater.from(context);
+            mItems = items;
+        }
+
+        @Override
+        public int getItemCount() {
+            return mItems.size();
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ViewHolder(mContext, mInflater.inflate(android.R.layout.simple_list_item_1, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder viewHolder, int position) {
+            viewHolder.textView.setText(mItems.get(position));
+        }
+
+        static class ViewHolder extends RecyclerView.ViewHolder {
+            TextView textView;
+            Context context;
+
+            public ViewHolder(Context context, View view) {
+                super(view);
+                this.context = context;
+                this.textView = (TextView) view.findViewById(android.R.id.text1);
+                this.textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        click(getPosition() + 1);
+                    }
+                });
+            }
+
+            private void click(int i) {
+                Toast.makeText(context, "Button " + i + " is clicked", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

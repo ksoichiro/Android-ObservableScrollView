@@ -26,10 +26,11 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
@@ -41,7 +42,6 @@ import java.util.List;
 
 public class SlidingUpListViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
-    private View mHeader;
     private TextView mTitle;
     private ObservableListView mListView;
     private TouchInterceptionFrameLayout mInterceptionLayout;
@@ -61,8 +61,6 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
         mActionBarSize = getActionBarSize();
 
-        mHeader = findViewById(R.id.header);
-
         mListView = (ObservableListView) findViewById(R.id.scroll);
         mListView.setScrollViewCallbacks(this);
         List<String> items = new ArrayList<String>();
@@ -70,14 +68,12 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
             items.add("Item " + i);
         }
         mListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));
-
-        View paddingView = new View(this);
-        paddingView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
-                mHeaderBarHeight));
-        paddingView.setMinimumHeight(mHeaderBarHeight);
-        // This is required to disable header's list selector effect
-        paddingView.setClickable(true);
-        mListView.addHeaderView(paddingView);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(SlidingUpListViewActivity.this, "Item " + (position + 1) + " clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         mInterceptionLayout = (TouchInterceptionFrameLayout) findViewById(R.id.scroll_wrapper);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
@@ -102,8 +98,6 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        // Translate header (fixed)
-        ViewHelper.setTranslationY(mHeader, 0);
     }
 
     @Override
@@ -120,9 +114,7 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
         public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffY) {
             final int minInterceptionLayoutY = -mIntersectionHeight;
             return minInterceptionLayoutY < (int) ViewHelper.getY(mInterceptionLayout)
-                    || !moving
-                    // canScrollVertically is API level 14
-                    || !mListView.canScrollVertically((int) -diffY);
+                    || (moving && mListView.getCurrentScrollY() - diffY < 0);
         }
 
         @Override
