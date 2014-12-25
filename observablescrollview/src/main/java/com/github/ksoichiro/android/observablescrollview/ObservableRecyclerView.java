@@ -249,7 +249,23 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         mChildrenHeights = new SparseIntArray();
     }
 
-    static class SavedState extends BaseSavedState {
+    /**
+     * This saved state class is a Parcelable and should not extend
+     * {@link android.view.View.BaseSavedState} nor {@link android.view.AbsSavedState}
+     * because its super class AbsSavedState's constructor
+     * {@link android.view.AbsSavedState#AbsSavedState(Parcel)} currently passes null
+     * as a class loader to read its superstate from Parcelable.
+     * This causes {@link android.os.BadParcelableException} when restoring saved states.
+     * <p/>
+     * The super class "RecyclerView" is a part of the support library,
+     * and restoring its saved state requires the class loader that loaded the RecyclerView.
+     * It seems that the class loader is not required when restoring from RecyclerView itself,
+     * but it is required when restoring from RecyclerView's subclasses.
+     */
+    static class SavedState implements Parcelable {
+        public static final SavedState EMPTY_STATE = new SavedState() {
+        };
+
         int prevFirstVisiblePosition;
         int prevFirstVisibleChildHeight = -1;
         int prevScrolledChildrenHeight;
@@ -257,12 +273,23 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         int scrollY;
         SparseIntArray childrenHeights;
 
+        // This keeps the parent(RecyclerView)'s state
+        Parcelable superState;
+
+        SavedState() {
+            superState = null;
+        }
+
         SavedState(Parcelable superState) {
-            super(superState);
+            this.superState = superState != EMPTY_STATE ? superState : null;
         }
 
         private SavedState(Parcel in) {
-            super(in);
+            // Parcel 'in' has its parent(RecyclerView)'s saved state.
+            // To restore it, class loader that loaded RecyclerView is required.
+            Parcelable superState = in.readParcelable(RecyclerView.class.getClassLoader());
+            this.superState = superState != null ? superState : EMPTY_STATE;
+
             prevFirstVisiblePosition = in.readInt();
             prevFirstVisibleChildHeight = in.readInt();
             prevScrolledChildrenHeight = in.readInt();
@@ -280,8 +307,14 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         }
 
         @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
         public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
+            out.writeParcelable(superState, flags);
+
             out.writeInt(prevFirstVisiblePosition);
             out.writeInt(prevFirstVisibleChildHeight);
             out.writeInt(prevScrolledChildrenHeight);
@@ -295,6 +328,10 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
                     out.writeInt(childrenHeights.valueAt(i));
                 }
             }
+        }
+
+        public Parcelable getSuperState() {
+            return superState;
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR
