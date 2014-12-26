@@ -61,7 +61,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ksoichiro:android-observablescrollview:1.3.1'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.3.2'
 }
 ```
 
@@ -125,6 +125,8 @@ This project is built and tested under the following environment.
 
 ## Release notes
 
+* v1.3.2
+    * Fix that `ObservableRecyclerView` causes `BadParcelableException` on `onRestoreInstanceState`.
 * v1.3.1
     * Fix that `onDownMotionEvent` not called and parameters of `onScrollChanged` are incorrect
       when children views handle touch events.
