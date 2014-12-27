@@ -30,7 +30,7 @@ It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and m
 
 ### Google Play store
 
-[![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.github.ksoichiro.android.observablescrollview.samples)
+[![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.github.ksoichiro.android.observablescrollview.samples2)
 
 ### wercker
 
@@ -46,7 +46,7 @@ Clone this repository and build the app using Gradle wrapper.
 ```sh
 $ git clone https://github.com/ksoichiro/Android-ObservableScrollView.git 
 $ cd Android-ObservableScrollView
-$ ./gradlew installDebug
+$ ./gradlew installDevDebug
 ```
 
 ## Usage

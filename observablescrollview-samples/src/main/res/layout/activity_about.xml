@@ -89,10 +89,17 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_standard"
             android:layout_marginTop="@dimen/margin_short"
             android:gravity="center"
             android:text="@string/msg_about_library_description" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_standard"
+            android:layout_marginTop="@dimen/margin_short"
+            android:gravity="center"
+            android:text="@string/msg_android_trademark" />
 
         <include layout="@layout/divider" />
 

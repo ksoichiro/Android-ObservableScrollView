@@ -50,6 +50,20 @@ android {
         buildConfigField "String", "GIT_HASH", "\"${project.ext.gitHash}\""
     }
 
+    productFlavors {
+        // for development
+        dev {
+        }
+
+        // for Google Play Store release
+        play {
+            // The first version is removed from the Google Play store
+            // due to a violation of the branding guidelines.
+            // Therefore the suffix "sample" is replaced to "sample2".
+            applicationId "com.github.ksoichiro.android.observablescrollview.samples2"
+        }
+    }
+
     signingConfigs {
         release {
             def filePrivateProperties = file("private.properties")

@@ -15,7 +15,7 @@
 -->
 <resources>
 
-    <string name="app_name">Android-ObservableScrollView</string>
+    <string name="app_name">ObservableScrollView for Android</string>
     <string name="title_activity_main">AOSV-Demos</string>
     <string name="title_activity_about">About this app</string>
 
@@ -64,6 +64,7 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="msg_about_fork_me_on_github">Fork me on GitHub!</string>
     <string name="msg_about_github_url">https://github.com/ksoichiro/Android-ObservableScrollView</string>
     <string name="msg_about_library_description">Android-ObservableScrollView is a library to observe scroll events for scrollable views.</string>
+    <string name="msg_android_trademark">Android is a trademark of Google Inc.</string>
     <string name="desc_about_app">About this app</string>
 
 </resources>
