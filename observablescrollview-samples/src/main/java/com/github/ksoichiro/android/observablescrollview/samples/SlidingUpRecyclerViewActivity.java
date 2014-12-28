@@ -44,6 +44,7 @@ import java.util.ArrayList;
 public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
     private TextView mTitle;
+    private View mImageView;
     private ObservableRecyclerView mRecyclerView;
     private TouchInterceptionFrameLayout mInterceptionLayout;
     private int mActionBarSize;
@@ -60,6 +61,7 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
         mActionBarSize = getActionBarSize();
 
+        mImageView = findViewById(R.id.image);
         mRecyclerView = (ObservableRecyclerView) findViewById(R.id.scroll);
         mRecyclerView.setScrollViewCallbacks(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -86,6 +88,7 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
                     mInterceptionLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
                 ViewHelper.setTranslationY(mInterceptionLayout, getScreenHeight() - mHeaderBarHeight);
+                ViewHelper.setTranslationY(mImageView, getScreenHeight() - mHeaderBarHeight);
             }
         });
     }
@@ -135,6 +138,12 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
             // Translate title
             float hiddenHeight = translationY < 0 ? -translationY : 0;
             ViewHelper.setTranslationY(mTitle, Math.min(mIntersectionHeight, (mHeaderBarHeight + hiddenHeight - mActionBarSize) / 2));
+
+            // Translate image
+            float imageAnimatableHeight = getScreenHeight() - mHeaderBarHeight;
+            float imageTranslationScale = imageAnimatableHeight / (imageAnimatableHeight - mImageView.getHeight());
+            float imageTranslationY = Math.max(0, imageAnimatableHeight - (imageAnimatableHeight - translationY) * imageTranslationScale);
+            ViewHelper.setTranslationY(mImageView, imageTranslationY);
         }
 
         @Override

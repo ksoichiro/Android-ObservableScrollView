@@ -42,6 +42,7 @@ import java.util.List;
 public class SlidingUpListViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
     private TextView mTitle;
+    private View mImageView;
     private ObservableListView mListView;
     private TouchInterceptionFrameLayout mInterceptionLayout;
     private int mActionBarSize;
@@ -58,6 +59,7 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
         mActionBarSize = getActionBarSize();
 
+        mImageView = findViewById(R.id.image);
         mListView = (ObservableListView) findViewById(R.id.scroll);
         mListView.setScrollViewCallbacks(this);
         List<String> items = new ArrayList<String>();
@@ -88,6 +90,7 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
                     mInterceptionLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
                 ViewHelper.setTranslationY(mInterceptionLayout, getScreenHeight() - mHeaderBarHeight);
+                ViewHelper.setTranslationY(mImageView, getScreenHeight() - mHeaderBarHeight);
             }
         });
     }
@@ -137,6 +140,12 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
             // Translate title
             float hiddenHeight = translationY < 0 ? -translationY : 0;
             ViewHelper.setTranslationY(mTitle, Math.min(mIntersectionHeight, (mHeaderBarHeight + hiddenHeight - mActionBarSize) / 2.0f));
+
+            // Translate image
+            float imageAnimatableHeight = getScreenHeight() - mHeaderBarHeight;
+            float imageTranslationScale = imageAnimatableHeight / (imageAnimatableHeight - mImageView.getHeight());
+            float imageTranslationY = Math.max(0, imageAnimatableHeight - (imageAnimatableHeight - translationY) * imageTranslationScale);
+            ViewHelper.setTranslationY(mImageView, imageTranslationY);
         }
 
         @Override

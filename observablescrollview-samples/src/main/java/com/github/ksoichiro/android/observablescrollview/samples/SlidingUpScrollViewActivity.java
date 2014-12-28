@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ import com.nineoldandroids.view.ViewHelper;
 public class SlidingUpScrollViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
     private TextView mTitle;
+    private View mImageView;
     private ObservableScrollView mScrollView;
     private TouchInterceptionFrameLayout mInterceptionLayout;
     private int mActionBarSize;
@@ -51,6 +53,7 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
         mActionBarSize = getActionBarSize();
 
+        mImageView = findViewById(R.id.image);
         mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
         mScrollView.setScrollViewCallbacks(this);
         mInterceptionLayout = (TouchInterceptionFrameLayout) findViewById(R.id.scroll_wrapper);
@@ -69,6 +72,7 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
                     mInterceptionLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
                 ViewHelper.setTranslationY(mInterceptionLayout, getScreenHeight() - mHeaderBarHeight);
+                ViewHelper.setTranslationY(mImageView, getScreenHeight() - mHeaderBarHeight);
             }
         });
     }
@@ -118,6 +122,12 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
             // Translate title
             float hiddenHeight = translationY < 0 ? -translationY : 0;
             ViewHelper.setTranslationY(mTitle, Math.min(mIntersectionHeight, (mHeaderBarHeight + hiddenHeight - mActionBarSize) / 2));
+
+            // Translate image
+            float imageAnimatableHeight = getScreenHeight() - mHeaderBarHeight;
+            float imageTranslationScale = imageAnimatableHeight / (imageAnimatableHeight - mImageView.getHeight());
+            float imageTranslationY = Math.max(0, imageAnimatableHeight - (imageAnimatableHeight - translationY) * imageTranslationScale);
+            ViewHelper.setTranslationY(mImageView, imageTranslationY);
         }
 
         @Override
