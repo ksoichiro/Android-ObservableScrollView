@@ -34,4 +34,6 @@
 
     <dimen name="header_bar_height">72dp</dimen>
     <dimen name="intersection_height">16dp</dimen>
+
+    <dimen name="sliding_slop">32dp</dimen>
 </resources>
