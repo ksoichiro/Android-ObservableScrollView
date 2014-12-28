@@ -142,6 +142,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FragmentTransitionActivity"
+            android:label="@string/title_activity_fragmenttransition"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".HandleTouchGridViewActivity"
             android:label="@string/title_activity_handletouchgridview"
             android:theme="@style/AppTheme.Toolbar">
