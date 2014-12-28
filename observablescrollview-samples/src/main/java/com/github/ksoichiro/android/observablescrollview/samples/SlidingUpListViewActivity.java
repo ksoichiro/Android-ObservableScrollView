@@ -16,7 +16,6 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.annotation.TargetApi;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
@@ -109,7 +108,6 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
     }
 
     private TouchInterceptionFrameLayout.TouchInterceptionListener mInterceptionListener = new TouchInterceptionFrameLayout.TouchInterceptionListener() {
-        @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
         @Override
         public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffY) {
             final int minInterceptionLayoutY = -mIntersectionHeight;
