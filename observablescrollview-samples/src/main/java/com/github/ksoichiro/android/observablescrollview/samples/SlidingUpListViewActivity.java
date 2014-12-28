@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout;
 import com.nineoldandroids.view.ViewHelper;
 
 import java.util.ArrayList;

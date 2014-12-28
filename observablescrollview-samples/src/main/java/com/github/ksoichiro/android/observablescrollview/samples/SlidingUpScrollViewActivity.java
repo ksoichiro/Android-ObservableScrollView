@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout;
 import com.nineoldandroids.view.ViewHelper;
 
 public class SlidingUpScrollViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {

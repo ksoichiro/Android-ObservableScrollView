@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.ksoichiro.android.observablescrollview.samples;
+package com.github.ksoichiro.android.observablescrollview;
 
 import android.annotation.TargetApi;
 import android.content.Context;

@@ -56,7 +56,7 @@
             android:background="#FF9800" />
     </LinearLayout>
 
-    <com.github.ksoichiro.android.observablescrollview.samples.TouchInterceptionFrameLayout
+    <com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout
         android:id="@+id/scroll_wrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -101,5 +101,5 @@
                     android:textSize="20sp" />
             </LinearLayout>
         </FrameLayout>
-    </com.github.ksoichiro.android.observablescrollview.samples.TouchInterceptionFrameLayout>
+    </com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout>
 </FrameLayout>
