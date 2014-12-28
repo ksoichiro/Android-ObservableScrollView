@@ -21,6 +21,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 public class ObservableScrollView extends ScrollView implements Scrollable {
@@ -30,6 +31,7 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
     private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
+    private MotionEvent mPrevMoveEvent;
 
     public ObservableScrollView(Context context) {
         super(context);
@@ -116,6 +118,26 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
                     mDragging = false;
                     mCallbacks.onUpOrCancelMotionEvent(mScrollState);
                     break;
+                case MotionEvent.ACTION_MOVE:
+                    if (mPrevMoveEvent == null) {
+                        mPrevMoveEvent = ev;
+                    }
+                    float diffY = ev.getY() - mPrevMoveEvent.getY();
+                    mPrevMoveEvent = MotionEvent.obtainNoHistory(ev);
+                    if (getCurrentScrollY() - diffY <= 0) {
+                        // Can't scroll anymore.
+                        // If parent wants to intercept ACTION_MOVE event,
+                        // we pass ACTION_DOWN event to the parent
+                        // as if these touch events just have began now.
+                        MotionEvent event = MotionEvent.obtainNoHistory(ev);
+                        event.offsetLocation(getLeft(), getTop());
+                        ViewGroup parent = (ViewGroup) getParent();
+                        if (parent.onInterceptTouchEvent(event)) {
+                            event.setAction(MotionEvent.ACTION_DOWN);
+                            parent.dispatchTouchEvent(event);
+                        }
+                        return false;
+                    }
             }
         }
         return super.onTouchEvent(ev);
