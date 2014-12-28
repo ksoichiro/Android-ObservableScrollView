@@ -50,7 +50,7 @@ public class ViewPagerTabListViewActivity extends ActionBarActivity implements O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewpagertabscrollview);
+        setContentView(R.layout.activity_viewpagertab);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 

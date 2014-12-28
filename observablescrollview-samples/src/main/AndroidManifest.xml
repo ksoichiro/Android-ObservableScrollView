@@ -302,6 +302,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ViewPagerTab2Activity"
+            android:label="@string/title_activity_viewpagertab2"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ViewPagerTabActivity"
             android:label="@string/title_activity_viewpagertab"
             android:theme="@style/AppTheme.Toolbar">

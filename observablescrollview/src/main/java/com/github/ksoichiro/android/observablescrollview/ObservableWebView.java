@@ -21,6 +21,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 
 public class ObservableWebView extends WebView implements Scrollable {
@@ -120,6 +121,10 @@ public class ObservableWebView extends WebView implements Scrollable {
     @Override
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
+    }
+
+    @Override
+    public void setTouchInterceptionViewGroup(ViewGroup viewGroup) {
     }
 
     @Override

@@ -86,7 +86,7 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
 
     private TouchInterceptionFrameLayout.TouchInterceptionListener mInterceptionListener = new TouchInterceptionFrameLayout.TouchInterceptionListener() {
         @Override
-        public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffY) {
+        public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffX, float diffY) {
             final int minInterceptionLayoutY = -mIntersectionHeight;
             return minInterceptionLayoutY < (int) ViewHelper.getY(mInterceptionLayout)
                     || (moving && mScrollView.getCurrentScrollY() - diffY < 0);
@@ -98,7 +98,7 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
         }
 
         @Override
-        public void onMoveMotionEvent(MotionEvent ev, float diffY) {
+        public void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY) {
             float translationY = ViewHelper.getTranslationY(mInterceptionLayout) - mScrollYOnDownMotion + diffY;
             if (translationY < -mIntersectionHeight) {
                 translationY = -mIntersectionHeight;

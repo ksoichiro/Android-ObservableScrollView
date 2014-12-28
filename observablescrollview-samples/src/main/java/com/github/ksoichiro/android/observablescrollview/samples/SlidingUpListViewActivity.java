@@ -105,7 +105,7 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
 
     private TouchInterceptionFrameLayout.TouchInterceptionListener mInterceptionListener = new TouchInterceptionFrameLayout.TouchInterceptionListener() {
         @Override
-        public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffY) {
+        public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffX, float diffY) {
             final int minInterceptionLayoutY = -mIntersectionHeight;
             return minInterceptionLayoutY < (int) ViewHelper.getY(mInterceptionLayout)
                     || (moving && mListView.getCurrentScrollY() - diffY < 0);
@@ -117,7 +117,7 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
         }
 
         @Override
-        public void onMoveMotionEvent(MotionEvent ev, float diffY) {
+        public void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY) {
             float translationY = ViewHelper.getTranslationY(mInterceptionLayout) - mScrollYOnDownMotion + diffY;
             if (translationY < -mIntersectionHeight) {
                 translationY = -mIntersectionHeight;

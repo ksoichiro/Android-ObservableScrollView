@@ -18,6 +18,7 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -39,10 +40,11 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
          *
          * @param ev     motion event
          * @param moving true if this event is ACTION_MOVE type
+         * @param diffX  difference between previous X and current X, if moving is true
          * @param diffY  difference between previous Y and current Y, if moving is true
          * @return true if the layout should intercept
          */
-        boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffY);
+        boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffX, float diffY);
 
         /**
          * Called if the down motion event is intercepted by this layout.
@@ -55,9 +57,10 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
          * Called if the move motion event is intercepted by this layout.
          *
          * @param ev    motion event
+         * @param diffX difference between previous X and current X
          * @param diffY difference between previous Y and current Y
          */
-        void onMoveMotionEvent(MotionEvent ev, float diffY);
+        void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY);
 
         /**
          * Called if the up (or cancel) motion event is intercepted by this layout.
@@ -71,7 +74,7 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
     private boolean mDownMotionEventPended;
     private boolean mBeganFromDownMotionEvent;
     private boolean mChildrenEventsCanceled;
-    private float mInitialY;
+    private PointF mInitialPoint;
     private MotionEvent mPendingDownMotionEvent;
     private TouchInterceptionListener mTouchInterceptionListener;
 
@@ -103,16 +106,20 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
         }
         switch (ev.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                mInitialY = ev.getY();
+                mInitialPoint = new PointF(ev.getX(), ev.getY());
                 mPendingDownMotionEvent = MotionEvent.obtainNoHistory(ev);
                 mDownMotionEventPended = true;
-                mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, false, 0);
+                mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, false, 0, 0);
                 mBeganFromDownMotionEvent = mIntercepting;
                 mChildrenEventsCanceled = false;
                 return mIntercepting;
             case MotionEvent.ACTION_MOVE:
-                float diffY = ev.getY() - mInitialY;
-                mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, true, diffY);
+                if (mInitialPoint == null) {
+                    mInitialPoint = new PointF(ev.getX(), ev.getY());
+                }
+                float diffX = ev.getX() - mInitialPoint.x;
+                float diffY = ev.getY() - mInitialPoint.y;
+                mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, true, diffX, diffY);
                 return mIntercepting;
         }
         return false;
@@ -130,8 +137,12 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    float diffY = ev.getY() - mInitialY;
-                    mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, true, diffY);
+                    if (mInitialPoint == null) {
+                        mInitialPoint = new PointF(ev.getX(), ev.getY());
+                    }
+                    float diffX = ev.getX() - mInitialPoint.x;
+                    float diffY = ev.getY() - mInitialPoint.y;
+                    mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, true, diffX, diffY);
                     if (mIntercepting) {
                         if (!mBeganFromDownMotionEvent) {
                             mBeganFromDownMotionEvent = true;
@@ -142,8 +153,8 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                             event.setLocation(ev.getX(), ev.getY());
                             mTouchInterceptionListener.onDownMotionEvent(event);
 
-                            mInitialY = ev.getY();
-                            diffY = 0;
+                            mInitialPoint = new PointF(ev.getX(), ev.getY());
+                            diffX = diffY = 0;
                         }
 
                         if (!mChildrenEventsCanceled) {
@@ -152,7 +163,7 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                             duplicateTouchEventForChildren(obtainMotionEvent(ev, MotionEvent.ACTION_CANCEL));
                         }
 
-                        mTouchInterceptionListener.onMoveMotionEvent(ev, diffY);
+                        mTouchInterceptionListener.onMoveMotionEvent(ev, diffX, diffY);
 
                         // If next mIntercepting become false,
                         // then we should generate fake ACTION_DOWN event.
@@ -226,18 +237,20 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                 if (!childRect.contains((int) event.getX(), (int) event.getY())) {
                     continue;
                 }
+                float offsetX = -childView.getLeft();
+                float offsetY = -childView.getTop();
                 boolean consumed = false;
                 if (pendingEvents != null) {
                     for (MotionEvent pe : pendingEvents) {
                         if (pe != null) {
                             MotionEvent peAdjusted = MotionEvent.obtainNoHistory(pe);
-                            peAdjusted.offsetLocation(-childView.getLeft(), -childView.getTop());
-                            consumed |= childView.onTouchEvent(peAdjusted);
+                            peAdjusted.offsetLocation(offsetX, offsetY);
+                            consumed |= childView.dispatchTouchEvent(peAdjusted);
                         }
                     }
                 }
-                event.offsetLocation(-childView.getLeft(), -childView.getTop());
-                consumed |= childView.onTouchEvent(event);
+                event.offsetLocation(offsetX, offsetY);
+                consumed |= childView.dispatchTouchEvent(event);
                 if (consumed) {
                     break;
                 }

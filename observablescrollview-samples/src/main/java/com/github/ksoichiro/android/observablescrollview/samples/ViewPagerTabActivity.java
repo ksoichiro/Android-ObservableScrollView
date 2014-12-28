@@ -53,7 +53,7 @@ public class ViewPagerTabActivity extends ActionBarActivity implements Observabl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewpagertabscrollview);
+        setContentView(R.layout.activity_viewpagertab);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 

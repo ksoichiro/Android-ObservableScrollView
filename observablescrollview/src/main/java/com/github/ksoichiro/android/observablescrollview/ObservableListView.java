@@ -42,7 +42,9 @@ public class ObservableListView extends ListView implements Scrollable {
     private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
+    private boolean mIntercepted;
     private MotionEvent mPrevMoveEvent;
+    private ViewGroup mTouchInterceptionViewGroup;
 
     private OnScrollListener mOriginalScrollListener;
     private OnScrollListener mScrollListener = new OnScrollListener() {
@@ -130,6 +132,7 @@ public class ObservableListView extends ListView implements Scrollable {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
+                    mIntercepted = false;
                     mDragging = false;
                     mCallbacks.onUpOrCancelMotionEvent(mScrollState);
                     break;
@@ -141,18 +144,51 @@ public class ObservableListView extends ListView implements Scrollable {
                     mPrevMoveEvent = MotionEvent.obtainNoHistory(ev);
                     if (getCurrentScrollY() - diffY <= 0) {
                         // Can't scroll anymore.
-                        // If parent wants to intercept ACTION_MOVE event,
-                        // we pass ACTION_DOWN event to the parent
-                        // as if these touch events just have began now.
-                        MotionEvent event = MotionEvent.obtainNoHistory(ev);
-                        event.offsetLocation(getLeft(), getTop());
-                        ViewGroup parent = (ViewGroup) getParent();
+
+                        if (mIntercepted) {
+                            // Already dispatched ACTION_DOWN event to parents, so stop here.
+                            return false;
+                        }
+
+                        // Apps can set the interception target other than the direct parent.
+                        final ViewGroup parent;
+                        if (mTouchInterceptionViewGroup == null) {
+                            parent = (ViewGroup) getParent();
+                        } else {
+                            parent = mTouchInterceptionViewGroup;
+                        }
+
+                        // Get offset to parents. If the parent is not the direct parent,
+                        // we should aggregate offsets from all of the parents.
+                        float offsetX = 0;
+                        float offsetY = 0;
+                        for (View v = this; v != null && v != parent; v = (View) v.getParent()) {
+                            offsetX += v.getLeft() - v.getScrollX();
+                            offsetY += v.getTop() - v.getScrollY();
+                        }
+                        final MotionEvent event = MotionEvent.obtainNoHistory(ev);
+                        event.offsetLocation(offsetX, offsetY);
+
                         if (parent.onInterceptTouchEvent(event)) {
+                            mIntercepted = true;
+
+                            // If the parent wants to intercept ACTION_MOVE events,
+                            // we pass ACTION_DOWN event to the parent
+                            // as if these touch events just have began now.
                             event.setAction(MotionEvent.ACTION_DOWN);
-                            parent.dispatchTouchEvent(event);
+
+                            // Return this onTouchEvent() first and set ACTION_DOWN event for parent
+                            // to the queue, to keep events sequence.
+                            post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    parent.dispatchTouchEvent(event);
+                                }
+                            });
                         }
                         return false;
                     }
+                    break;
             }
         }
         return super.onTouchEvent(ev);
@@ -168,6 +204,11 @@ public class ObservableListView extends ListView implements Scrollable {
     @Override
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
+    }
+
+    @Override
+    public void setTouchInterceptionViewGroup(ViewGroup viewGroup) {
+        mTouchInterceptionViewGroup = viewGroup;
     }
 
     @Override

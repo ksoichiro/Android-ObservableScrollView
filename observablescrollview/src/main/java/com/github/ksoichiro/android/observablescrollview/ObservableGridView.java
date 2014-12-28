@@ -23,6 +23,7 @@ import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.GridView;
 
@@ -146,6 +147,10 @@ public class ObservableGridView extends GridView implements Scrollable {
     @Override
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
+    }
+
+    @Override
+    public void setTouchInterceptionViewGroup(ViewGroup viewGroup) {
     }
 
     @Override
