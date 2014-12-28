@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -56,8 +55,6 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slidinguprecyclerview);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
         mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height);
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
         mActionBarSize = getActionBarSize();
@@ -77,7 +74,6 @@ public class SlidingUpRecyclerViewActivity extends ActionBarActivity implements 
         mTitle = (TextView) findViewById(R.id.title);
         mTitle.setText(getTitle());
         ViewHelper.setTranslationY(mTitle, (mHeaderBarHeight - mActionBarSize) / 2);
-        setTitle(null);
 
         ViewTreeObserver vto = mInterceptionLayout.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

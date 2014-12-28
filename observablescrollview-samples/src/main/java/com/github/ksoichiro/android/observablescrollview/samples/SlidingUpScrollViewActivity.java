@@ -20,7 +20,6 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
@@ -47,8 +46,6 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slidingupscrollview);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
         mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height);
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
         mActionBarSize = getActionBarSize();
@@ -60,7 +57,6 @@ public class SlidingUpScrollViewActivity extends ActionBarActivity implements Ob
         mTitle = (TextView) findViewById(R.id.title);
         mTitle.setText(getTitle());
         ViewHelper.setTranslationY(mTitle, (mHeaderBarHeight - mActionBarSize) / 2);
-        setTitle(null);
 
         ViewTreeObserver vto = mInterceptionLayout.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

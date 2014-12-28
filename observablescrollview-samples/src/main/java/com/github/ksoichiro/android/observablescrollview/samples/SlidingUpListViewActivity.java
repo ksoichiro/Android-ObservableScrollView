@@ -20,7 +20,6 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,8 +53,6 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slidinguplistview);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
         mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height);
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
         mActionBarSize = getActionBarSize();
@@ -79,7 +76,6 @@ public class SlidingUpListViewActivity extends ActionBarActivity implements Obse
         mTitle = (TextView) findViewById(R.id.title);
         mTitle.setText(getTitle());
         ViewHelper.setTranslationY(mTitle, (mHeaderBarHeight - mActionBarSize) / 2);
-        setTitle(null);
 
         ViewTreeObserver vto = mInterceptionLayout.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
