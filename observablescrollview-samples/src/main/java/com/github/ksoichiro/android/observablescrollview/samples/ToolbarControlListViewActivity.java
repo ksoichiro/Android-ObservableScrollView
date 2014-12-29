@@ -58,8 +58,8 @@ public class ToolbarControlListViewActivity extends ActionBarActivity implements
         mListView.setScrollViewCallbacks(this);
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        mListView.addHeaderView(inflater.inflate(R.layout.padding, null)); // toolbar
-        mListView.addHeaderView(inflater.inflate(R.layout.padding, null)); // sticky view
+        mListView.addHeaderView(inflater.inflate(R.layout.padding, mListView, false)); // toolbar
+        mListView.addHeaderView(inflater.inflate(R.layout.padding, mListView, false)); // sticky view
         List<String> items = new ArrayList<String>();
         for (int i = 1; i <= 100; i++) {
             items.add("Item " + i);
