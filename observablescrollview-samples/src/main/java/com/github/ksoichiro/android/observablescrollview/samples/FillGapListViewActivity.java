@@ -81,7 +81,7 @@ public class FillGapListViewActivity extends ActionBarActivity implements Observ
         for (int i = 1; i <= 100; i++) {
             items.add("Item " + i);
         }
-        mListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));
+        mListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
 
         View paddingView = new View(this);
         paddingView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,

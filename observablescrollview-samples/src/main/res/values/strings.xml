@@ -39,6 +39,7 @@
     <string name="title_activity_parallaxtoolbarscrollview">Parallax scrollView &amp; toolbar</string>
     <string name="title_activity_scrollfrombottomlistview">ListView, scrolling from bottom</string>
     <string name="title_activity_scrollfrombottomrecyclerview">RecyclerView, scrolling from bottom</string>
+    <string name="title_activity_slidingupgridview">Sliding up effect with GridView</string>
     <string name="title_activity_slidinguplistview">Sliding up effect with ListView</string>
     <string name="title_activity_slidinguprecyclerview">Sliding up effect with RecyclerView</string>
     <string name="title_activity_slidingupscrollview">Sliding up effect with ScrollView</string>

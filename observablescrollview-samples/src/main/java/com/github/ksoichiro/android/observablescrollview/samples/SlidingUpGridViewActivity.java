@@ -21,34 +21,35 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.github.ksoichiro.android.observablescrollview.ObservableGridView;
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SlidingUpListViewActivity extends SlidingUpBaseActivity<ObservableListView> implements ObservableScrollViewCallbacks {
+public class SlidingUpGridViewActivity extends SlidingUpBaseActivity<ObservableGridView> implements ObservableScrollViewCallbacks {
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_slidinguplistview;
+        return R.layout.activity_slidingupgridview;
     }
 
     @Override
-    protected ObservableListView createScrollable() {
-        ObservableListView listView = (ObservableListView) findViewById(R.id.scroll);
-        listView.setScrollViewCallbacks(this);
+    protected ObservableGridView createScrollable() {
+        ObservableGridView gridView = (ObservableGridView) findViewById(R.id.scroll);
+        gridView.setScrollViewCallbacks(this);
         List<String> items = new ArrayList<String>();
         for (int i = 1; i <= 100; i++) {
             items.add("Item " + i);
         }
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(SlidingUpListViewActivity.this, "Item " + (position + 1) + " clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SlidingUpGridViewActivity.this, "Item " + (position + 1) + " clicked", Toast.LENGTH_SHORT).show();
             }
         });
-        return listView;
+        return gridView;
     }
 }

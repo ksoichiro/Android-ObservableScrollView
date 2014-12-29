@@ -232,6 +232,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".SlidingUpGridViewActivity"
+            android:label="@string/title_activity_slidingupgridview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".SlidingUpListViewActivity"
             android:label="@string/title_activity_slidinguplistview"
             android:theme="@style/AppTheme.Toolbar">
