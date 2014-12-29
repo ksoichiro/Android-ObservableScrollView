@@ -20,8 +20,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -32,9 +30,6 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FillGapListViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
@@ -62,7 +57,7 @@ public class FillGapListViewActivity extends BaseActivity implements ObservableS
 
         // Even when the top gap has began to change, header bar still can move
         // within mIntersectionHeight.
-        mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height) ;
+        mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height);
 
         mImageHolder = findViewById(R.id.image_holder);
         mHeader = findViewById(R.id.header);
@@ -71,19 +66,7 @@ public class FillGapListViewActivity extends BaseActivity implements ObservableS
 
         mListView = (ObservableListView) findViewById(R.id.scroll);
         mListView.setScrollViewCallbacks(this);
-        List<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
-        mListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
-
-        View paddingView = new View(this);
-        paddingView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
-                mFlexibleSpaceImageHeight));
-        paddingView.setMinimumHeight(mFlexibleSpaceImageHeight);
-        // This is required to disable header's list selector effect
-        paddingView.setClickable(true);
-        mListView.addHeaderView(paddingView);
+        setDummyDataWithHeader(mListView, mFlexibleSpaceImageHeight);
 
         // mListBackgroundView makes ListView's background except header view.
         mListBackgroundView = findViewById(R.id.list_background);

@@ -18,7 +18,6 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +27,7 @@ import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 
-import java.util.ArrayList;
-
-public class ViewPagerTabRecyclerViewFragment extends Fragment {
+public class ViewPagerTabRecyclerViewFragment extends BaseFragment {
 
     public static final String ARG_INITIAL_POSITION = "ARG_INITIAL_POSITION";
 
@@ -42,12 +39,8 @@ public class ViewPagerTabRecyclerViewFragment extends Fragment {
         final ObservableRecyclerView recyclerView = (ObservableRecyclerView) view.findViewById(R.id.scroll);
         recyclerView.setLayoutManager(new LinearLayoutManager(parentActivity));
         recyclerView.setHasFixedSize(false);
-        ArrayList<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
         View headerView = LayoutInflater.from(parentActivity).inflate(R.layout.padding, null);
-        recyclerView.setAdapter(new SimpleHeaderRecyclerAdapter(parentActivity, items, headerView));
+        setDummyDataWithHeader(recyclerView, headerView);
 
         if (parentActivity instanceof ObservableScrollViewCallbacks) {
             // Scroll to the specified offset after layout

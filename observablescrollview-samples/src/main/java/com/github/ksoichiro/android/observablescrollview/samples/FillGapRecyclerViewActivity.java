@@ -21,7 +21,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -32,8 +31,6 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
-
-import java.util.ArrayList;
 
 public class FillGapRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
@@ -72,18 +69,7 @@ public class FillGapRecyclerViewActivity extends BaseActivity implements Observa
         mRecyclerView.setScrollViewCallbacks(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(false);
-        ArrayList<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
-
-        View paddingView = new View(this);
-        paddingView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
-                mFlexibleSpaceImageHeight));
-        paddingView.setMinimumHeight(mFlexibleSpaceImageHeight);
-        // This is required to disable header's list selector effect
-        paddingView.setClickable(true);
-        mRecyclerView.setAdapter(new SimpleHeaderRecyclerAdapter(this, items, paddingView));
+        setDummyDataWithHeader(mRecyclerView, mFlexibleSpaceImageHeight);
 
         // mListBackgroundView makes ListView's background except header view.
         mListBackgroundView = findViewById(R.id.list_background);

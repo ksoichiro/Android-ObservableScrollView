@@ -43,11 +43,7 @@ public class SlidingUpRecyclerViewActivity extends SlidingUpBaseActivity<Observa
         recyclerView.setScrollViewCallbacks(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        ArrayList<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
-        recyclerView.setAdapter(new CustomAdapter(this, items));
+        recyclerView.setAdapter(new CustomAdapter(this, getDummyData()));
         return recyclerView;
     }
 

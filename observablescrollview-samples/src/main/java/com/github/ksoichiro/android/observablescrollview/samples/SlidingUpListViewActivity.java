@@ -38,11 +38,7 @@ public class SlidingUpListViewActivity extends SlidingUpBaseActivity<ObservableL
     protected ObservableListView createScrollable() {
         ObservableListView listView = (ObservableListView) findViewById(R.id.scroll);
         listView.setScrollViewCallbacks(this);
-        List<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
+        setDummyData(listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

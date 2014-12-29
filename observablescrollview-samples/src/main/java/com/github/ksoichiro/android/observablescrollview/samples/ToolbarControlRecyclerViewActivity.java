@@ -30,8 +30,6 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
-import java.util.ArrayList;
-
 public class ToolbarControlRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private View mHeaderView;
@@ -54,13 +52,8 @@ public class ToolbarControlRecyclerViewActivity extends BaseActivity implements 
         mRecyclerView.setScrollViewCallbacks(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(false);
-
-        ArrayList<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
         View headerView = LayoutInflater.from(this).inflate(R.layout.recycler_header, null);
-        mRecyclerView.setAdapter(new SimpleHeaderRecyclerAdapter(this, items, headerView));
+        setDummyDataWithHeader(mRecyclerView, headerView);
     }
 
     @Override

@@ -56,11 +56,7 @@ public class HandleTouchRecyclerViewActivity extends BaseActivity implements Obs
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setScrollViewCallbacks(this);
-        ArrayList<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
-        recyclerView.setAdapter(new CustomAdapter(this, items));
+        recyclerView.setAdapter(new CustomAdapter(this, getDummyData()));
     }
 
     @Override

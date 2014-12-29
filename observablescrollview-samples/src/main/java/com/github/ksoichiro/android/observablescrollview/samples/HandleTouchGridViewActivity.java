@@ -28,7 +28,6 @@ import com.github.ksoichiro.android.observablescrollview.ObservableGridView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,11 +51,7 @@ public class HandleTouchGridViewActivity extends BaseActivity implements Observa
 
         ObservableGridView gridView = (ObservableGridView) findViewById(R.id.scroll);
         gridView.setScrollViewCallbacks(this);
-        List<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
-        gridView.setAdapter(new CustomAdapter(this, items));
+        gridView.setAdapter(new CustomAdapter(this, getDummyData()));
     }
 
     @Override

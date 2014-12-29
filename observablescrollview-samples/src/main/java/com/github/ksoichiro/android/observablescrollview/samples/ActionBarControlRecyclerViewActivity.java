@@ -24,8 +24,6 @@ import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
-import java.util.ArrayList;
-
 public class ActionBarControlRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     @Override
@@ -37,11 +35,7 @@ public class ActionBarControlRecyclerViewActivity extends BaseActivity implement
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setScrollViewCallbacks(this);
-        ArrayList<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
-        recyclerView.setAdapter(new SimpleRecyclerAdapter(this, items));
+        setDummyData(recyclerView);
     }
 
     @Override

@@ -28,7 +28,6 @@ import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,11 +51,7 @@ public class HandleTouchListViewActivity extends BaseActivity implements Observa
 
         ObservableListView listView = (ObservableListView) findViewById(R.id.scroll);
         listView.setScrollViewCallbacks(this);
-        List<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
-        listView.setAdapter(new CustomAdapter(this, items));
+        listView.setAdapter(new CustomAdapter(this, getDummyData()));
     }
 
     @Override

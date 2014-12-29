@@ -21,7 +21,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
@@ -30,9 +29,6 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FlexibleSpaceWithImageListViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
@@ -83,11 +79,7 @@ public class FlexibleSpaceWithImageListViewActivity extends BaseActivity impleme
         paddingView.setClickable(true);
 
         listView.addHeaderView(paddingView);
-        List<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
+        setDummyData(listView);
         mTitleView = (TextView) findViewById(R.id.title);
         mTitleView.setText(getTitle());
         setTitle(null);

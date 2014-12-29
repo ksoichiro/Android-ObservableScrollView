@@ -30,8 +30,6 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
-import java.util.ArrayList;
-
 /**
  * This is a sample of using RecyclerView that scrolls from the bottom.
  * It returns incorrect scrollY and commit 'a99a0de' fixed a part of this problem.
@@ -62,13 +60,8 @@ public class ScrollFromBottomRecyclerViewActivity extends BaseActivity implement
         mRecyclerView.setScrollViewCallbacks(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setHasFixedSize(false);
-
-        ArrayList<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
         View headerView = LayoutInflater.from(this).inflate(R.layout.recycler_header, null);
-        mRecyclerView.setAdapter(new SimpleHeaderRecyclerAdapter(this, items, headerView));
+        setDummyDataWithHeader(mRecyclerView, headerView);
 
         ScrollUtils.addOnGlobalLayoutListener(mRecyclerView, new Runnable() {
             @Override

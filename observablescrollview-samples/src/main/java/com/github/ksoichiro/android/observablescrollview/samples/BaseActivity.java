@@ -18,7 +18,15 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.content.res.TypedArray;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public abstract class BaseActivity extends ActionBarActivity {
     protected int getActionBarSize() {
@@ -33,5 +41,52 @@ public abstract class BaseActivity extends ActionBarActivity {
 
     protected int getScreenHeight() {
         return findViewById(android.R.id.content).getHeight();
+    }
+
+    public static ArrayList<String> getDummyData() {
+        ArrayList<String> items = new ArrayList<String>();
+        for (int i = 1; i <= 100; i++) {
+            items.add("Item " + i);
+        }
+        return items;
+    }
+
+    protected void setDummyData(ListView listView) {
+        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getDummyData()));
+    }
+
+    protected void setDummyDataWithHeader(ListView listView, int headerHeight) {
+        View headerView = new View(this);
+        headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, headerHeight));
+        headerView.setMinimumHeight(headerHeight);
+        // This is required to disable header's list selector effect
+        headerView.setClickable(true);
+        setDummyDataWithHeader(listView, headerView);
+    }
+
+    protected void setDummyDataWithHeader(ListView listView, View headerView) {
+        setDummyData(listView);
+        listView.addHeaderView(headerView);
+    }
+
+    protected void setDummyData(GridView gridView) {
+        gridView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getDummyData()));
+    }
+
+    protected void setDummyData(RecyclerView recyclerView) {
+        recyclerView.setAdapter(new SimpleRecyclerAdapter(this, getDummyData()));
+    }
+
+    protected void setDummyDataWithHeader(RecyclerView recyclerView, int headerHeight) {
+        View headerView = new View(this);
+        headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, headerHeight));
+        headerView.setMinimumHeight(headerHeight);
+        // This is required to disable header's list selector effect
+        headerView.setClickable(true);
+        setDummyDataWithHeader(recyclerView, headerView);
+    }
+
+    protected void setDummyDataWithHeader(RecyclerView recyclerView, View headerView) {
+        recyclerView.setAdapter(new SimpleHeaderRecyclerAdapter(this, getDummyData(), headerView));
     }
 }

@@ -18,20 +18,15 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ViewPagerTabListViewFragment extends Fragment {
+public class ViewPagerTabListViewFragment extends BaseFragment {
 
     public static final String ARG_INITIAL_POSITION = "ARG_INITIAL_POSITION";
 
@@ -41,12 +36,7 @@ public class ViewPagerTabListViewFragment extends Fragment {
 
         Activity parentActivity = getActivity();
         final ObservableListView listView = (ObservableListView) view.findViewById(R.id.scroll);
-        listView.addHeaderView(inflater.inflate(R.layout.padding, null));
-        List<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
-        listView.setAdapter(new ArrayAdapter<String>(parentActivity, android.R.layout.simple_list_item_1, items));
+        setDummyDataWithHeader(listView, inflater.inflate(R.layout.padding, null));
 
         if (parentActivity instanceof ObservableScrollViewCallbacks) {
             // Scroll to the specified position after layout

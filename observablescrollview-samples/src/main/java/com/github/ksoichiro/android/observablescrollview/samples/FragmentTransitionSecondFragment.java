@@ -17,7 +17,6 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +25,7 @@ import android.view.ViewGroup;
 /**
  * This fragment shows how to show/hide toolbar of the parent Activity on fragment transitions.
  */
-public class FragmentTransitionSecondFragment extends Fragment {
+public class FragmentTransitionSecondFragment extends BaseFragment {
 
     public static final String FRAGMENT_TAG = "second";
 

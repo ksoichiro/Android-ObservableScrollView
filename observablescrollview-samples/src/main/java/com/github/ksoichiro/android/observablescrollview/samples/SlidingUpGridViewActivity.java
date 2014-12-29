@@ -18,15 +18,10 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableGridView;
-import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SlidingUpGridViewActivity extends SlidingUpBaseActivity<ObservableGridView> implements ObservableScrollViewCallbacks {
 
@@ -39,11 +34,7 @@ public class SlidingUpGridViewActivity extends SlidingUpBaseActivity<ObservableG
     protected ObservableGridView createScrollable() {
         ObservableGridView gridView = (ObservableGridView) findViewById(R.id.scroll);
         gridView.setScrollViewCallbacks(this);
-        List<String> items = new ArrayList<String>();
-        for (int i = 1; i <= 100; i++) {
-            items.add("Item " + i);
-        }
-        gridView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
+        setDummyData(gridView);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
