@@ -27,11 +27,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.GridView;
 
-import com.github.ksoichiro.android.observablescrollview.internal.LogUtils;
-
 public class ObservableGridView extends GridView implements Scrollable {
-    private static final String TAG = ObservableGridView.class.getSimpleName();
-
     private ObservableScrollViewCallbacks mCallbacks;
     private int mPrevFirstVisiblePosition;
     private int mPrevFirstVisibleChildHeight = -1;
@@ -184,13 +180,9 @@ public class ObservableGridView extends GridView implements Scrollable {
                         // scroll down
                         int skippedChildrenHeight = 0;
                         if (firstVisiblePosition - mPrevFirstVisiblePosition != 1) {
-                            LogUtils.v(TAG, "Skipped some children while scrolling down: " + (firstVisiblePosition - mPrevFirstVisiblePosition));
                             for (int i = firstVisiblePosition - 1; i > mPrevFirstVisiblePosition; i--) {
                                 if (0 < mChildrenHeights.indexOfKey(i)) {
                                     skippedChildrenHeight += mChildrenHeights.get(i);
-                                    LogUtils.v(TAG, "Calculate skipped child height at " + i + ": " + mChildrenHeights.get(i));
-                                } else {
-                                    LogUtils.v(TAG, "Could not calculate skipped child height at " + i);
                                 }
                             }
                         }
@@ -200,13 +192,9 @@ public class ObservableGridView extends GridView implements Scrollable {
                         // scroll up
                         int skippedChildrenHeight = 0;
                         if (mPrevFirstVisiblePosition - firstVisiblePosition != 1) {
-                            LogUtils.v(TAG, "Skipped some children while scrolling up: " + (mPrevFirstVisiblePosition - firstVisiblePosition));
                             for (int i = mPrevFirstVisiblePosition - 1; i > firstVisiblePosition; i--) {
                                 if (0 < mChildrenHeights.indexOfKey(i)) {
                                     skippedChildrenHeight += mChildrenHeights.get(i);
-                                    LogUtils.v(TAG, "Calculate skipped child height at " + i + ": " + mChildrenHeights.get(i));
-                                } else {
-                                    LogUtils.v(TAG, "Could not calculate skipped child height at " + i);
                                 }
                             }
                         }
@@ -221,7 +209,6 @@ public class ObservableGridView extends GridView implements Scrollable {
                     mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop();
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
-                    LogUtils.v(TAG, "first: " + firstVisiblePosition + " scrollY: " + mScrollY + " first height: " + firstVisibleChild.getHeight() + " first top: " + firstVisibleChild.getTop());
                     mCallbacks.onScrollChanged(mScrollY, mFirstScroll, mDragging);
                     if (mFirstScroll) {
                         mFirstScroll = false;
@@ -237,8 +224,6 @@ public class ObservableGridView extends GridView implements Scrollable {
                         mScrollState = ScrollState.STOP;
                     }
                     mPrevScrollY = mScrollY;
-                } else {
-                    LogUtils.v(TAG, "first: " + firstVisiblePosition);
                 }
             }
         }
