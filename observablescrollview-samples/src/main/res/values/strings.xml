@@ -43,6 +43,7 @@
     <string name="title_activity_slidinguplistview">Sliding up effect with ListView</string>
     <string name="title_activity_slidinguprecyclerview">Sliding up effect with RecyclerView</string>
     <string name="title_activity_slidingupscrollview">Sliding up effect with ScrollView</string>
+    <string name="title_activity_slidingupwebview">Sliding up effect with WebView</string>
     <string name="title_activity_toolbarcontrollistview">ListView &amp; Quick return toolbar &amp; Sticky view</string>
     <string name="title_activity_toolbarcontrolrecyclerview">RecyclerView &amp; Quick return toolbar &amp; Sticky view</string>
     <string name="title_activity_toolbarcontrolscrollview">ScrollView &amp; Quick return toolbar &amp; Sticky view</string>
