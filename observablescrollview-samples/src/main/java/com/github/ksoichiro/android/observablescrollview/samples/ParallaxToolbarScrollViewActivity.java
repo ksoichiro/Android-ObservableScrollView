@@ -17,7 +17,6 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -27,7 +26,7 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-public class ParallaxToolbarScrollViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class ParallaxToolbarScrollViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private View mImageView;
     private View mToolbarView;

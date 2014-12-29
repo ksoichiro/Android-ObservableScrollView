@@ -16,17 +16,14 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -49,7 +46,7 @@ import com.nineoldandroids.view.ViewHelper;
  * SlidingTabLayout and SlidingTabStrip are from google/iosched:
  * https://github.com/google/iosched
  */
-public class ViewPagerTab2Activity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class ViewPagerTab2Activity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private View mToolbarView;
     private TouchInterceptionFrameLayout mInterceptionLayout;
@@ -234,20 +231,6 @@ public class ViewPagerTab2Activity extends ActionBarActivity implements Observab
             });
             animator.start();
         }
-    }
-
-    private int getActionBarSize() {
-        TypedValue typedValue = new TypedValue();
-        int[] textSizeAttr = new int[]{R.attr.actionBarSize};
-        int indexOfAttrTextSize = 0;
-        TypedArray a = obtainStyledAttributes(typedValue.data, textSizeAttr);
-        int actionBarSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
-        a.recycle();
-        return actionBarSize;
-    }
-
-    private int getScreenHeight() {
-        return findViewById(android.R.id.content).getHeight();
     }
 
     /**

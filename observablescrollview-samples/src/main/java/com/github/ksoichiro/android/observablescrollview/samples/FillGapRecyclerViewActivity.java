@@ -16,12 +16,9 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
@@ -38,7 +35,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 
 import java.util.ArrayList;
 
-public class FillGapRecyclerViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class FillGapRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private View mImageHolder;
     private View mHeader;
@@ -180,15 +177,5 @@ public class FillGapRecyclerViewActivity extends ActionBarActivity implements Ob
             }
         });
         a.start();
-    }
-
-    private int getActionBarSize() {
-        TypedValue typedValue = new TypedValue();
-        int[] textSizeAttr = new int[]{R.attr.actionBarSize};
-        int indexOfAttrTextSize = 0;
-        TypedArray a = obtainStyledAttributes(typedValue.data, textSizeAttr);
-        int actionBarSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
-        a.recycle();
-        return actionBarSize;
     }
 }

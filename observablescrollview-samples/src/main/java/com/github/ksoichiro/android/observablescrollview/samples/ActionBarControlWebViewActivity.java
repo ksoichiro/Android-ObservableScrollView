@@ -18,13 +18,12 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
-public class ActionBarControlWebViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class ActionBarControlWebViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

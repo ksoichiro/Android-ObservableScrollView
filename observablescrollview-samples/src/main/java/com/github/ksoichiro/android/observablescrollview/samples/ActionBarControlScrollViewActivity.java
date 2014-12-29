@@ -18,18 +18,12 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.widget.ArrayAdapter;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class ActionBarControlScrollViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class ActionBarControlScrollViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

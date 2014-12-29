@@ -18,7 +18,6 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
@@ -30,7 +29,7 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionBarControlListViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class ActionBarControlListViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private static final String TAG = ActionBarControlListViewActivity.class.getSimpleName();
 

@@ -19,7 +19,6 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
 /**
@@ -27,7 +26,7 @@ import android.support.v7.widget.Toolbar;
  * just shows how to show/hide Toolbar on the parent Activity of Fragment
  * to help you implement a screen that uses Fragments.
  */
-public class FragmentTransitionActivity extends ActionBarActivity {
+public class FragmentTransitionActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

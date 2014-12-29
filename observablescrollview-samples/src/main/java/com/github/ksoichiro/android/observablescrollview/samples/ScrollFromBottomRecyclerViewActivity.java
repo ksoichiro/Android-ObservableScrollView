@@ -18,7 +18,6 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -41,7 +40,7 @@ import java.util.ArrayList;
  * Please don't submit it as a new issue.
  * (Pull request to fix this is greatly appreciated!)
  */
-public class ScrollFromBottomRecyclerViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class ScrollFromBottomRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private View mHeaderView;
     private View mToolbarView;

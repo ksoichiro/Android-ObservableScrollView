@@ -18,7 +18,6 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,7 +44,7 @@ import java.util.ArrayList;
  * <p/>
  * https://github.com/ksoichiro/Android-ObservableScrollView/issues/18
  */
-public class HandleTouchRecyclerViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class HandleTouchRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
     private static final String TAG = HandleTouchRecyclerViewActivity.class.getSimpleName();
 
     @Override

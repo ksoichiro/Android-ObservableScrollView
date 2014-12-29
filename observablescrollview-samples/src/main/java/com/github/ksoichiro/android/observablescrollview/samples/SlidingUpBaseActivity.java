@@ -16,11 +16,8 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -34,7 +31,7 @@ import com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameL
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
-public abstract class SlidingUpBaseActivity<S extends Scrollable> extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private View mHeader;
     private TextView mTitle;
@@ -233,19 +230,5 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends Action
 
     private float getAnchorYImage() {
         return mImageView.getHeight();
-    }
-
-    private int getActionBarSize() {
-        TypedValue typedValue = new TypedValue();
-        int[] textSizeAttr = new int[]{R.attr.actionBarSize};
-        int indexOfAttrTextSize = 0;
-        TypedArray a = obtainStyledAttributes(typedValue.data, textSizeAttr);
-        int actionBarSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
-        a.recycle();
-        return actionBarSize;
-    }
-
-    private int getScreenHeight() {
-        return findViewById(android.R.id.content).getHeight();
     }
 }

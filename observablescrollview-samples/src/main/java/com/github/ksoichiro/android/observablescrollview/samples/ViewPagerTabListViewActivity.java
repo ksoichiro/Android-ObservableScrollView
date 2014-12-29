@@ -22,7 +22,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
 import android.view.View;
@@ -40,7 +39,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
  * SlidingTabLayout and SlidingTabStrip are from google/iosched:
  * https://github.com/google/iosched
  */
-public class ViewPagerTabListViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class ViewPagerTabListViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private View mHeaderView;
     private View mToolbarView;

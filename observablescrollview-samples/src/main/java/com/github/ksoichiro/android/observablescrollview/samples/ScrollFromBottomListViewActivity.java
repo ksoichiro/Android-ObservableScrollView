@@ -18,7 +18,6 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +42,7 @@ import java.util.List;
  * See the discussion below for details:
  * https://github.com/ksoichiro/Android-ObservableScrollView/issues/3
  */
-public class ScrollFromBottomListViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class ScrollFromBottomListViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private View mHeaderView;
     private View mToolbarView;

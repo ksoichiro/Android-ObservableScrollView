@@ -16,12 +16,9 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
@@ -37,7 +34,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FlexibleSpaceWithImageListViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class FlexibleSpaceWithImageListViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private static final float MAX_TEXT_SCALE_DELTA = 0.3f;
     private static final boolean TOOLBAR_IS_STICKY = false;
@@ -181,16 +178,6 @@ public class FlexibleSpaceWithImageListViewActivity extends ActionBarActivity im
 
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-    }
-
-    private int getActionBarSize() {
-        TypedValue typedValue = new TypedValue();
-        int[] textSizeAttr = new int[]{R.attr.actionBarSize};
-        int indexOfAttrTextSize = 0;
-        TypedArray a = obtainStyledAttributes(typedValue.data, textSizeAttr);
-        int actionBarSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
-        a.recycle();
-        return actionBarSize;
     }
 
     private void showFab() {

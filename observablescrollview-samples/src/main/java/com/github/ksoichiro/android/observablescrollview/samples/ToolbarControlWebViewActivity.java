@@ -18,7 +18,6 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -30,7 +29,7 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
-public class ToolbarControlWebViewActivity extends ActionBarActivity {
+public class ToolbarControlWebViewActivity extends BaseActivity {
 
     private View mHeaderView;
     private View mToolbarView;

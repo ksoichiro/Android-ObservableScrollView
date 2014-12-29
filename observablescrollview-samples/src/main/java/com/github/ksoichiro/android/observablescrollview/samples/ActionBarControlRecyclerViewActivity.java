@@ -18,7 +18,6 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
@@ -27,7 +26,7 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
 import java.util.ArrayList;
 
-public class ActionBarControlRecyclerViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class ActionBarControlRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

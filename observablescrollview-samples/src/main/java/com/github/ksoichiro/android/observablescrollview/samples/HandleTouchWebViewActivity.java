@@ -17,7 +17,6 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
@@ -35,7 +34,7 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
  * <p/>
  * https://github.com/ksoichiro/Android-ObservableScrollView/issues/18
  */
-public class HandleTouchWebViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class HandleTouchWebViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
     private static final String TAG = HandleTouchWebViewActivity.class.getSimpleName();
 
     @Override

@@ -18,7 +18,6 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -33,7 +32,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 
 import java.util.ArrayList;
 
-public class ToolbarControlRecyclerViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
+public class ToolbarControlRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private View mHeaderView;
     private View mToolbarView;
