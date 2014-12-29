@@ -267,7 +267,7 @@ public class ViewPagerTab2Activity extends ActionBarActivity implements Observab
         @Override
         public Fragment getItem(int position) {
             Fragment f;
-            final int pattern = position % 3;
+            final int pattern = position % 4;
             switch (pattern) {
                 case 0:
                     f = new ViewPagerTab2ScrollViewFragment();
@@ -276,8 +276,11 @@ public class ViewPagerTab2Activity extends ActionBarActivity implements Observab
                     f = new ViewPagerTab2ListViewFragment();
                     break;
                 case 2:
-                default:
                     f = new ViewPagerTab2RecyclerViewFragment();
+                    break;
+                case 3:
+                default:
+                    f = new ViewPagerTab2GridViewFragment();
                     break;
             }
             // We should cache fragments manually to access to them later
