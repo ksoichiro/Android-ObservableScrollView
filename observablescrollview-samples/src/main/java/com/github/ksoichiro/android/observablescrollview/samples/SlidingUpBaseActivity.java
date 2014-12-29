@@ -18,18 +18,17 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.content.res.TypedArray;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
 import com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -77,15 +76,9 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends Action
         mTitle.setText(getTitle());
         ViewHelper.setTranslationY(mTitle, (mHeaderBarHeight - mActionBarSize) / 2);
 
-        ViewTreeObserver vto = mInterceptionLayout.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        ScrollUtils.addOnGlobalLayoutListener(mInterceptionLayout, new Runnable() {
             @Override
-            public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    mInterceptionLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                } else {
-                    mInterceptionLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
+            public void run() {
                 ViewHelper.setTranslationY(mInterceptionLayout, getScreenHeight() - mHeaderBarHeight);
                 ViewHelper.setTranslationY(mImageView, getScreenHeight() - mHeaderBarHeight);
             }

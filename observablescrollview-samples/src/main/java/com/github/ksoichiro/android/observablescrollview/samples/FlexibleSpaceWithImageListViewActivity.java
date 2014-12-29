@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
@@ -117,17 +118,17 @@ public class FlexibleSpaceWithImageListViewActivity extends ActionBarActivity im
         // Translate overlay and image
         float flexibleRange = mFlexibleSpaceImageHeight - mActionBarSize;
         int minOverlayTransitionY = mActionBarSize - mOverlayView.getHeight();
-        ViewHelper.setTranslationY(mOverlayView, Math.max(minOverlayTransitionY, Math.min(0, -scrollY)));
-        ViewHelper.setTranslationY(mImageView, Math.max(minOverlayTransitionY, Math.min(0, -scrollY / 2)));
+        ViewHelper.setTranslationY(mOverlayView, ScrollUtils.getFloat(-scrollY, minOverlayTransitionY, 0));
+        ViewHelper.setTranslationY(mImageView, ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
 
         // Translate list background
         ViewHelper.setTranslationY(mListBackgroundView, Math.max(0, -scrollY + mFlexibleSpaceImageHeight));
 
         // Change alpha of overlay
-        ViewHelper.setAlpha(mOverlayView, Math.max(0, Math.min(1, (float) scrollY / flexibleRange)));
+        ViewHelper.setAlpha(mOverlayView, ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
 
         // Scale title text
-        float scale = 1 + Math.max(0, Math.min(MAX_TEXT_SCALE_DELTA, (flexibleRange - scrollY) / flexibleRange));
+        float scale = 1 + ScrollUtils.getFloat((flexibleRange - scrollY) / flexibleRange, 0, MAX_TEXT_SCALE_DELTA);
         ViewHelper.setPivotX(mTitleView, 0);
         ViewHelper.setPivotY(mTitleView, 0);
         ViewHelper.setScaleX(mTitleView, scale);
@@ -143,8 +144,10 @@ public class FlexibleSpaceWithImageListViewActivity extends ActionBarActivity im
 
         // Translate FAB
         int maxFabTranslationY = mFlexibleSpaceImageHeight - mFab.getHeight() / 2;
-        int fabTranslationY = Math.max(mActionBarSize - mFab.getHeight() / 2,
-                Math.min(maxFabTranslationY, -scrollY + mFlexibleSpaceImageHeight - mFab.getHeight() / 2));
+        float fabTranslationY = ScrollUtils.getFloat(
+                -scrollY + mFlexibleSpaceImageHeight - mFab.getHeight() / 2,
+                mActionBarSize - mFab.getHeight() / 2,
+                maxFabTranslationY);
         ViewHelper.setTranslationX(mFab, mOverlayView.getWidth() - mFabMargin - mFab.getWidth());
         ViewHelper.setTranslationY(mFab, fabTranslationY);
 
@@ -158,9 +161,9 @@ public class FlexibleSpaceWithImageListViewActivity extends ActionBarActivity im
         if (TOOLBAR_IS_STICKY) {
             // Change alpha of toolbar background
             if (-scrollY + mFlexibleSpaceImageHeight <= mActionBarSize) {
-                setBackgroundAlpha(mToolbar, 1, mToolbarColor);
+                mToolbar.setBackgroundColor(ScrollUtils.getColorWithAlpha(1, mToolbarColor));
             } else {
-                setBackgroundAlpha(mToolbar, 0, mToolbarColor);
+                mToolbar.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, mToolbarColor));
             }
         } else {
             // Translate Toolbar
@@ -204,11 +207,5 @@ public class FlexibleSpaceWithImageListViewActivity extends ActionBarActivity im
             ViewPropertyAnimator.animate(mFab).scaleX(0).scaleY(0).setDuration(200).start();
             mFabIsShown = false;
         }
-    }
-
-    private void setBackgroundAlpha(View view, float alpha, int baseColor) {
-        int a = Math.min(255, Math.max(0, (int) (alpha * 255))) << 24;
-        int rgb = 0x00ffffff & baseColor;
-        view.setBackgroundColor(a + rgb);
     }
 }

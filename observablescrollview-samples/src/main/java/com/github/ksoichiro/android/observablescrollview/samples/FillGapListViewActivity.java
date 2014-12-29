@@ -17,15 +17,11 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
@@ -35,6 +31,7 @@ import android.widget.TextView;
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
@@ -107,15 +104,9 @@ public class FillGapListViewActivity extends ActionBarActivity implements Observ
         ((TextView) findViewById(R.id.title)).setText(getTitle());
         setTitle(null);
 
-        ViewTreeObserver vto = mListView.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        ScrollUtils.addOnGlobalLayoutListener(mListView, new Runnable() {
             @Override
-            public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    mListView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                } else {
-                    mListView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
+            public void run() {
                 onScrollChanged(0, false, false);
             }
         });

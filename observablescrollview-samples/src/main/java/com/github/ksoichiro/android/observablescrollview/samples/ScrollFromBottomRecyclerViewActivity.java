@@ -16,7 +16,6 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -24,11 +23,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
@@ -72,15 +71,9 @@ public class ScrollFromBottomRecyclerViewActivity extends ActionBarActivity impl
         View headerView = LayoutInflater.from(this).inflate(R.layout.recycler_header, null);
         mRecyclerView.setAdapter(new SimpleHeaderRecyclerAdapter(this, items, headerView));
 
-        ViewTreeObserver vto = mRecyclerView.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        ScrollUtils.addOnGlobalLayoutListener(mRecyclerView, new Runnable() {
             @Override
-            public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    mRecyclerView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                } else {
-                    mRecyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
+            public void run() {
                 int count = mRecyclerView.getAdapter().getItemCount() - 1;
                 int position = count == 0 ? 1 : count > 0 ? count : 0;
                 mRecyclerView.scrollToPosition(position);
@@ -98,7 +91,7 @@ public class ScrollFromBottomRecyclerViewActivity extends ActionBarActivity impl
                     mBaseTranslationY = scrollY;
                 }
             }
-            int headerTranslationY = Math.min(0, Math.max(-toolbarHeight, -(scrollY - mBaseTranslationY)));
+            float headerTranslationY = ScrollUtils.getFloat(-(scrollY - mBaseTranslationY), -toolbarHeight, 0);
             ViewPropertyAnimator.animate(mHeaderView).cancel();
             ViewHelper.setTranslationY(mHeaderView, headerTranslationY);
         }

@@ -17,16 +17,15 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
+import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 
 public class ViewPagerTabScrollViewFragment extends Fragment {
 
@@ -43,15 +42,9 @@ public class ViewPagerTabScrollViewFragment extends Fragment {
             Bundle args = getArguments();
             if (args != null && args.containsKey(ARG_SCROLL_Y)) {
                 final int scrollY = args.getInt(ARG_SCROLL_Y, 0);
-                ViewTreeObserver vto = scrollView.getViewTreeObserver();
-                vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                ScrollUtils.addOnGlobalLayoutListener(scrollView, new Runnable() {
                     @Override
-                    public void onGlobalLayout() {
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                            scrollView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                        } else {
-                            scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                        }
+                    public void run() {
                         scrollView.scrollTo(0, scrollY);
                     }
                 });

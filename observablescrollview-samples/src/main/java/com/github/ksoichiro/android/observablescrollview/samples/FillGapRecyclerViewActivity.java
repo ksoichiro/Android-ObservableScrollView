@@ -17,31 +17,26 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class FillGapRecyclerViewActivity extends ActionBarActivity implements ObservableScrollViewCallbacks {
 
@@ -109,15 +104,9 @@ public class FillGapRecyclerViewActivity extends ActionBarActivity implements Ob
         ((TextView) findViewById(R.id.title)).setText(getTitle());
         setTitle(null);
 
-        ViewTreeObserver vto = mRecyclerView.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        ScrollUtils.addOnGlobalLayoutListener(mRecyclerView, new Runnable() {
             @Override
-            public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    mRecyclerView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                } else {
-                    mRecyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
+            public void run() {
                 onScrollChanged(0, false, false);
             }
         });

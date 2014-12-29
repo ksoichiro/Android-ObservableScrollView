@@ -35,6 +35,7 @@ import android.widget.FrameLayout;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
+import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
 import com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
@@ -145,7 +146,7 @@ public class ViewPagerTab2Activity extends ActionBarActivity implements Observab
 
         @Override
         public void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY) {
-            float translationY = Math.min(0, Math.max(-mToolbarView.getHeight(), ViewHelper.getTranslationY(mInterceptionLayout) + diffY));
+            float translationY = ScrollUtils.getFloat(ViewHelper.getTranslationY(mInterceptionLayout) + diffY, -mToolbarView.getHeight(), 0);
             ViewHelper.setTranslationY(mInterceptionLayout, translationY);
             if (translationY < 0) {
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mInterceptionLayout.getLayoutParams();
