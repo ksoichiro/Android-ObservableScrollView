@@ -28,6 +28,10 @@ import android.widget.FrameLayout;
 
 /**
  * A layout that delegates interception of touch motion events.
+ * This layout is provided to move the container of Scrollable views using scroll position.
+ * Please note that this class overrides or uses touch events API such as onTouchEvent,
+ * onInterceptTouchEvent and dispatchTouchEvent,
+ * so be careful when you handle touches with this layout.
  */
 public class TouchInterceptionFrameLayout extends FrameLayout {
 
@@ -104,6 +108,10 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
         if (mTouchInterceptionListener == null) {
             return false;
         }
+
+        // In here, we must initialize touch state variables
+        // and ask if we should intercept this event.
+        // Whether we should intercept or not is kept for the later event handling.
         switch (ev.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 mInitialPoint = new PointF(ev.getX(), ev.getY());
@@ -114,9 +122,13 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                 mChildrenEventsCanceled = false;
                 return mIntercepting;
             case MotionEvent.ACTION_MOVE:
+                // ACTION_MOVE will be passed suddenly, so initialize to avoid exception.
                 if (mInitialPoint == null) {
                     mInitialPoint = new PointF(ev.getX(), ev.getY());
                 }
+
+                // diffX and diffY are the origin of the motion, and should be difference
+                // from the position of the ACTION_DOWN event occurred.
                 float diffX = ev.getX() - mInitialPoint.x;
                 float diffY = ev.getY() - mInitialPoint.y;
                 mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, true, diffX, diffY);
@@ -137,18 +149,22 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
+                    // ACTION_MOVE will be passed suddenly, so initialize to avoid exception.
                     if (mInitialPoint == null) {
                         mInitialPoint = new PointF(ev.getX(), ev.getY());
                     }
+
+                    // diffX and diffY are the origin of the motion, and should be difference
+                    // from the position of the ACTION_DOWN event occurred.
                     float diffX = ev.getX() - mInitialPoint.x;
                     float diffY = ev.getY() - mInitialPoint.y;
                     mIntercepting = mTouchInterceptionListener.shouldInterceptTouchEvent(ev, true, diffX, diffY);
                     if (mIntercepting) {
+                        // If this layout didn't receive ACTION_DOWN motion event,
+                        // we should generate ACTION_DOWN event with current position.
                         if (!mBeganFromDownMotionEvent) {
                             mBeganFromDownMotionEvent = true;
 
-                            // Layout didn't receive ACTION_DOWN motion event,
-                            // so generate down motion event with current position.
                             MotionEvent event = MotionEvent.obtainNoHistory(mPendingDownMotionEvent);
                             event.setLocation(ev.getX(), ev.getY());
                             mTouchInterceptionListener.onDownMotionEvent(event);
@@ -157,9 +173,9 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                             diffX = diffY = 0;
                         }
 
+                        // Children's touches should be canceled
                         if (!mChildrenEventsCanceled) {
                             mChildrenEventsCanceled = true;
-                            // Children's clicks should be canceled
                             duplicateTouchEventForChildren(obtainMotionEvent(ev, MotionEvent.ACTION_CANCEL));
                         }
 
@@ -169,6 +185,9 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                         // then we should generate fake ACTION_DOWN event.
                         // Therefore we set pending flag to true as if this is a down motion event.
                         mDownMotionEventPended = true;
+
+                        // Whether or not this event is consumed by the listener,
+                        // assume it consumed because we declared to intercept the event.
                         return true;
                     } else {
                         if (mDownMotionEventPended) {
@@ -196,6 +215,9 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
                     if (mIntercepting) {
                         mTouchInterceptionListener.onUpOrCancelMotionEvent(ev);
                     }
+
+                    // Children's touches should be canceled regardless of
+                    // whether or not this layout intercepted the consecutive motion events.
                     if (!mChildrenEventsCanceled) {
                         mChildrenEventsCanceled = true;
                         if (mDownMotionEventPended) {
@@ -219,10 +241,14 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
         return ev;
     }
 
-    /*
-     * We want to dispatch a down motion event and this ev event to
+    /**
+     * Duplicate touch events to child views.
+     * We want to dispatch a down motion event and the move events to
      * child views, but calling dispatchTouchEvent() causes StackOverflowError.
      * Therefore we do it manually.
+     *
+     * @param ev            motion event to be passed to children
+     * @param pendingEvents pending events like ACTION_DOWN. This will be passed to the children before ev
      */
     private void duplicateTouchEventForChildren(MotionEvent ev, MotionEvent... pendingEvents) {
         if (ev == null) {

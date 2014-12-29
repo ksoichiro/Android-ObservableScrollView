@@ -103,6 +103,7 @@ android {
         abortOnError false
     }
 
+    // Rename APK files
     applicationVariants.all { variant ->
         def output = variant.outputs.get(0)
         File apk = output.outputFile

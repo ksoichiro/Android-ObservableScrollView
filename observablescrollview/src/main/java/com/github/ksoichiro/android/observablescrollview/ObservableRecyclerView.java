@@ -27,14 +27,23 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * RecyclerView that its scroll position can be observed.
+ * Before using this, please consider to use the RecyclerView.OnScrollListener
+ * provided by the support library officially.
+ */
 public class ObservableRecyclerView extends RecyclerView implements Scrollable {
-    private ObservableScrollViewCallbacks mCallbacks;
+
+    // Fields that should be saved onSaveInstanceState
     private int mPrevFirstVisiblePosition;
     private int mPrevFirstVisibleChildHeight = -1;
     private int mPrevScrolledChildrenHeight;
-    private SparseIntArray mChildrenHeights;
     private int mPrevScrollY;
     private int mScrollY;
+    private SparseIntArray mChildrenHeights;
+
+    // Fields that don't need to be saved onSaveInstanceState
+    private ObservableScrollViewCallbacks mCallbacks;
     private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
@@ -326,14 +335,23 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         // This keeps the parent(RecyclerView)'s state
         Parcelable superState;
 
-        SavedState() {
+        /**
+         * Called by EMPTY_STATE instantiation.
+         */
+        private SavedState() {
             superState = null;
         }
 
-        SavedState(Parcelable superState) {
+        /**
+         * Called by onSaveInstanceState.
+         */
+        private SavedState(Parcelable superState) {
             this.superState = superState != EMPTY_STATE ? superState : null;
         }
 
+        /**
+         * Called by CREATOR.
+         */
         private SavedState(Parcel in) {
             // Parcel 'in' has its parent(RecyclerView)'s saved state.
             // To restore it, class loader that loaded RecyclerView is required.

@@ -27,14 +27,21 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+/**
+ * ListView that its scroll position can be observed.
+ */
 public class ObservableListView extends ListView implements Scrollable {
-    private ObservableScrollViewCallbacks mCallbacks;
+
+    // Fields that should be saved onSaveInstanceState
     private int mPrevFirstVisiblePosition;
     private int mPrevFirstVisibleChildHeight = -1;
     private int mPrevScrolledChildrenHeight;
-    private SparseIntArray mChildrenHeights;
     private int mPrevScrollY;
     private int mScrollY;
+    private SparseIntArray mChildrenHeights;
+
+    // Fields that don't need to be saved onSaveInstanceState
+    private ObservableScrollViewCallbacks mCallbacks;
     private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
@@ -288,10 +295,8 @@ public class ObservableListView extends ListView implements Scrollable {
                     }
 
                     if (mPrevScrollY < mScrollY) {
-                        //down
                         mScrollState = ScrollState.UP;
                     } else if (mScrollY < mPrevScrollY) {
-                        //up
                         mScrollState = ScrollState.DOWN;
                     } else {
                         mScrollState = ScrollState.STOP;
@@ -310,10 +315,16 @@ public class ObservableListView extends ListView implements Scrollable {
         int scrollY;
         SparseIntArray childrenHeights;
 
-        SavedState(Parcelable superState) {
+        /**
+         * Called by onSaveInstanceState.
+         */
+        private SavedState(Parcelable superState) {
             super(superState);
         }
 
+        /**
+         * Called by CREATOR.
+         */
         private SavedState(Parcel in) {
             super(in);
             prevFirstVisiblePosition = in.readInt();

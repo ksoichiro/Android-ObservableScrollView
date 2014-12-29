@@ -24,10 +24,17 @@ import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+/**
+ * WebView that its scroll position can be observed.
+ */
 public class ObservableWebView extends WebView implements Scrollable {
-    private ObservableScrollViewCallbacks mCallbacks;
+
+    // Fields that should be saved onSaveInstanceState
     private int mPrevScrollY;
     private int mScrollY;
+
+    // Fields that don't need to be saved onSaveInstanceState
+    private ObservableScrollViewCallbacks mCallbacks;
     private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
@@ -73,10 +80,8 @@ public class ObservableWebView extends WebView implements Scrollable {
             }
 
             if (mPrevScrollY < t) {
-                //down
                 mScrollState = ScrollState.UP;
             } else if (t < mPrevScrollY) {
-                //up
                 mScrollState = ScrollState.DOWN;
             } else {
                 mScrollState = ScrollState.STOP;
@@ -141,10 +146,16 @@ public class ObservableWebView extends WebView implements Scrollable {
         int prevScrollY;
         int scrollY;
 
-        SavedState(Parcelable superState) {
+        /**
+         * Called by onSaveInstanceState.
+         */
+        private SavedState(Parcelable superState) {
             super(superState);
         }
 
+        /**
+         * Called by CREATOR.
+         */
         private SavedState(Parcel in) {
             super(in);
             prevScrollY = in.readInt();

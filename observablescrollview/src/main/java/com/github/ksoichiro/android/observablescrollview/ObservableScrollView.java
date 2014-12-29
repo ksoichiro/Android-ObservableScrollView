@@ -25,10 +25,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
+/**
+ * ScrollView that its scroll position can be observed.
+ */
 public class ObservableScrollView extends ScrollView implements Scrollable {
-    private ObservableScrollViewCallbacks mCallbacks;
+
+    // Fields that should be saved onSaveInstanceState
     private int mPrevScrollY;
     private int mScrollY;
+
+    // Fields that don't need to be saved onSaveInstanceState
+    private ObservableScrollViewCallbacks mCallbacks;
     private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
@@ -77,10 +84,8 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
             }
 
             if (mPrevScrollY < t) {
-                //down
                 mScrollState = ScrollState.UP;
             } else if (t < mPrevScrollY) {
-                //up
                 mScrollState = ScrollState.DOWN;
                 //} else {
                 // Keep previous state while dragging.
@@ -204,10 +209,16 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
         int prevScrollY;
         int scrollY;
 
-        SavedState(Parcelable superState) {
+        /**
+         * Called by onSaveInstanceState.
+         */
+        private SavedState(Parcelable superState) {
             super(superState);
         }
 
+        /**
+         * Called by CREATOR.
+         */
         private SavedState(Parcel in) {
             super(in);
             prevScrollY = in.readInt();
