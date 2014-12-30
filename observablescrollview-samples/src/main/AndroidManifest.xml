@@ -142,6 +142,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FragmentActionBarControlListViewActivity"
+            android:label="@string/title_activity_fragmentactionbarcontrollistview"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".FragmentTransitionActivity"
             android:label="@string/title_activity_fragmenttransition"
             android:theme="@style/AppTheme.Toolbar">
