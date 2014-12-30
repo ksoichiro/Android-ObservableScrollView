@@ -16,6 +16,7 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -33,7 +34,10 @@ import com.nineoldandroids.view.ViewHelper;
 
 public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseActivity implements ObservableScrollViewCallbacks {
 
+    private static final int HEADER_COLOR_AT_BOTTOM = Color.WHITE;
+
     private View mHeader;
+    private View mHeaderBar;
     private TextView mTitle;
     private View mImageView;
     private S mScrollable;
@@ -47,6 +51,12 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
     private float mInitialY;
     private float mMovedDistanceY;
 
+    // These flags are used for changing header colors.
+    private boolean mHeaderColorIsChanging;
+    private boolean mHeaderColorChangedToBottom;
+    private boolean mHeaderIsAtBottom;
+    private boolean mHeaderIsNotAtBottom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +68,7 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
         mActionBarSize = getActionBarSize();
 
         mHeader = findViewById(R.id.header);
+        mHeaderBar = findViewById(R.id.header_bar);
         mImageView = findViewById(R.id.image);
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +89,7 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
             public void run() {
                 ViewHelper.setTranslationY(mInterceptionLayout, getScreenHeight() - mHeaderBarHeight);
                 ViewHelper.setTranslationY(mImageView, getScreenHeight() - mHeaderBarHeight);
+                changeHeaderBarColorAnimated(false);
             }
         });
     }
@@ -208,6 +220,8 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
         float imageTranslationScale = imageAnimatableHeight / (imageAnimatableHeight - mImageView.getHeight());
         float imageTranslationY = Math.max(0, imageAnimatableHeight - (imageAnimatableHeight - translationY) * imageTranslationScale);
         ViewHelper.setTranslationY(mImageView, imageTranslationY);
+
+        changeHeaderBarColorAnimated(true);
     }
 
     private void slideWithAnimation(float toY) {
@@ -222,6 +236,61 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
             });
             animator.start();
         }
+    }
+
+    private void changeHeaderBarColorAnimated(boolean animated) {
+        if (mHeaderColorIsChanging) {
+            return;
+        }
+        boolean shouldBeWhite = getAnchorYBottom() == ViewHelper.getTranslationY(mInterceptionLayout);
+        if (!mHeaderIsAtBottom && !mHeaderColorChangedToBottom && shouldBeWhite) {
+            mHeaderIsAtBottom = true;
+            mHeaderIsNotAtBottom = false;
+            if (animated) {
+                ValueAnimator animator = ValueAnimator.ofFloat(0, 1).setDuration(100);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float alpha = (float) animation.getAnimatedValue();
+                        mHeaderColorIsChanging = (alpha != 1);
+                        changeHeaderBarColor(alpha, HEADER_COLOR_AT_BOTTOM);
+                    }
+                });
+                animator.start();
+            } else {
+                changeHeaderBarColor(1, HEADER_COLOR_AT_BOTTOM);
+            }
+        } else if (!mHeaderIsNotAtBottom && !shouldBeWhite) {
+            mHeaderIsAtBottom = false;
+            mHeaderIsNotAtBottom = true;
+            if (animated) {
+                ValueAnimator animator = ValueAnimator.ofFloat(1, 0).setDuration(100);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float alpha = (float) animation.getAnimatedValue();
+                        mHeaderColorIsChanging = (alpha != 0);
+                        changeHeaderBarColor(alpha, HEADER_COLOR_AT_BOTTOM);
+                    }
+                });
+                animator.start();
+            } else {
+                changeHeaderBarColor(0, HEADER_COLOR_AT_BOTTOM);
+            }
+        }
+    }
+
+    private void changeHeaderBarColor(float alpha, int headerColorAtBottom) {
+        // Change header background color.
+        // Actually this does not change color between white and green,
+        // just changing alpha element of white view color.
+        mHeaderBar.setBackgroundColor(ScrollUtils.getColorWithAlpha(alpha, headerColorAtBottom));
+
+        // Change title text color.
+        // Currently this code can only change color between white and black.
+        int level = Math.min(255, Math.max(0, (int) ((1 - alpha) * 255)));
+        mTitle.setTextColor(0xff000000 + (0x010101 * level));
+        mHeaderColorChangedToBottom = (alpha == 1);
     }
 
     private float getAnchorYBottom() {
