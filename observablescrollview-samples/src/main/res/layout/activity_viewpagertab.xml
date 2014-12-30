@@ -18,11 +18,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+    <!--
+    Padding for ViewPager must be set outside the ViewPager itself
+    because with padding, EdgeEffect of ViewPager become strange.
+    -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/tab_height" />
+        android:paddingTop="@dimen/tab_height">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/header"

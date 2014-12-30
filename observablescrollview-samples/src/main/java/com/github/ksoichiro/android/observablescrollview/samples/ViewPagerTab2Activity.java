@@ -67,9 +67,11 @@ public class ViewPagerTab2Activity extends BaseActivity implements ObservableScr
         mToolbarView = findViewById(R.id.toolbar);
         mPagerAdapter = new NavigationAdapter(getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
-        final int tabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
-        mPager.setPadding(0, getActionBarSize() + tabHeight, 0, 0);
         mPager.setAdapter(mPagerAdapter);
+        // Padding for ViewPager must be set outside the ViewPager itself
+        // because with padding, EdgeEffect of ViewPager become strange.
+        final int tabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
+        findViewById(R.id.pager_wrapper).setPadding(0, getActionBarSize() + tabHeight, 0, 0);
 
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
         slidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
