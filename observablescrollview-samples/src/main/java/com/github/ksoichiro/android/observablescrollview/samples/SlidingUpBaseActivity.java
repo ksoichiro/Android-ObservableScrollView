@@ -295,11 +295,11 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
 
     private void changeToolbarTitleVisibility() {
         if (ViewHelper.getTranslationY(mInterceptionLayout) <= mIntersectionHeight) {
-            if (ViewHelper.getAlpha(mToolbarTitle) == 0) {
+            if (ViewHelper.getAlpha(mToolbarTitle) != 1) {
                 ViewPropertyAnimator.animate(mToolbarTitle).cancel();
                 ViewPropertyAnimator.animate(mToolbarTitle).alpha(1).setDuration(200).start();
             }
-        } else if (ViewHelper.getAlpha(mToolbarTitle) == 1) {
+        } else if (ViewHelper.getAlpha(mToolbarTitle) != 0) {
             ViewPropertyAnimator.animate(mToolbarTitle).cancel();
             ViewPropertyAnimator.animate(mToolbarTitle).alpha(0).setDuration(200).start();
         } else {
