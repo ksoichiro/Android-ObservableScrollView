@@ -14,8 +14,10 @@
   limitations under the License.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:orientation="vertical">
 
     <!--
@@ -78,7 +80,8 @@
     <com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout
         android:id="@+id/scroll_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipChildren="false">
 
         <com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView
             android:id="@+id/scroll"
@@ -118,6 +121,55 @@
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/header_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <View
+                    android:id="@+id/header_flexible_space"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="?attr/colorPrimary" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/sliding_overlay_blur_size"
+                    android:background="@drawable/sliding_header_overlay"
+                    android:minHeight="@dimen/sliding_overlay_blur_size" />
+            </LinearLayout>
+
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                app:fab_colorNormal="@color/accentLight"
+                app:fab_colorPressed="@color/accent" />
         </FrameLayout>
     </com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
+        app:theme="@style/Toolbar" />
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:paddingLeft="@dimen/toolbar_margin_start"
+        android:paddingRight="@dimen/margin_extra_short"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
 </FrameLayout>

@@ -36,4 +36,5 @@
     <dimen name="intersection_height">16dp</dimen>
 
     <dimen name="sliding_slop">32dp</dimen>
+    <dimen name="sliding_overlay_blur_size">4dp</dimen>
 </resources>
