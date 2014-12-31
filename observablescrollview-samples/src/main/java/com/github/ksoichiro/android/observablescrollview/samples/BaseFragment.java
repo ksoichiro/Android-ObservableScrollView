@@ -35,8 +35,8 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void setDummyDataWithHeader(ListView listView, View headerView) {
-        setDummyData(listView);
         listView.addHeaderView(headerView);
+        setDummyData(listView);
     }
 
     protected void setDummyData(GridView gridView) {
