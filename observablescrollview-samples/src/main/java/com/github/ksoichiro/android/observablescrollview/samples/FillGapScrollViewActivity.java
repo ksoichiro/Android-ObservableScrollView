@@ -31,17 +31,4 @@ public class FillGapScrollViewActivity extends FillGapBaseActivity<ObservableScr
         scrollView.setScrollViewCallbacks(this);
         return scrollView;
     }
-
-    protected float getImageHolderTranslationY(int scrollY) {
-        return scrollY / 2;
-    }
-
-    protected float getHeaderTranslationY(int scrollY) {
-        final int headerHeight = mHeaderBar.getHeight();
-        int headerTranslationY = mFlexibleSpaceImageHeight - headerHeight;
-        if (mFlexibleSpaceImageHeight - headerHeight - mActionBarSize + mIntersectionHeight <= scrollY) {
-            headerTranslationY = scrollY + mActionBarSize - mIntersectionHeight;
-        }
-        return headerTranslationY;
-    }
 }

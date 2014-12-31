@@ -42,7 +42,8 @@ public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActi
     private View mImageHolder;
     private View mHeaderBackground;
     private int mPrevScrollY;
-    private boolean mGapFilled;
+    private boolean mGapIsChanging;
+    private boolean mGapHidden;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,23 +80,10 @@ public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActi
     protected abstract int getLayoutResId();
     protected abstract S createScrollable();
 
-    protected float getImageHolderTranslationY(int scrollY) {
-        return -scrollY / 2;
-    }
-
-    protected float getHeaderTranslationY(int scrollY) {
-        final int headerHeight = mHeaderBar.getHeight();
-        int headerTranslationY = mActionBarSize - mIntersectionHeight;
-        if (0 <= -scrollY + mFlexibleSpaceImageHeight - headerHeight - mActionBarSize + mIntersectionHeight) {
-            headerTranslationY = -scrollY + mFlexibleSpaceImageHeight - headerHeight;
-        }
-        return headerTranslationY;
-    }
-
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         // Translate image
-        ViewHelper.setTranslationY(mImageHolder, getImageHolderTranslationY(scrollY));
+        ViewHelper.setTranslationY(mImageHolder, -scrollY / 2);
 
         // Translate header
         ViewHelper.setTranslationY(mHeader, getHeaderTranslationY(scrollY));
@@ -105,17 +93,11 @@ public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActi
         boolean scrollUp = mPrevScrollY < scrollY;
         if (scrollUp) {
             if (mFlexibleSpaceImageHeight - headerHeight - mActionBarSize <= scrollY) {
-                if (!mGapFilled) {
-                    mGapFilled = true;
-                    hideGap();
-                }
+                changeHeaderBackgroundHeight(false);
             }
         } else {
             if (scrollY <= mFlexibleSpaceImageHeight - headerHeight - mActionBarSize) {
-                if (mGapFilled) {
-                    mGapFilled = false;
-                    showGap();
-                }
+                changeHeaderBackgroundHeight(true);
             }
         }
         mPrevScrollY = scrollY;
@@ -129,15 +111,36 @@ public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActi
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
     }
 
-    private void showGap() {
-        changeHeaderBackgroundHeight(mHeaderBar.getHeight() + mActionBarSize, mHeaderBar.getHeight());
+    private float getHeaderTranslationY(int scrollY) {
+        final int headerHeight = mHeaderBar.getHeight();
+        int headerTranslationY = mActionBarSize - mIntersectionHeight;
+        if (0 <= -scrollY + mFlexibleSpaceImageHeight - headerHeight - mActionBarSize + mIntersectionHeight) {
+            headerTranslationY = -scrollY + mFlexibleSpaceImageHeight - headerHeight;
+        }
+        return headerTranslationY;
     }
 
-    private void hideGap() {
-        changeHeaderBackgroundHeight(mHeaderBar.getHeight(), mHeaderBar.getHeight() + mActionBarSize);
-    }
-
-    private void changeHeaderBackgroundHeight(float from, float to) {
+    private void changeHeaderBackgroundHeight(boolean shouldShowGap) {
+        if (mGapIsChanging) {
+            return;
+        }
+        final int heightOnGapShown = mHeaderBar.getHeight();
+        final int heightOnGapHidden = mHeaderBar.getHeight() + mActionBarSize;
+        final float from = mHeaderBackground.getLayoutParams().height;
+        final float to;
+        if (shouldShowGap) {
+            if (!mGapHidden) {
+                // Already shown
+                return;
+            }
+            to = heightOnGapShown;
+        } else {
+            if (mGapHidden) {
+                // Already hidden
+                return;
+            }
+            to = heightOnGapHidden;
+        }
         ViewPropertyAnimator.animate(mHeaderBackground).cancel();
         ValueAnimator a = ValueAnimator.ofFloat(from, to);
         a.setDuration(100);
@@ -150,6 +153,10 @@ public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActi
                 lp.height = (int) height;
                 lp.topMargin = (int) (mHeaderBar.getHeight() - height);
                 mHeaderBackground.requestLayout();
+                mGapIsChanging = (height != to);
+                if (!mGapIsChanging) {
+                    mGapHidden = (height == heightOnGapHidden);
+                }
             }
         });
         a.start();
