@@ -61,7 +61,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ksoichiro:android-observablescrollview:1.3.2'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.4.0'
 }
 ```
 
@@ -106,6 +106,10 @@ See [sample app's Activity codes](https://github.com/ksoichiro/Android-Observabl
 
 ## Supported widgets
 
+Widgets are named with `Observable` prefix.  
+(e.g. `ListView` → `ObservableListView`)  
+You can handle these widgets with `Scrollable` interface.
+
 | Widget | Since | Note |
 |:------:|:-----:| ---- |
 | ListView | v1.0.0 |    |
@@ -125,6 +129,10 @@ This project is built and tested under the following environment.
 
 ## Release notes
 
+* v1.4.0
+    * Add a custom view named `TouchInterceptionFrameLayout` and a new API `setTouchInterceptionViewGroup()` for `Scrollable`.  
+      With these class and API, you can move `Scrollable` itself using its scrolling events.
+    * Add a helper class `ScrollUtils` for implementing scrolling effects.
 * v1.3.2
     * Fix that `ObservableRecyclerView` causes `BadParcelableException` on `onRestoreInstanceState`.
 * v1.3.1
