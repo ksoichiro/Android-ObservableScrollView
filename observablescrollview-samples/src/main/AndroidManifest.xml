@@ -352,6 +352,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ViewPagerTabFragmentActivity"
+            android:label="@string/title_activity_viewpagertabfragment"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ViewPagerTabListViewActivity"
             android:label="@string/title_activity_viewpagertablistview"
             android:theme="@style/AppTheme.Toolbar">

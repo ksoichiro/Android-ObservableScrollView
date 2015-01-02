@@ -49,6 +49,7 @@
     <string name="title_activity_toolbarcontrolrecyclerview">RecyclerView &amp; Quick return toolbar &amp; Sticky view</string>
     <string name="title_activity_toolbarcontrolscrollview">ScrollView &amp; Quick return toolbar &amp; Sticky view</string>
     <string name="title_activity_toolbarcontrolwebview">WebView &amp; Quick return toolbar &amp; Sticky view</string>
+    <string name="title_activity_viewpagertabfragment">ViewPager &amp; Tab on Fragment</string>
     <string name="title_activity_viewpagertab2">Another implementation of ViewPagerTabActivity</string>
     <string name="title_activity_viewpagertab">ViewPager &amp; Tab &amp; Different fragments</string>
     <string name="title_activity_viewpagertablistview">ViewPager &amp; Tab &amp; ListView</string>
