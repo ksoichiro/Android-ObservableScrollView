@@ -36,6 +36,11 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 
 public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseActivity implements ObservableScrollViewCallbacks {
 
+    private static final String STATE_SLIDING_STATE = "slidingState";
+    private static final int SLIDING_STATE_TOP = 0;
+    private static final int SLIDING_STATE_MIDDLE = 1;
+    private static final int SLIDING_STATE_BOTTOM = 2;
+
     private View mHeader;
     private View mHeaderBar;
     private View mHeaderOverlay;
@@ -47,20 +52,27 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
     private Toolbar mToolbar;
     private S mScrollable;
     private TouchInterceptionFrameLayout mInterceptionLayout;
+
+    // Fields that just keep constants like resource values
     private int mActionBarSize;
     private int mIntersectionHeight;
     private int mHeaderBarHeight;
     private int mSlidingSlop;
     private int mSlidingHeaderBlueSize;
     private int mColorPrimary;
-    private float mScrollYOnDownMotion;
+    private int mFlexibleSpaceImageHeight;
+    private int mToolbarColor;
+    private int mFabMargin;
+
+    // Fields that needs to saved
+    private int mSlidingState;
+
+    // Temporary states
+    private boolean mFabIsShown;
     private boolean mMoved;
     private float mInitialY;
     private float mMovedDistanceY;
-    private int mFabMargin;
-    private boolean mFabIsShown;
-    private int mFlexibleSpaceImageHeight;
-    private int mToolbarColor;
+    private float mScrollYOnDownMotion;
 
     // These flags are used for changing header colors.
     private boolean mHeaderColorIsChanging;
@@ -108,7 +120,6 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
 
         mFab = findViewById(R.id.fab);
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
-        mFabIsShown = true;
 
         mInterceptionLayout = (TouchInterceptionFrameLayout) findViewById(R.id.scroll_wrapper);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
@@ -119,19 +130,33 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
         ViewHelper.setAlpha(mToolbarTitle, 0);
         ViewHelper.setTranslationY(mTitle, (mHeaderBarHeight - mActionBarSize) / 2);
 
+        if (savedInstanceState == null) {
+            mSlidingState = SLIDING_STATE_BOTTOM;
+        }
+
         ScrollUtils.addOnGlobalLayoutListener(mInterceptionLayout, new Runnable() {
             @Override
             public void run() {
-                ViewHelper.setTranslationY(mInterceptionLayout, getScreenHeight() - mHeaderBarHeight);
-                ViewHelper.setTranslationY(mImageView, getScreenHeight() - mHeaderBarHeight);
                 if (mFab != null) {
                     ViewHelper.setTranslationX(mFab, mTitle.getWidth() - mFabMargin - mFab.getWidth());
                     ViewHelper.setTranslationY(mFab, ViewHelper.getX(mTitle) - (mFab.getHeight() / 2));
                 }
-                changeHeaderBarColorAnimated(false);
-                changeHeaderOverlay();
+                changeSlidingState(mSlidingState, false);
             }
         });
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // All the related temporary states can be restored by slidingState
+        mSlidingState = savedInstanceState.getInt(STATE_SLIDING_STATE);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_SLIDING_STATE, mSlidingState);
+        super.onSaveInstanceState(outState);
     }
 
     protected abstract int getLayoutResId();
@@ -174,7 +199,7 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
                 translationY = getScreenHeight() - mHeaderBarHeight;
             }
 
-            slideTo(translationY);
+            slideTo(translationY, true);
 
             mMovedDistanceY = ViewHelper.getTranslationY(mInterceptionLayout) - mInitialY;
         }
@@ -195,12 +220,33 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
         }
     };
 
+    private void changeSlidingState(final int slidingState, boolean animated) {
+        mSlidingState = slidingState;
+        float translationY = 0;
+        switch (slidingState) {
+            case SLIDING_STATE_TOP:
+                translationY = 0;
+                break;
+            case SLIDING_STATE_MIDDLE:
+                translationY = getAnchorYImage();
+                break;
+            case SLIDING_STATE_BOTTOM:
+                translationY = getAnchorYBottom();
+                break;
+        }
+        if (animated) {
+            slideWithAnimation(translationY);
+        } else {
+            slideTo(translationY, false);
+        }
+    }
+
     private void slideOnClick() {
         float translationY = ViewHelper.getTranslationY(mInterceptionLayout);
         if (translationY == getAnchorYBottom()) {
-            slideWithAnimation(getAnchorYImage());
+            changeSlidingState(SLIDING_STATE_MIDDLE, true);
         } else if (translationY == getAnchorYImage()) {
-            slideWithAnimation(getAnchorYBottom());
+            changeSlidingState(SLIDING_STATE_BOTTOM, true);
         }
     }
 
@@ -211,16 +257,16 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
             if (mSlidingSlop < mMovedDistanceY) {
                 // Sliding down to an anchor
                 if (getAnchorYImage() < ViewHelper.getTranslationY(mInterceptionLayout)) {
-                    slideWithAnimation(getAnchorYBottom());
+                    changeSlidingState(SLIDING_STATE_BOTTOM, true);
                 } else {
-                    slideWithAnimation(getAnchorYImage());
+                    changeSlidingState(SLIDING_STATE_MIDDLE, true);
                 }
             } else {
                 // Sliding up(back) to an anchor
                 if (getAnchorYImage() < ViewHelper.getTranslationY(mInterceptionLayout)) {
-                    slideWithAnimation(getAnchorYImage());
+                    changeSlidingState(SLIDING_STATE_MIDDLE, true);
                 } else {
-                    slideWithAnimation(0);
+                    changeSlidingState(SLIDING_STATE_TOP, true);
                 }
             }
         } else if (mMovedDistanceY < 0) {
@@ -228,22 +274,22 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
             if (mMovedDistanceY < -mSlidingSlop) {
                 // Sliding up to an anchor
                 if (getAnchorYImage() < ViewHelper.getTranslationY(mInterceptionLayout)) {
-                    slideWithAnimation(getAnchorYImage());
+                    changeSlidingState(SLIDING_STATE_MIDDLE, true);
                 } else {
-                    slideWithAnimation(0);
+                    changeSlidingState(SLIDING_STATE_TOP, true);
                 }
             } else {
                 // Sliding down(back) to an anchor
                 if (getAnchorYImage() < ViewHelper.getTranslationY(mInterceptionLayout)) {
-                    slideWithAnimation(getAnchorYBottom());
+                    changeSlidingState(SLIDING_STATE_BOTTOM, true);
                 } else {
-                    slideWithAnimation(getAnchorYImage());
+                    changeSlidingState(SLIDING_STATE_MIDDLE, true);
                 }
             }
         }
     }
 
-    private void slideTo(float translationY) {
+    private void slideTo(float translationY, final boolean animated) {
         ViewHelper.setTranslationY(mInterceptionLayout, translationY);
 
         if (translationY < 0) {
@@ -264,18 +310,26 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
 
         // Show/hide FAB
         if (ViewHelper.getTranslationY(mInterceptionLayout) < mFlexibleSpaceImageHeight) {
-            hideFab();
+            hideFab(animated);
         } else {
-            ViewPropertyAnimator.animate(mToolbar).scaleY(0).setDuration(200).start();
-            showFab();
+            if (animated) {
+                ViewPropertyAnimator.animate(mToolbar).scaleY(0).setDuration(200).start();
+            } else {
+                ViewHelper.setScaleY(mToolbar, 0);
+            }
+            showFab(animated);
         }
         if (ViewHelper.getTranslationY(mInterceptionLayout) <= mFlexibleSpaceImageHeight) {
-            ViewPropertyAnimator.animate(mToolbar).scaleY(1).setDuration(200).start();
+            if (animated) {
+                ViewPropertyAnimator.animate(mToolbar).scaleY(1).setDuration(200).start();
+            } else {
+                ViewHelper.setScaleY(mToolbar, 1);
+            }
             mToolbar.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, mToolbarColor));
         }
 
         changeToolbarTitleVisibility();
-        changeHeaderBarColorAnimated(true);
+        changeHeaderBarColorAnimated(animated);
         changeHeaderOverlay();
     }
 
@@ -286,7 +340,7 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
-                    slideTo((float) animation.getAnimatedValue());
+                    slideTo((float) animation.getAnimatedValue(), true);
                 }
             });
             animator.start();
@@ -367,19 +421,43 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
         }
     }
 
-    private void showFab() {
-        if (!mFabIsShown && mFab != null) {
-            ViewPropertyAnimator.animate(mFab).cancel();
-            ViewPropertyAnimator.animate(mFab).scaleX(1).scaleY(1).setDuration(200).start();
+    private void showFab(boolean animated) {
+        if (mFab == null) {
+            return;
+        }
+        if (!mFabIsShown) {
+            if (animated) {
+                ViewPropertyAnimator.animate(mFab).cancel();
+                ViewPropertyAnimator.animate(mFab).scaleX(1).scaleY(1).setDuration(200).start();
+            } else {
+                ViewHelper.setScaleX(mFab, 1);
+                ViewHelper.setScaleY(mFab, 1);
+            }
             mFabIsShown = true;
+        } else {
+            // Ensure that FAB is shown
+            ViewHelper.setScaleX(mFab, 1);
+            ViewHelper.setScaleY(mFab, 1);
         }
     }
 
-    private void hideFab() {
-        if (mFabIsShown && mFab != null) {
-            ViewPropertyAnimator.animate(mFab).cancel();
-            ViewPropertyAnimator.animate(mFab).scaleX(0).scaleY(0).setDuration(200).start();
+    private void hideFab(boolean animated) {
+        if (mFab == null) {
+            return;
+        }
+        if (mFabIsShown) {
+            if (animated) {
+                ViewPropertyAnimator.animate(mFab).cancel();
+                ViewPropertyAnimator.animate(mFab).scaleX(0).scaleY(0).setDuration(200).start();
+            } else {
+                ViewHelper.setScaleX(mFab, 0);
+                ViewHelper.setScaleY(mFab, 0);
+            }
             mFabIsShown = false;
+        } else {
+            // Ensure that FAB is hidden
+            ViewHelper.setScaleX(mFab, 0);
+            ViewHelper.setScaleY(mFab, 0);
         }
     }
 
