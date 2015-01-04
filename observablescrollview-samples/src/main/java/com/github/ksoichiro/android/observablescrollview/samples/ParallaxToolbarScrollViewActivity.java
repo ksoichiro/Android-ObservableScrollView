@@ -30,6 +30,7 @@ public class ParallaxToolbarScrollViewActivity extends BaseActivity implements O
 
     private View mImageView;
     private View mToolbarView;
+    private ObservableScrollView mScrollView;
     private int mParallaxImageHeight;
 
     @Override
@@ -43,10 +44,16 @@ public class ParallaxToolbarScrollViewActivity extends BaseActivity implements O
         mToolbarView = findViewById(R.id.toolbar);
         mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, getResources().getColor(R.color.primary)));
 
-        ObservableScrollView scrollView = (ObservableScrollView) findViewById(R.id.scroll);
-        scrollView.setScrollViewCallbacks(this);
+        mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
+        mScrollView.setScrollViewCallbacks(this);
 
         mParallaxImageHeight = getResources().getDimensionPixelSize(R.dimen.parallax_image_height);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        onScrollChanged(mScrollView.getCurrentScrollY(), false, false);
     }
 
     @Override
