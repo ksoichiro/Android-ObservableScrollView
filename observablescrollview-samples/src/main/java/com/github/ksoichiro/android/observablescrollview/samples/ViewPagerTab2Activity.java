@@ -17,6 +17,7 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -243,11 +244,46 @@ public class ViewPagerTab2Activity extends BaseActivity implements ObservableScr
 
         private static final String[] TITLES = new String[]{"Applepie", "Butter Cookie", "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb", "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"};
 
+        private FragmentManager mFm;
         private SparseArray<Fragment> mPages;
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);
             mPages = new SparseArray<Fragment>();
+            mFm = fm;
+        }
+
+        @Override
+        public Parcelable saveState() {
+            Parcelable p = super.saveState();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("superState", p);
+
+            bundle.putInt("pages", mPages.size());
+            if (0 < mPages.size()) {
+                for (int i = 0; i < mPages.size(); i++) {
+                    Fragment f = mPages.get(i);
+                    String key = "page:" + i;
+                    mFm.putFragment(bundle, key, f);
+                }
+            }
+            return bundle;
+        }
+
+        @Override
+        public void restoreState(Parcelable state, ClassLoader loader) {
+            Bundle bundle = (Bundle) state;
+            int pages = bundle.getInt("pages");
+            if (0 < pages) {
+                for (int i = 0; i < pages; i++) {
+                    String key = "page:" + i;
+                    Fragment f = mFm.getFragment(bundle, key);
+                    mPages.put(i, f);
+                }
+            }
+
+            Parcelable p = bundle.getParcelable("superState");
+            super.restoreState(p, loader);
         }
 
         @Override
