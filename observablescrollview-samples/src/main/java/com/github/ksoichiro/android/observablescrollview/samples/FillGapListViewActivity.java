@@ -50,19 +50,6 @@ public class FillGapListViewActivity extends FillGapBaseActivity<ObservableListV
         ObservableListView listView = (ObservableListView) findViewById(R.id.scroll);
         listView.setScrollViewCallbacks(this);
         setDummyDataWithHeader(listView, mFlexibleSpaceImageHeight);
-
-        // mListBackgroundView makes ListView's background except header view.
-        mListBackgroundView = findViewById(R.id.list_background);
-        final View contentView = getWindow().getDecorView().findViewById(android.R.id.content);
-        contentView.post(new Runnable() {
-            @Override
-            public void run() {
-                // mListBackgroundView's should fill its parent vertically
-                // but the height of the content view is 0 on 'onCreate'.
-                // So we should get it with post().
-                mListBackgroundView.getLayoutParams().height = contentView.getHeight();
-            }
-        });
         return listView;
     }
 
