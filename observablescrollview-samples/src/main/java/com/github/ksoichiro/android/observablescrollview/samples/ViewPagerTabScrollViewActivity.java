@@ -19,13 +19,10 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.SparseArray;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
@@ -212,16 +209,14 @@ public class ViewPagerTabScrollViewActivity extends BaseActivity implements Obse
         propagateToolbarState(false);
     }
 
-    private static class NavigationAdapter extends FragmentStatePagerAdapter {
+    private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
         private static final String[] TITLES = new String[]{"Applepie", "Butter Cookie", "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb", "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"};
 
-        private SparseArray<Fragment> mPages;
         private int mScrollY;
 
         public NavigationAdapter(FragmentManager fm) {
             super(fm);
-            mPages = new SparseArray<Fragment>();
         }
 
         public void setScrollY(int scrollY) {
@@ -229,32 +224,19 @@ public class ViewPagerTabScrollViewActivity extends BaseActivity implements Obse
         }
 
         @Override
-        public Fragment getItem(int position) {
+        protected Fragment createItem(int position) {
             Fragment f = new ViewPagerTabScrollViewFragment();
             if (0 <= mScrollY) {
                 Bundle args = new Bundle();
                 args.putInt(ViewPagerTabScrollViewFragment.ARG_SCROLL_Y, mScrollY);
                 f.setArguments(args);
             }
-            mPages.put(position, f);
             return f;
-        }
-
-        public Fragment getItemAt(int position) {
-            return mPages.get(position);
         }
 
         @Override
         public int getCount() {
             return TITLES.length;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            if (0 <= mPages.indexOfKey(position)) {
-                mPages.remove(position);
-            }
-            super.destroyItem(container, position, object);
         }
 
         @Override

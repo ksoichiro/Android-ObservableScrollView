@@ -19,10 +19,8 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -240,21 +238,18 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
 
     /**
      * This adapter provides two types of fragments as an example.
-     * {@linkplain #getItem(int)} should be modified if you use this example for your app.
+     * {@linkplain #createItem(int)} should be modified if you use this example for your app.
      */
-    private static class NavigationAdapter extends FragmentStatePagerAdapter {
+    private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
         private static final String[] TITLES = new String[]{"Applepie", "Butter Cookie", "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb", "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"};
 
-        private SparseArray<Fragment> mPages;
-
         public NavigationAdapter(FragmentManager fm) {
             super(fm);
-            mPages = new SparseArray<Fragment>();
         }
 
         @Override
-        public Fragment getItem(int position) {
+        protected Fragment createItem(int position) {
             Fragment f;
             final int pattern = position % 5;
             switch (pattern) {
@@ -275,26 +270,12 @@ public class ViewPagerTabFragmentParentFragment extends BaseFragment implements 
                     f = new ViewPagerTabFragmentWebViewFragment();
                     break;
             }
-            // We should cache fragments manually to access to them later
-            mPages.put(position, f);
             return f;
-        }
-
-        public Fragment getItemAt(int position) {
-            return mPages.get(position);
         }
 
         @Override
         public int getCount() {
             return TITLES.length;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            if (0 <= mPages.indexOfKey(position)) {
-                mPages.remove(position);
-            }
-            super.destroyItem(container, position, object);
         }
 
         @Override
