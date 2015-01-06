@@ -17,18 +17,14 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
@@ -238,56 +234,18 @@ public class ViewPagerTab2Activity extends BaseActivity implements ObservableScr
 
     /**
      * This adapter provides two types of fragments as an example.
-     * {@linkplain #getItem(int)} should be modified if you use this example for your app.
+     * {@linkplain #createItem(int)} should be modified if you use this example for your app.
      */
-    private static class NavigationAdapter extends FragmentStatePagerAdapter {
+    private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
         private static final String[] TITLES = new String[]{"Applepie", "Butter Cookie", "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb", "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"};
 
-        private FragmentManager mFm;
-        private SparseArray<Fragment> mPages;
-
         public NavigationAdapter(FragmentManager fm) {
             super(fm);
-            mPages = new SparseArray<Fragment>();
-            mFm = fm;
         }
 
         @Override
-        public Parcelable saveState() {
-            Parcelable p = super.saveState();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("superState", p);
-
-            bundle.putInt("pages", mPages.size());
-            if (0 < mPages.size()) {
-                for (int i = 0; i < mPages.size(); i++) {
-                    Fragment f = mPages.get(i);
-                    String key = "page:" + i;
-                    mFm.putFragment(bundle, key, f);
-                }
-            }
-            return bundle;
-        }
-
-        @Override
-        public void restoreState(Parcelable state, ClassLoader loader) {
-            Bundle bundle = (Bundle) state;
-            int pages = bundle.getInt("pages");
-            if (0 < pages) {
-                for (int i = 0; i < pages; i++) {
-                    String key = "page:" + i;
-                    Fragment f = mFm.getFragment(bundle, key);
-                    mPages.put(i, f);
-                }
-            }
-
-            Parcelable p = bundle.getParcelable("superState");
-            super.restoreState(p, loader);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
+        protected Fragment createItem(int position) {
             Fragment f;
             final int pattern = position % 5;
             switch (pattern) {
@@ -308,26 +266,12 @@ public class ViewPagerTab2Activity extends BaseActivity implements ObservableScr
                     f = new ViewPagerTab2WebViewFragment();
                     break;
             }
-            // We should cache fragments manually to access to them later
-            mPages.put(position, f);
             return f;
-        }
-
-        public Fragment getItemAt(int position) {
-            return mPages.get(position);
         }
 
         @Override
         public int getCount() {
             return TITLES.length;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            if (0 <= mPages.indexOfKey(position)) {
-                mPages.remove(position);
-            }
-            super.destroyItem(container, position, object);
         }
 
         @Override
