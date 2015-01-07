@@ -16,35 +16,13 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.nineoldandroids.view.ViewHelper;
 
 public class FillGapRecyclerViewActivity extends FillGapBaseActivity<ObservableRecyclerView> implements ObservableScrollViewCallbacks {
-
-    private View mListBackgroundView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // mListBackgroundView makes ListView's background except header view.
-        mListBackgroundView = findViewById(R.id.list_background);
-        final View contentView = getWindow().getDecorView().findViewById(android.R.id.content);
-        contentView.post(new Runnable() {
-            @Override
-            public void run() {
-                // mListBackgroundView's should fill its parent vertically
-                // but the height of the content view is 0 on 'onCreate'.
-                // So we should get it with post().
-                mListBackgroundView.getLayoutParams().height = contentView.getHeight();
-            }
-        });
-    }
 
     @Override
     protected ObservableRecyclerView createScrollable() {
@@ -62,8 +40,8 @@ public class FillGapRecyclerViewActivity extends FillGapBaseActivity<ObservableR
     }
 
     @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        super.onScrollChanged(scrollY, firstScroll, dragging);
+    protected void updateViews(int scrollY, boolean animated) {
+        super.updateViews(scrollY, animated);
 
         // Translate list background
         ViewHelper.setTranslationY(mListBackgroundView, ViewHelper.getTranslationY(mHeader));

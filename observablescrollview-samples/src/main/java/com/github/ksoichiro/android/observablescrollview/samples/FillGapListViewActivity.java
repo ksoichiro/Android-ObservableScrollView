@@ -16,34 +16,11 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.os.Bundle;
-import android.view.View;
-
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.nineoldandroids.view.ViewHelper;
 
 public class FillGapListViewActivity extends FillGapBaseActivity<ObservableListView> implements ObservableScrollViewCallbacks {
-
-    private View mListBackgroundView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // mListBackgroundView makes ListView's background except header view.
-        mListBackgroundView = findViewById(R.id.list_background);
-        final View contentView = getWindow().getDecorView().findViewById(android.R.id.content);
-        contentView.post(new Runnable() {
-            @Override
-            public void run() {
-                // mListBackgroundView's should fill its parent vertically
-                // but the height of the content view is 0 on 'onCreate'.
-                // So we should get it with post().
-                mListBackgroundView.getLayoutParams().height = contentView.getHeight();
-            }
-        });
-    }
 
     @Override
     protected ObservableListView createScrollable() {
@@ -59,8 +36,8 @@ public class FillGapListViewActivity extends FillGapBaseActivity<ObservableListV
     }
 
     @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        super.onScrollChanged(scrollY, firstScroll, dragging);
+    protected void updateViews(int scrollY, boolean animated) {
+        super.updateViews(scrollY, animated);
 
         // Translate list background
         ViewHelper.setTranslationY(mListBackgroundView, ViewHelper.getTranslationY(mHeader));
