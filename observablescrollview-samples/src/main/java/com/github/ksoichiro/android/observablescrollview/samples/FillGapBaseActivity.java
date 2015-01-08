@@ -133,7 +133,7 @@ public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActi
         mPrevScrollY = scrollY;
     }
 
-    private float getHeaderTranslationY(int scrollY) {
+    protected float getHeaderTranslationY(int scrollY) {
         final int headerHeight = mHeaderBar.getHeight();
         int headerTranslationY = mActionBarSize - mIntersectionHeight;
         if (0 <= -scrollY + mFlexibleSpaceImageHeight - headerHeight - mActionBarSize + mIntersectionHeight) {
