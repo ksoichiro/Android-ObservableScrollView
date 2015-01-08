@@ -112,6 +112,36 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FillGap3ListViewActivity"
+            android:label="@string/title_activity_fillgap3listview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".FillGap3RecyclerViewActivity"
+            android:label="@string/title_activity_fillgap3recyclerview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".FillGap3ScrollViewActivity"
+            android:label="@string/title_activity_fillgap3scrollview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".FillGapListViewActivity"
             android:label="@string/title_activity_fillgaplistview"
             android:theme="@style/AppTheme.Toolbar">
