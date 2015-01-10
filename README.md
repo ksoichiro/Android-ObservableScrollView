@@ -123,9 +123,9 @@ You can handle these widgets with `Scrollable` interface.
 
 This project is built and tested under the following environment.
 
-| OS             | IDE            |
-| -------------- | -------------- |
-| Mac OS X 10.10 | Android Studio 1.0 |
+| OS             | IDE                | JDK |
+| -------------- | ------------------ | --- |
+| Mac OS X 10.10 | Android Studio 1.0 | 1.7 |
 
 ## Release notes
 
