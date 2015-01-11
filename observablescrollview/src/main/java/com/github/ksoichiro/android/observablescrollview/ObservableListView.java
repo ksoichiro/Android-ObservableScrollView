@@ -188,8 +188,12 @@ public class ObservableListView extends ListView implements Scrollable {
                                     parent.dispatchTouchEvent(event);
                                 }
                             });
+                            return false;
                         }
-                        return false;
+                        // Even when this can't be scrolled anymore,
+                        // simply returning false here may cause subView's click,
+                        // so delegate it to super.
+                        return super.onTouchEvent(ev);
                     }
                     break;
             }
