@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.ksoichiro.android.observablescrollview.samples;
+package com.github.ksoichiro.android.observablescrollview;
 
 import android.os.Bundle;
 import android.os.Parcelable;
