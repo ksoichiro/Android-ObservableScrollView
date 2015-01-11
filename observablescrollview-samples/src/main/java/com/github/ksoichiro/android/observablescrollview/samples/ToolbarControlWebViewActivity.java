@@ -60,8 +60,8 @@ public class ToolbarControlWebViewActivity extends BaseActivity {
     private ObservableScrollViewCallbacks mScrollViewScrollCallbacks = new ObservableScrollViewCallbacks() {
         @Override
         public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-            if (mDragging) {
-                int toolbarHeight = mToolbarView.getHeight();
+            int toolbarHeight = mToolbarView.getHeight();
+            if (mDragging || scrollY < toolbarHeight) {
                 if (mFirstScroll) {
                     mFirstScroll = false;
                     float currentHeaderTranslationY = ViewHelper.getTranslationY(mHeaderView);

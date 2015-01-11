@@ -58,8 +58,8 @@ public class ToolbarControlRecyclerViewActivity extends BaseActivity implements 
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        if (dragging) {
-            int toolbarHeight = mToolbarView.getHeight();
+        int toolbarHeight = mToolbarView.getHeight();
+        if (dragging || scrollY < toolbarHeight) {
             if (firstScroll) {
                 float currentHeaderTranslationY = ViewHelper.getTranslationY(mHeaderView);
                 if (-toolbarHeight < currentHeaderTranslationY && toolbarHeight < scrollY) {
