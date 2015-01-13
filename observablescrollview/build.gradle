@@ -26,4 +26,5 @@ android {
     }
 }
 
-apply from: 'https://raw.githubusercontent.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
+// This is from 'https://github.com/chrisbanes/gradle-mvn-push'
+apply from: 'gradle-mvn-push.gradle'
