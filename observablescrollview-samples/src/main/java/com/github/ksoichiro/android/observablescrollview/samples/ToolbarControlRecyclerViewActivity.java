@@ -58,11 +58,11 @@ public class ToolbarControlRecyclerViewActivity extends BaseActivity implements 
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        int toolbarHeight = mToolbarView.getHeight();
-        if (dragging || scrollY < toolbarHeight) {
+        if (dragging) {
+            int toolbarHeight = mToolbarView.getHeight();
             if (firstScroll) {
                 float currentHeaderTranslationY = ViewHelper.getTranslationY(mHeaderView);
-                if (-toolbarHeight < currentHeaderTranslationY && toolbarHeight < scrollY) {
+                if (-toolbarHeight < currentHeaderTranslationY) {
                     mBaseTranslationY = scrollY;
                 }
             }
@@ -80,22 +80,48 @@ public class ToolbarControlRecyclerViewActivity extends BaseActivity implements 
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
         mBaseTranslationY = 0;
 
+        if (scrollState == ScrollState.DOWN) {
+            showToolbar();
+        } else if (scrollState == ScrollState.UP) {
+            int toolbarHeight = mToolbarView.getHeight();
+            int scrollY = mRecyclerView.getCurrentScrollY();
+            if (toolbarHeight <= scrollY) {
+                hideToolbar();
+            } else {
+                showToolbar();
+            }
+        } else {
+            // Even if onScrollChanged occurs without scrollY changing, toolbar should be adjusted
+            if (!toolbarIsShown() && !toolbarIsHidden()) {
+                // Toolbar is moving but doesn't know which to move:
+                // you can change this to hideToolbar()
+                showToolbar();
+            }
+        }
+    }
+
+    private boolean toolbarIsShown() {
+        return ViewHelper.getTranslationY(mHeaderView) == 0;
+    }
+
+    private boolean toolbarIsHidden() {
+        return ViewHelper.getTranslationY(mHeaderView) == -mToolbarView.getHeight();
+    }
+
+    private void showToolbar() {
+        float headerTranslationY = ViewHelper.getTranslationY(mHeaderView);
+        if (headerTranslationY != 0) {
+            ViewPropertyAnimator.animate(mHeaderView).cancel();
+            ViewPropertyAnimator.animate(mHeaderView).translationY(0).setDuration(200).start();
+        }
+    }
+
+    private void hideToolbar() {
         float headerTranslationY = ViewHelper.getTranslationY(mHeaderView);
         int toolbarHeight = mToolbarView.getHeight();
-        if (scrollState == ScrollState.UP) {
-            if (toolbarHeight < mRecyclerView.getCurrentScrollY()) {
-                if (headerTranslationY != -toolbarHeight) {
-                    ViewPropertyAnimator.animate(mHeaderView).cancel();
-                    ViewPropertyAnimator.animate(mHeaderView).translationY(-toolbarHeight).setDuration(200).start();
-                }
-            }
-        } else if (scrollState == ScrollState.DOWN) {
-            if (toolbarHeight < mRecyclerView.getCurrentScrollY()) {
-                if (headerTranslationY != 0) {
-                    ViewPropertyAnimator.animate(mHeaderView).cancel();
-                    ViewPropertyAnimator.animate(mHeaderView).translationY(0).setDuration(200).start();
-                }
-            }
+        if (headerTranslationY != -toolbarHeight) {
+            ViewPropertyAnimator.animate(mHeaderView).cancel();
+            ViewPropertyAnimator.animate(mHeaderView).translationY(-toolbarHeight).setDuration(200).start();
         }
     }
 }

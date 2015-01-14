@@ -60,12 +60,12 @@ public class ToolbarControlWebViewActivity extends BaseActivity {
     private ObservableScrollViewCallbacks mScrollViewScrollCallbacks = new ObservableScrollViewCallbacks() {
         @Override
         public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-            int toolbarHeight = mToolbarView.getHeight();
-            if (mDragging || scrollY < toolbarHeight) {
+            if (mDragging) {
+                int toolbarHeight = mToolbarView.getHeight();
                 if (mFirstScroll) {
                     mFirstScroll = false;
                     float currentHeaderTranslationY = ViewHelper.getTranslationY(mHeaderView);
-                    if (-toolbarHeight < currentHeaderTranslationY && toolbarHeight < scrollY) {
+                    if (-toolbarHeight < currentHeaderTranslationY) {
                         mBaseTranslationY = scrollY;
                     }
                 }
@@ -84,21 +84,22 @@ public class ToolbarControlWebViewActivity extends BaseActivity {
             mDragging = false;
             mBaseTranslationY = 0;
 
-            float headerTranslationY = ViewHelper.getTranslationY(mHeaderView);
-            int toolbarHeight = mToolbarView.getHeight();
-            if (scrollState == ScrollState.UP) {
-                if (toolbarHeight < mScrollView.getCurrentScrollY()) {
-                    if (headerTranslationY != -toolbarHeight) {
-                        ViewPropertyAnimator.animate(mHeaderView).cancel();
-                        ViewPropertyAnimator.animate(mHeaderView).translationY(-toolbarHeight).setDuration(200).start();
-                    }
+            if (scrollState == ScrollState.DOWN) {
+                showToolbar();
+            } else if (scrollState == ScrollState.UP) {
+                int toolbarHeight = mToolbarView.getHeight();
+                int scrollY = mScrollView.getCurrentScrollY();
+                if (toolbarHeight <= scrollY) {
+                    hideToolbar();
+                } else {
+                    showToolbar();
                 }
-            } else if (scrollState == ScrollState.DOWN) {
-                if (toolbarHeight < mScrollView.getCurrentScrollY()) {
-                    if (headerTranslationY != 0) {
-                        ViewPropertyAnimator.animate(mHeaderView).cancel();
-                        ViewPropertyAnimator.animate(mHeaderView).translationY(0).setDuration(200).start();
-                    }
+            } else {
+                // Even if onScrollChanged occurs without scrollY changing, toolbar should be adjusted
+                if (!toolbarIsShown() && !toolbarIsHidden()) {
+                    // Toolbar is moving but doesn't know which to move:
+                    // you can change this to hideToolbar()
+                    showToolbar();
                 }
             }
         }
@@ -120,4 +121,29 @@ public class ToolbarControlWebViewActivity extends BaseActivity {
         public void onUpOrCancelMotionEvent(ScrollState scrollState) {
         }
     };
+
+    private boolean toolbarIsShown() {
+        return ViewHelper.getTranslationY(mHeaderView) == 0;
+    }
+
+    private boolean toolbarIsHidden() {
+        return ViewHelper.getTranslationY(mHeaderView) == -mToolbarView.getHeight();
+    }
+
+    private void showToolbar() {
+        float headerTranslationY = ViewHelper.getTranslationY(mHeaderView);
+        if (headerTranslationY != 0) {
+            ViewPropertyAnimator.animate(mHeaderView).cancel();
+            ViewPropertyAnimator.animate(mHeaderView).translationY(0).setDuration(200).start();
+        }
+    }
+
+    private void hideToolbar() {
+        float headerTranslationY = ViewHelper.getTranslationY(mHeaderView);
+        int toolbarHeight = mToolbarView.getHeight();
+        if (headerTranslationY != -toolbarHeight) {
+            ViewPropertyAnimator.animate(mHeaderView).cancel();
+            ViewPropertyAnimator.animate(mHeaderView).translationY(-toolbarHeight).setDuration(200).start();
+        }
+    }
 }
