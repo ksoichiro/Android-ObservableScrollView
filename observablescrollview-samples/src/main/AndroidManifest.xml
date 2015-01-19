@@ -392,6 +392,56 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ToolbarControlGridViewActivity"
+            android:label="@string/title_activity_toolbarcontrolgridview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ToolbarControlListViewActivity"
+            android:label="@string/title_activity_toolbarcontrollistview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ToolbarControlRecyclerViewActivity"
+            android:label="@string/title_activity_toolbarcontrolrecyclerview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ToolbarControlScrollViewActivity"
+            android:label="@string/title_activity_toolbarcontrolscrollview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ToolbarControlWebViewActivity"
+            android:label="@string/title_activity_toolbarcontrolwebview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ViewPagerTab2Activity"
             android:label="@string/title_activity_viewpagertab2"
             android:theme="@style/AppTheme.Toolbar">
