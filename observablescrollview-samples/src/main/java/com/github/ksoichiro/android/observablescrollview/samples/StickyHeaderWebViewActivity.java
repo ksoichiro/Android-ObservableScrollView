@@ -29,7 +29,7 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
-public class ToolbarControlWebViewActivity extends BaseActivity {
+public class StickyHeaderWebViewActivity extends BaseActivity {
 
     private View mHeaderView;
     private View mToolbarView;
@@ -41,7 +41,7 @@ public class ToolbarControlWebViewActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_toolbarcontrolwebview);
+        setContentView(R.layout.activity_stickyheaderwebview);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 

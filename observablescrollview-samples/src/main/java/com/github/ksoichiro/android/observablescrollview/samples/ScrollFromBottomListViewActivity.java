@@ -48,7 +48,7 @@ public class ScrollFromBottomListViewActivity extends BaseActivity implements Ob
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_toolbarcontrollistview);
+        setContentView(R.layout.activity_stickyheaderlistview);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 

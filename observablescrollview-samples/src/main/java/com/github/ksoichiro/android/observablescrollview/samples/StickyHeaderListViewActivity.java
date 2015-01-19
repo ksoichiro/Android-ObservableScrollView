@@ -19,26 +19,30 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
+import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
-public class ToolbarControlScrollViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
+public class StickyHeaderListViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
+    private static final String TAG = StickyHeaderListViewActivity.class.getSimpleName();
     private View mHeaderView;
     private View mToolbarView;
-    private ObservableScrollView mScrollView;
+    private ObservableListView mListView;
     private int mBaseTranslationY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_toolbarcontrolscrollview);
+        setContentView(R.layout.activity_stickyheaderlistview);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
@@ -46,8 +50,26 @@ public class ToolbarControlScrollViewActivity extends BaseActivity implements Ob
         ViewCompat.setElevation(mHeaderView, getResources().getDimension(R.dimen.toolbar_elevation));
         mToolbarView = findViewById(R.id.toolbar);
 
-        mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
-        mScrollView.setScrollViewCallbacks(this);
+        mListView = (ObservableListView) findViewById(R.id.list);
+        mListView.setScrollViewCallbacks(this);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        mListView.addHeaderView(inflater.inflate(R.layout.padding, mListView, false)); // toolbar
+        mListView.addHeaderView(inflater.inflate(R.layout.padding, mListView, false)); // sticky view
+        setDummyData(mListView);
+
+        // ObservableListView uses setOnScrollListener, but it still works.
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                Log.v(TAG, "onScrollStateChanged: " + scrollState);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                Log.v(TAG, "onScroll: firstVisibleItem: " + firstVisibleItem + " visibleItemCount: " + visibleItemCount + " totalItemCount: " + totalItemCount);
+            }
+        });
     }
 
     @Override
@@ -78,7 +100,7 @@ public class ToolbarControlScrollViewActivity extends BaseActivity implements Ob
             showToolbar();
         } else if (scrollState == ScrollState.UP) {
             int toolbarHeight = mToolbarView.getHeight();
-            int scrollY = mScrollView.getCurrentScrollY();
+            int scrollY = mListView.getCurrentScrollY();
             if (toolbarHeight <= scrollY) {
                 hideToolbar();
             } else {

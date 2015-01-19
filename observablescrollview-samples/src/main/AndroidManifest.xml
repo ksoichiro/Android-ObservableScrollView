@@ -352,8 +352,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ToolbarControlListViewActivity"
-            android:label="@string/title_activity_toolbarcontrollistview"
+            android:name=".StickyHeaderListViewActivity"
+            android:label="@string/title_activity_stickyheaderlistview"
             android:theme="@style/AppTheme.Toolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -362,8 +362,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ToolbarControlRecyclerViewActivity"
-            android:label="@string/title_activity_toolbarcontrolrecyclerview"
+            android:name=".StickyHeaderRecyclerViewActivity"
+            android:label="@string/title_activity_stickyheaderrecyclerview"
             android:theme="@style/AppTheme.Toolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -372,8 +372,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ToolbarControlScrollViewActivity"
-            android:label="@string/title_activity_toolbarcontrolscrollview"
+            android:name=".StickyHeaderScrollViewActivity"
+            android:label="@string/title_activity_stickyheaderscrollview"
             android:theme="@style/AppTheme.Toolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -382,8 +382,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ToolbarControlWebViewActivity"
-            android:label="@string/title_activity_toolbarcontrolwebview"
+            android:name=".StickyHeaderWebViewActivity"
+            android:label="@string/title_activity_stickyheaderwebview"
             android:theme="@style/AppTheme.Toolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

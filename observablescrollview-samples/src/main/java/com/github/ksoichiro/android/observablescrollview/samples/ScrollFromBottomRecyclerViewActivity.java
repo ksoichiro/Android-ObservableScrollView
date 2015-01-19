@@ -48,7 +48,7 @@ public class ScrollFromBottomRecyclerViewActivity extends BaseActivity implement
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_toolbarcontrolrecyclerview);
+        setContentView(R.layout.activity_stickyheaderrecyclerview);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 

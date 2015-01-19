@@ -30,7 +30,7 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
-public class ToolbarControlRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
+public class StickyHeaderRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private View mHeaderView;
     private View mToolbarView;
@@ -40,7 +40,7 @@ public class ToolbarControlRecyclerViewActivity extends BaseActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_toolbarcontrolrecyclerview);
+        setContentView(R.layout.activity_stickyheaderrecyclerview);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
