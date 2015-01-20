@@ -35,6 +35,7 @@ public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerA
 
     private static final String STATE_SUPER_STATE = "superState";
     private static final String STATE_PAGES = "pages";
+    private static final String STATE_PAGE_INDEX_PREFIX = "pageIndex:";
     private static final String STATE_PAGE_KEY_PREFIX = "page:";
 
     private FragmentManager mFm;
@@ -55,8 +56,10 @@ public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerA
         bundle.putInt(STATE_PAGES, mPages.size());
         if (0 < mPages.size()) {
             for (int i = 0; i < mPages.size(); i++) {
-                Fragment f = mPages.get(i);
-                mFm.putFragment(bundle, createCacheKey(i), f);
+                int position = mPages.keyAt(i);
+                bundle.putInt(createCacheIndex(i), position);
+                Fragment f = mPages.get(position);
+                mFm.putFragment(bundle, createCacheKey(position), f);
             }
         }
         return bundle;
@@ -68,8 +71,9 @@ public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerA
         int pages = bundle.getInt(STATE_PAGES);
         if (0 < pages) {
             for (int i = 0; i < pages; i++) {
-                Fragment f = mFm.getFragment(bundle, createCacheKey(i));
-                mPages.put(i, f);
+                int position = bundle.getInt(createCacheIndex(i));
+                Fragment f = mFm.getFragment(bundle, createCacheKey(position));
+                mPages.put(position, f);
             }
         }
 
@@ -123,6 +127,16 @@ public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerA
      * @return fragment instance
      */
     protected abstract Fragment createItem(int position);
+
+    /**
+     * Create an index string for caching Fragment pages.
+     *
+     * @param index index of the item in the adapter
+     * @return key string for caching Fragment pages
+     */
+    protected String createCacheIndex(int index) {
+        return STATE_PAGE_INDEX_PREFIX + index;
+    }
 
     /**
      * Create a key string for caching Fragment pages.
