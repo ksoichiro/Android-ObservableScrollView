@@ -24,6 +24,16 @@ android {
     defaultConfig {
         minSdkVersion 9
     }
+
+    jacoco {
+        version = '0.7.2.201409121644'
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
+    }
 }
 
 // This is from 'https://github.com/chrisbanes/gradle-mvn-push'
