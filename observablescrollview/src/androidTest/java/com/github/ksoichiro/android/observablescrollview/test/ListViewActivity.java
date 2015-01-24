@@ -1,15 +1,19 @@
-package com.github.ksoichiro.android.observablescrollview;
+package com.github.ksoichiro.android.observablescrollview.test;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.github.ksoichiro.android.observablescrollview.ObservableListView;
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
+import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
 public class ListViewActivity extends Activity implements ObservableScrollViewCallbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.github.ksoichiro.android.observablescrollview.test.R.layout.activity_listview);
-        UiTestUtils.setDummyData(this, (ObservableListView) findViewById(com.github.ksoichiro.android.observablescrollview.test.R.id.scrollable));
+        setContentView(R.layout.activity_listview);
+        UiTestUtils.setDummyData(this, (ObservableListView) findViewById(R.id.scrollable));
     }
 
     @Override

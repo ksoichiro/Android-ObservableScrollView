@@ -1,4 +1,4 @@
-package com.github.ksoichiro.android.observablescrollview;
+package com.github.ksoichiro.android.observablescrollview.test;
 
 import android.graphics.Color;
 import android.test.InstrumentationTestCase;

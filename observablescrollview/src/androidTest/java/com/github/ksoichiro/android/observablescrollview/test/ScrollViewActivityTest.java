@@ -1,21 +1,23 @@
-package com.github.ksoichiro.android.observablescrollview;
+package com.github.ksoichiro.android.observablescrollview.test;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-public class ListViewActivityTest extends ActivityInstrumentationTestCase2<ListViewActivity> {
+import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 
-    private ObservableListView scrollable;
+public class ScrollViewActivityTest extends ActivityInstrumentationTestCase2<ScrollViewActivity> {
 
-    public ListViewActivityTest() {
-        super(ListViewActivity.class);
+    private ObservableScrollView scrollable;
+
+    public ScrollViewActivityTest() {
+        super(ScrollViewActivity.class);
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         setActivityInitialTouchMode(true);
-        final ListViewActivity activity = getActivity();
-        scrollable = (ObservableListView) activity.findViewById(com.github.ksoichiro.android.observablescrollview.test.R.id.scrollable);
+        ScrollViewActivity activity = getActivity();
+        scrollable = (ObservableScrollView) activity.findViewById(R.id.scrollable);
     }
 
     public void testScroll() throws Throwable {

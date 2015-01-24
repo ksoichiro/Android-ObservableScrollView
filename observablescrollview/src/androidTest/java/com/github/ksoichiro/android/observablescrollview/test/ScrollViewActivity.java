@@ -1,4 +1,4 @@
-package com.github.ksoichiro.android.observablescrollview;
+package com.github.ksoichiro.android.observablescrollview.test;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ public class ScrollViewActivity extends Activity implements ObservableScrollView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.github.ksoichiro.android.observablescrollview.test.R.layout.activity_scrollview);
+        setContentView(R.layout.activity_scrollview);
     }
 
     @Override

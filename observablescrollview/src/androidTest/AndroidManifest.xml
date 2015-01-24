@@ -15,7 +15,7 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.ksoichiro.android.observablescrollview">
+    package="com.github.ksoichiro.android.observablescrollview.test">
 
     <application>
         <uses-library android:name="android.test.runner" />
