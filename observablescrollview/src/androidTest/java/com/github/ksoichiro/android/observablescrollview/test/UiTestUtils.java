@@ -20,7 +20,7 @@ public class UiTestUtils {
     private static final int NUM_OF_ITEMS_FEW = 3;
 
     public enum Direction {
-        UP, DOWN
+        LEFT, RIGHT, UP, DOWN
     }
 
     private UiTestUtils() {
@@ -38,6 +38,22 @@ public class UiTestUtils {
             }
         });
         test.getInstrumentation().waitForIdleSync();
+    }
+
+    public static void swipeHorizontally(InstrumentationTestCase test, View v, Direction direction) {
+        int[] xy = new int[2];
+        v.getLocationOnScreen(xy);
+
+        final int viewWidth = v.getWidth();
+        final int viewHeight = v.getHeight();
+
+        float distanceFromEdge = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8,
+                v.getResources().getDisplayMetrics());
+        float xStart = xy[0] + ((direction == Direction.LEFT) ? (viewWidth - distanceFromEdge) : distanceFromEdge);
+        float xEnd = xy[0] + ((direction == Direction.LEFT) ? distanceFromEdge : (viewWidth - distanceFromEdge));
+        float y = xy[1] + (viewHeight / 2.0f);
+
+        TouchUtils.drag(test, xStart, xEnd, y, y, 100);
     }
 
     public static void swipeVertically(InstrumentationTestCase test, View v, Direction direction) {
@@ -84,6 +100,11 @@ public class UiTestUtils {
         listView.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, getDummyData(num)));
     }
 
+    public static void setDummyDataWithHeader(Context context, ListView listView, View headerView) {
+        listView.addHeaderView(headerView);
+        setDummyData(context, listView);
+    }
+
     public static void setDummyData(Context context, RecyclerView recyclerView) {
         setDummyData(context, recyclerView, NUM_OF_ITEMS);
     }
@@ -94,5 +115,9 @@ public class UiTestUtils {
 
     public static void setDummyData(Context context, RecyclerView recyclerView, int num) {
         recyclerView.setAdapter(new SimpleRecyclerAdapter(context, getDummyData(num)));
+    }
+
+    public static void setDummyDataWithHeader(Context context, RecyclerView recyclerView, View headerView) {
+        recyclerView.setAdapter(new SimpleHeaderRecyclerAdapter(context, getDummyData(), headerView));
     }
 }
