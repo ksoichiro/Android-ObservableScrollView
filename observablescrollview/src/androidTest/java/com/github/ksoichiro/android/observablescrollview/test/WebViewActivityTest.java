@@ -3,15 +3,15 @@ package com.github.ksoichiro.android.observablescrollview.test;
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
+import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
 
-public class ScrollViewActivityTest extends ActivityInstrumentationTestCase2<ScrollViewActivity> {
+public class WebViewActivityTest extends ActivityInstrumentationTestCase2<WebViewActivity> {
 
     private Activity activity;
-    private ObservableScrollView scrollable;
+    private ObservableWebView scrollable;
 
-    public ScrollViewActivityTest() {
-        super(ScrollViewActivity.class);
+    public WebViewActivityTest() {
+        super(WebViewActivity.class);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class ScrollViewActivityTest extends ActivityInstrumentationTestCase2<Scr
         super.setUp();
         setActivityInitialTouchMode(true);
         activity = getActivity();
-        scrollable = (ObservableScrollView) activity.findViewById(R.id.scrollable);
+        scrollable = (ObservableWebView) activity.findViewById(R.id.scrollable);
     }
 
     public void testScroll() throws Throwable {

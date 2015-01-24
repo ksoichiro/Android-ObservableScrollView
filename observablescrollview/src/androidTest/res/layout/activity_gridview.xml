@@ -13,17 +13,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.ksoichiro.android.observablescrollview.test">
-
-    <application>
-        <uses-library android:name="android.test.runner" />
-        <activity android:name=".GridViewActivity" />
-        <activity android:name=".ListViewActivity" />
-        <activity android:name=".RecyclerViewActivity" />
-        <activity android:name=".ScrollViewActivity" />
-        <activity android:name=".WebViewActivity" />
-    </application>
-
-</manifest>
+<com.github.ksoichiro.android.observablescrollview.ObservableGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollable"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:numColumns="2" />

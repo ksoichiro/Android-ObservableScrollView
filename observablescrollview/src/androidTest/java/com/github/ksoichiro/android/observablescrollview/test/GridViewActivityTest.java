@@ -3,15 +3,15 @@ package com.github.ksoichiro.android.observablescrollview.test;
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
+import com.github.ksoichiro.android.observablescrollview.ObservableGridView;
 
-public class ScrollViewActivityTest extends ActivityInstrumentationTestCase2<ScrollViewActivity> {
+public class GridViewActivityTest extends ActivityInstrumentationTestCase2<GridViewActivity> {
 
     private Activity activity;
-    private ObservableScrollView scrollable;
+    private ObservableGridView scrollable;
 
-    public ScrollViewActivityTest() {
-        super(ScrollViewActivity.class);
+    public GridViewActivityTest() {
+        super(GridViewActivity.class);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class ScrollViewActivityTest extends ActivityInstrumentationTestCase2<Scr
         super.setUp();
         setActivityInitialTouchMode(true);
         activity = getActivity();
-        scrollable = (ObservableScrollView) activity.findViewById(R.id.scrollable);
+        scrollable = (ObservableGridView) activity.findViewById(R.id.scrollable);
     }
 
     public void testScroll() throws Throwable {

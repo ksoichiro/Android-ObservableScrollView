@@ -1,11 +1,15 @@
 package com.github.ksoichiro.android.observablescrollview.test;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.test.InstrumentationTestCase;
 import android.test.TouchUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -20,6 +24,20 @@ public class UiTestUtils {
     }
 
     private UiTestUtils() {
+    }
+
+    public static void saveAndRestoreInstanceState(final InstrumentationTestCase test, final Activity activity) throws Throwable {
+        test.runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Bundle outState = new Bundle();
+                test.getInstrumentation().callActivityOnSaveInstanceState(activity, outState);
+                test.getInstrumentation().callActivityOnPause(activity);
+                test.getInstrumentation().callActivityOnResume(activity);
+                test.getInstrumentation().callActivityOnRestoreInstanceState(activity, outState);
+            }
+        });
+        test.getInstrumentation().waitForIdleSync();
     }
 
     public static void swipeVertically(InstrumentationTestCase test, View v, Direction direction) {
@@ -50,6 +68,10 @@ public class UiTestUtils {
         return items;
     }
 
+    public static void setDummyData(Context context, GridView gridView) {
+        gridView.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, getDummyData()));
+    }
+
     public static void setDummyData(Context context, ListView listView) {
         setDummyData(context, listView, NUM_OF_ITEMS);
     }
@@ -60,5 +82,17 @@ public class UiTestUtils {
 
     public static void setDummyData(Context context, ListView listView, int num) {
         listView.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, getDummyData(num)));
+    }
+
+    public static void setDummyData(Context context, RecyclerView recyclerView) {
+        setDummyData(context, recyclerView, NUM_OF_ITEMS);
+    }
+
+    public static void setDummyDataFew(Context context, RecyclerView recyclerView) {
+        setDummyData(context, recyclerView, NUM_OF_ITEMS_FEW);
+    }
+
+    public static void setDummyData(Context context, RecyclerView recyclerView, int num) {
+        recyclerView.setAdapter(new SimpleRecyclerAdapter(context, getDummyData(num)));
     }
 }

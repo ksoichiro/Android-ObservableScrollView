@@ -1,11 +1,13 @@
 package com.github.ksoichiro.android.observablescrollview.test;
 
+import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 
 public class ListViewActivityTest extends ActivityInstrumentationTestCase2<ListViewActivity> {
 
+    private Activity activity;
     private ObservableListView scrollable;
 
     public ListViewActivityTest() {
@@ -16,7 +18,7 @@ public class ListViewActivityTest extends ActivityInstrumentationTestCase2<ListV
     protected void setUp() throws Exception {
         super.setUp();
         setActivityInitialTouchMode(true);
-        final ListViewActivity activity = getActivity();
+        activity = getActivity();
         scrollable = (ObservableListView) activity.findViewById(R.id.scrollable);
     }
 
@@ -28,4 +30,8 @@ public class ListViewActivityTest extends ActivityInstrumentationTestCase2<ListV
         getInstrumentation().waitForIdleSync();
     }
 
+    public void testSaveAndRestoreInstanceState() throws Throwable {
+        UiTestUtils.saveAndRestoreInstanceState(this, activity);
+        testScroll();
+    }
 }

@@ -13,7 +13,9 @@ public class ListViewActivity extends Activity implements ObservableScrollViewCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listview);
-        UiTestUtils.setDummyData(this, (ObservableListView) findViewById(R.id.scrollable));
+        ObservableListView scrollable = (ObservableListView) findViewById(R.id.scrollable);
+        scrollable.setScrollViewCallbacks(this);
+        UiTestUtils.setDummyData(this, scrollable);
     }
 
     @Override
