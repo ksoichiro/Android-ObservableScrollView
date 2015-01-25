@@ -101,6 +101,18 @@ public class ViewPagerTabActivity extends ActionBarActivity implements Observabl
         adjustToolbar(scrollState, view);
     }
 
+    public Scrollable getCurrentScrollable() {
+        Fragment fragment = getCurrentFragment();
+        if (fragment == null) {
+            return null;
+        }
+        View view = fragment.getView();
+        if (view == null) {
+            return null;
+        }
+        return (Scrollable) view.findViewById(R.id.scroll);
+    }
+
     private void adjustToolbar(ScrollState scrollState, View view) {
         int toolbarHeight = mToolbarView.getHeight();
         final Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
@@ -130,7 +142,7 @@ public class ViewPagerTabActivity extends ActionBarActivity implements Observabl
         }
     }
 
-    private Fragment getCurrentFragment() {
+    public Fragment getCurrentFragment() {
         return mPagerAdapter.getItemAt(mPager.getCurrentItem());
     }
 

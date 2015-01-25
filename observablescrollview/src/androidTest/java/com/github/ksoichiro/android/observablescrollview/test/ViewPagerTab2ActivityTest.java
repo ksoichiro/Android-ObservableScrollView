@@ -3,12 +3,12 @@ package com.github.ksoichiro.android.observablescrollview.test;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 
-public class ViewPagerTabActivityTest extends ActivityInstrumentationTestCase2<ViewPagerTabActivity> {
+public class ViewPagerTab2ActivityTest extends ActivityInstrumentationTestCase2<ViewPagerTab2Activity> {
 
-    private ViewPagerTabActivity activity;
+    private ViewPagerTab2Activity activity;
 
-    public ViewPagerTabActivityTest() {
-        super(ViewPagerTabActivity.class);
+    public ViewPagerTab2ActivityTest() {
+        super(ViewPagerTab2Activity.class);
     }
 
     @Override
@@ -19,12 +19,12 @@ public class ViewPagerTabActivityTest extends ActivityInstrumentationTestCase2<V
     }
 
     public void testScroll() throws Throwable {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             UiTestUtils.swipeHorizontally(this, activity.findViewById(R.id.pager), UiTestUtils.Direction.LEFT);
             getInstrumentation().waitForIdleSync();
             scroll();
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             UiTestUtils.swipeHorizontally(this, activity.findViewById(R.id.pager), UiTestUtils.Direction.RIGHT);
             getInstrumentation().waitForIdleSync();
             scroll();
@@ -42,7 +42,7 @@ public class ViewPagerTabActivityTest extends ActivityInstrumentationTestCase2<V
     }
 
     public void testSaveAndRestoreInstanceState() throws Throwable {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             UiTestUtils.saveAndRestoreInstanceState(this, activity);
             scroll();
 

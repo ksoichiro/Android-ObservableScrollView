@@ -21,9 +21,11 @@
         <uses-library android:name="android.test.runner" />
         <activity android:name=".GridViewActivity" />
         <activity android:name=".ListViewActivity" />
+        <activity android:name=".ListViewScrollFromBottomActivity" />
         <activity android:name=".RecyclerViewActivity" />
         <activity android:name=".ScrollViewActivity" />
         <activity android:name=".ViewPagerTabActivity" android:theme="@style/AppTheme.Toolbar" />
+        <activity android:name=".ViewPagerTab2Activity" android:theme="@style/AppTheme.Toolbar" />
         <activity android:name=".WebViewActivity" />
     </application>
 

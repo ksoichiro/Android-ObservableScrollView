@@ -2,6 +2,8 @@ package com.github.ksoichiro.android.observablescrollview.test;
 
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
@@ -34,5 +36,24 @@ public class RecyclerViewActivityTest extends ActivityInstrumentationTestCase2<R
     public void testSaveAndRestoreInstanceState() throws Throwable {
         UiTestUtils.saveAndRestoreInstanceState(this, activity);
         testScroll();
+    }
+
+    public void testScrollVerticallyTo() throws Throwable {
+        final DisplayMetrics metrics = activity.getResources().getDisplayMetrics();
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                scrollable.scrollVerticallyTo((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, metrics));
+            }
+        });
+        getInstrumentation().waitForIdleSync();
+
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                scrollable.scrollVerticallyTo(0);
+            }
+        });
+        getInstrumentation().waitForIdleSync();
     }
 }

@@ -18,6 +18,7 @@ public class UiTestUtils {
 
     private static final int NUM_OF_ITEMS = 100;
     private static final int NUM_OF_ITEMS_FEW = 3;
+    private static final int DRAG_STEP_COUNT = 50;
 
     public enum Direction {
         LEFT, RIGHT, UP, DOWN
@@ -53,7 +54,7 @@ public class UiTestUtils {
         float xEnd = xy[0] + ((direction == Direction.LEFT) ? distanceFromEdge : (viewWidth - distanceFromEdge));
         float y = xy[1] + (viewHeight / 2.0f);
 
-        TouchUtils.drag(test, xStart, xEnd, y, y, 100);
+        TouchUtils.drag(test, xStart, xEnd, y, y, DRAG_STEP_COUNT);
     }
 
     public static void swipeVertically(InstrumentationTestCase test, View v, Direction direction) {
@@ -69,7 +70,7 @@ public class UiTestUtils {
         float yStart = xy[1] + ((direction == Direction.UP) ? (viewHeight - distanceFromEdge) : distanceFromEdge);
         float yEnd = xy[1] + ((direction == Direction.UP) ? distanceFromEdge : (viewHeight - distanceFromEdge));
 
-        TouchUtils.drag(test, x, x, yStart, yEnd, 100);
+        TouchUtils.drag(test, x, x, yStart, yEnd, DRAG_STEP_COUNT);
     }
 
     public static ArrayList<String> getDummyData() {
