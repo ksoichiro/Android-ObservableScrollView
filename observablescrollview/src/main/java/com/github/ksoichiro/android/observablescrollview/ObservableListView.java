@@ -322,7 +322,7 @@ public class ObservableListView extends ListView implements Scrollable {
         /**
          * Called by onSaveInstanceState.
          */
-        private SavedState(Parcelable superState) {
+        SavedState(Parcelable superState) {
             super(superState);
         }
 

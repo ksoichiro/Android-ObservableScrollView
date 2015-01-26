@@ -349,7 +349,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         /**
          * Called by onSaveInstanceState.
          */
-        private SavedState(Parcelable superState) {
+        SavedState(Parcelable superState) {
             this.superState = superState != EMPTY_STATE ? superState : null;
         }
 

@@ -214,7 +214,7 @@ public class ObservableWebView extends WebView implements Scrollable {
         /**
          * Called by onSaveInstanceState.
          */
-        private SavedState(Parcelable superState) {
+        SavedState(Parcelable superState) {
             super(superState);
         }
 

@@ -216,7 +216,7 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
         /**
          * Called by onSaveInstanceState.
          */
-        private SavedState(Parcelable superState) {
+        SavedState(Parcelable superState) {
             super(superState);
         }
 
