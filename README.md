@@ -2,6 +2,7 @@ Android-ObservableScrollView
 ===
 
 [![Build Status](http://img.shields.io/travis/ksoichiro/Android-ObservableScrollView.svg?style=flat)](https://travis-ci.org/ksoichiro/Android-ObservableScrollView)
+[![Coverage Status](https://img.shields.io/coveralls/ksoichiro/Android-ObservableScrollView/master.svg?style=flat)](https://coveralls.io/r/ksoichiro/Android-ObservableScrollView?branch=master)
 [![Maven Central](http://img.shields.io/maven-central/v/com.github.ksoichiro/android-observablescrollview.svg?style=flat)](https://github.com/ksoichiro/Android-ObservableScrollView/releases/latest)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android--ObservableScrollView-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1136)
 
