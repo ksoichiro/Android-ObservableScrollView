@@ -3,6 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.1.0'
         classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
@@ -41,6 +42,10 @@ android {
         }
     }
 }
+
+apply plugin: 'com.github.kt3k.coveralls'
+
+coveralls.jacocoReportPath = 'build/outputs/reports/coverage/debug/report.xml'
 
 // This is from 'https://github.com/chrisbanes/gradle-mvn-push'
 apply from: 'gradle-mvn-push.gradle'

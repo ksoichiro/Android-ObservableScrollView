@@ -3,19 +3,21 @@ android:
   components:
     - build-tools-21.1.1
     - tools
-    #- android-19
+    - android-19
     - android-21
-    #- system-image
+    - system-image
     - extra-android-support
     - extra-android-m2repository
   licenses:
     - 'android-sdk-license-.+'
-#before_script:
-    #- echo no | android create avd --force -n test -t android-19 --abi default/armeabi-v7a
-    #- emulator -avd test -no-skin -no-audio -no-window &
-    #- android-wait-for-emulator
+before_script:
+    - echo no | android create avd --force -n test -t android-19 --abi default/armeabi-v7a
+    - emulator -avd test -no-skin -no-audio -no-window &
+    - android-wait-for-emulator
 script:
     # Release build type is only for Google Play store currently,
     # which resolve dependency from Maven Central.
     # This causes build errors while developing a new feature, so disable release build.
-    - travis_retry ./gradlew --full-stacktrace -q assembleDebug
+    - travis_retry ./gradlew --full-stacktrace -q assembleDebug connectedCheck
+after_success:
+    - ./gradlew :observablescrollview:coveralls
