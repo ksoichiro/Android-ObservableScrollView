@@ -99,7 +99,7 @@ public abstract class ToolbarControlBaseActivity<S extends Scrollable> extends B
                 ViewHelper.setTranslationY(mToolbar, translationY);
                 ViewHelper.setTranslationY((View) mScrollable, translationY);
                 FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) mScrollable).getLayoutParams();
-                lp.height = (int) -translationY + getScreenHeight();
+                lp.height = (int) -translationY + getScreenHeight() - lp.topMargin;
                 ((View) mScrollable).requestLayout();
             }
         });
