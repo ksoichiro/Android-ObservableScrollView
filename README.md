@@ -62,7 +62,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ksoichiro:android-observablescrollview:1.4.0'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.0'
 }
 ```
 
@@ -130,6 +130,9 @@ This project is built and tested under the following environment.
 
 ## Release notes
 
+* v1.5.0
+    * Add a helper class `CacheFragmentStatePagerAdapter` to implement ViewPager pattern.
+    * Fix that swipe down (over-scroll) causes item click.
 * v1.4.0
     * Add a custom view named `TouchInterceptionFrameLayout` and a new API `setTouchInterceptionViewGroup()` for `Scrollable`.  
       With these class and API, you can move `Scrollable` itself using its scrolling events.
