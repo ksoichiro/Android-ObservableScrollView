@@ -80,6 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="center"
+        android:layout_gravity="left|top"
         app:fab_colorNormal="@color/accentLight"
         app:fab_colorPressed="@color/accent" />
 </FrameLayout>
