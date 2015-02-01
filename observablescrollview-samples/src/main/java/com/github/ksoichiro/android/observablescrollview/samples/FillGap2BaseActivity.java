@@ -16,6 +16,7 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
+import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
 
 /**
@@ -25,11 +26,6 @@ import com.github.ksoichiro.android.observablescrollview.Scrollable;
  */
 public abstract class FillGap2BaseActivity<S extends Scrollable> extends FillGapBaseActivity<S> {
     protected float getHeaderTranslationY(int scrollY) {
-        final int headerHeight = mHeaderBar.getHeight();
-        int headerTranslationY = 0;
-        if (0 <= -scrollY + mFlexibleSpaceImageHeight - headerHeight) {
-            headerTranslationY = -scrollY + mFlexibleSpaceImageHeight - headerHeight;
-        }
-        return headerTranslationY;
+        return ScrollUtils.getFloat(-scrollY + mFlexibleSpaceImageHeight - mHeaderBar.getHeight(), 0, Float.MAX_VALUE);
     }
 }
