@@ -97,6 +97,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
         android:scaleType="center"
         app:fab_colorNormal="@color/accentLight"
         app:fab_colorPressed="@color/accent" />
