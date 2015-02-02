@@ -56,7 +56,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/margin_standard">
+        android:paddingEnd="@dimen/margin_standard"
+        android:paddingLeft="@dimen/margin_standard"
+        android:paddingStart="@dimen/margin_standard">
 
         <TextView
             android:id="@+id/title"
