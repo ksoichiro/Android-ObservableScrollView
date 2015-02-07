@@ -16,6 +16,8 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -39,8 +41,8 @@ public class AboutActivity extends ActionBarActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setHomeButtonEnabled(true);
         }
-        ((TextView) findViewById(R.id.app_version)).setText(getString(R.string.msg_app_version, BuildConfig.VERSION_NAME, BuildConfig.GIT_HASH));
-        ((TextView) findViewById(R.id.lib_version)).setText(getString(R.string.msg_lib_version, BuildConfig.LIB_VERSION));
+        ((TextView) findViewById(R.id.app_version)).setText(getString(R.string.msg_app_version, getVersionName(), VersionInfo.BUILD));
+        ((TextView) findViewById(R.id.lib_version)).setText(getString(R.string.msg_lib_version, VersionInfo.LIBRARY_VERSION));
 
         initLicenses();
     }
@@ -105,5 +107,17 @@ public class AboutActivity extends ActionBarActivity {
 
     private View createDivider(final LayoutInflater inflater) {
         return inflater.inflate(R.layout.divider, null);
+    }
+
+    private String getVersionName() {
+        final PackageManager manager = getPackageManager();
+        String versionName;
+        try {
+            final PackageInfo info = manager.getPackageInfo(getPackageName(), PackageManager.GET_META_DATA);
+            versionName = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            versionName = "";
+        }
+        return versionName;
     }
 }

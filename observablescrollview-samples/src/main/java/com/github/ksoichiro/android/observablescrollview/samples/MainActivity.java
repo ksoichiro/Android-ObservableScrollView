@@ -38,7 +38,7 @@ import java.util.Map;
 
 
 public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
-    private static final String CATEGORY_SAMPLES = BuildConfig.APPLICATION_ID;
+    private static final String CATEGORY_SAMPLES = MainActivity.class.getPackage().getName();
     private static final String TAG_CLASS_NAME = "className";
     private static final String TAG_DESCRIPTION = "description";
     private static final String TAG_INTENT = "intent";
@@ -85,6 +85,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.setPackage(getApplicationContext().getPackageName());
         mainIntent.addCategory(CATEGORY_SAMPLES);
 
         PackageManager pm = getPackageManager();
