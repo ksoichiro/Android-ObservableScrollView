@@ -6,3 +6,7 @@ private.properties
 /.idea/
 .DS_Store
 /build
+bin/
+gen/
+libs/
+aarDependencies/

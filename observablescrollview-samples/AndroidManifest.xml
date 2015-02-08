@@ -15,9 +15,14 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.github.ksoichiro.android.observablescrollview.samples">
+    package="com.github.ksoichiro.android.observablescrollview.samples"
+    android:versionCode="5"
+    android:versionName="1.3.0">
 
-    <uses-sdk tools:overrideLibrary="com.melnykov.fab" />
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="21"
+        tools:overrideLibrary="com.melnykov.fab" />
 
     <application
         android:allowBackup="true"

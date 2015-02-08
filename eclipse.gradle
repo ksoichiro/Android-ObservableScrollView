@@ -1,0 +1,273 @@
+// Eclipse supporting script based on:
+// http://www.nodeclipse.org/projects/gradle/android/aar-for-Eclipse
+
+project.ext.eclipseSupport = new Expando()
+project.ext.eclipseSupport.androidTarget = 'android-21'
+project.ext.eclipseSupport.aarDependenciesDir = 'aarDependencies'
+project.ext.eclipseSupport.jarDependencies = [] as Set
+project.ext.eclipseSupport.aarDependencies = [] as Set
+
+task cleanEclipseDependencies {
+    description = 'Used for Eclipse. Cleans dependencies directory.'
+    doLast {
+        [ project.file(project.ext.eclipseSupport.aarDependenciesDir), project.file('libs') ].each {
+            if (it.exists()) {
+                project.delete(it)
+                println "Deleted ${it}"
+            }
+        }
+    }
+}
+
+task generateEclipseDependencies(dependsOn: 'cleanEclipseDependencies') {
+    description = 'Used for Eclipse. Copies all dependencies for library directory.'
+    doLast {
+        def aggregateJarFrom = { task ->
+            println "Aggregating JAR dependencies from ${task.name} configuration"
+            task.filter {
+                it.name.endsWith 'jar'
+            }.each { File jar -> project.ext.eclipseSupport.jarDependencies << jar }
+        }
+
+        def aggregateAarFrom = { task ->
+            println "Aggregating AAR dependencies from ${task.name} configuration"
+            task.filter { File aar ->
+                aar.name.endsWith('aar') && isRequired(aar)
+            }.each { File aar -> project.ext.eclipseSupport.aarDependencies << aar }
+        }
+
+        // Ignoring release and androidTest configurations.
+        project.parent.subprojects.each {
+            [it.configurations.compile, it.configurations.debugCompile].each {
+                aggregateJarFrom it
+                aggregateAarFrom it
+            }
+        }
+
+        def extractJarFrom = { task ->
+            println "Extracting JAR dependencies from ${task.name} configuration"
+            task.filter {
+                it.name.endsWith 'jar'
+            }.each { File jar -> moveJarIntoLibs(jar) }
+        }
+
+        def extractAarFrom = { task ->
+            println "Extracting AAR dependencies from ${task.name} configuration"
+            task.filter { File aar ->
+                aar.name.endsWith('aar') && isRequired(aar)
+            }.each { File aar -> moveAndRenameAar(aar) }
+        }
+
+        project.parent.subprojects.each {
+            [it.configurations.compile, it.configurations.debugCompile].each {
+                extractJarFrom it
+                extractAarFrom it
+            }
+        }
+
+        project.file(project.ext.eclipseSupport.aarDependenciesDir).listFiles().findAll {
+            it.isDirectory()
+        }.each { aar ->
+            generateProjectPropertiesFile(aar)
+            generateEclipseClasspathFile(aar)
+            generateEclipseProjectFile(aar)
+        }
+    }
+}
+
+boolean isRequired(File aar) {
+    def name = getDependencyProjectName(aar)
+    boolean result = false
+    project.file('project.properties').eachLine { String line ->
+        if (line.matches("^android.library.reference.[0-9]+=${project.ext.eclipseSupport.aarDependenciesDir}/${name}")) {
+            result = true
+        }
+    }
+    result
+}
+
+String getDependencyProjectName(File file) {
+    file.name.lastIndexOf('.').with { it != -1 ? file.name[0..<it] : file.name }
+}
+
+void moveJarIntoLibs(File file) {
+    println "Added jar ${file}"
+    copyJarIfNewer('libs', file, false, { destDir ->
+        copy {
+            from file
+            into destDir
+        }
+    })
+}
+
+void moveAndRenameAar(File file) {
+    println "Added aar ${file}"
+    def dependencyProjectName = getDependencyProjectName(file)
+
+    // directory excluding the classes.jar
+    copy {
+        from zipTree(file)
+        exclude 'classes.jar'
+        into "${project.ext.eclipseSupport.aarDependenciesDir}/${dependencyProjectName}"
+    }
+
+    // Copies the classes.jar into the libs directory of the exploded AAR.
+    // In Eclipse you can then import this exploded ar as an Android project
+    // and then reference not only the classes but also the android resources :D
+    ["${project.ext.eclipseSupport.aarDependenciesDir}/${dependencyProjectName}/libs", "libs"].each { dest ->
+        def jarFileName = "${dependencyProjectName}.jar"
+        copyJarIfNewer(dest, file, true, { destDir ->
+            copy {
+                from zipTree(file)
+                include 'classes.jar'
+                into destDir
+                rename { String fileName ->
+                    fileName.replace('classes.jar', jarFileName)
+                }
+            }
+        })
+    }
+}
+
+void copyJarIfNewer(String libsDir, File dependency, boolean isAarDependency, Closure copyClosure) {
+    def dependencyFilename = dependency.name
+    def dependencyProjectName = getDependencyProjectName(dependency)
+    def dependencyName = getDependencyName(dependencyFilename)
+    def versionName = getVersionName(dependencyFilename)
+    boolean isNewer = false
+    boolean sameDependencyExists = false
+    def dependencies = isAarDependency ? project.ext.eclipseSupport.aarDependencies : project.ext.eclipseSupport.jarDependencies
+    dependencies.findAll { File it ->
+        // Check if there are any dependencies with the same name but different version
+        getDependencyName(it.name) == dependencyName && getVersionName(it.name) != versionName
+    }.each { File file ->
+        println "  Same dependency exists: ${dependencyFilename}, ${file.name}"
+        sameDependencyExists = true
+        def v1 = getVersionName(dependencyFilename)
+        def v2 = getVersionName(file.name)
+        // 'file' may be removed in previous loop
+        if (file.exists() && v1.isNewerThan(v2)) {
+            println "  Found older dependency. Copy ${dependencyFilename} to all subprojects"
+            isNewer = true
+            // Should be replaced to jarFilename jar
+            project.parent.subprojects.each { subProject2 ->
+                def subProjectLibDir = subProject2.file('libs')
+                if (isAarDependency) {
+                    subProjectLibDir.listFiles().findAll {
+                        it.isDirectory() && getDependencyName(it.name) == dependencyName
+                    }.each { File lib ->
+                        println "  REMOVED ${lib}"
+                        project.delete(lib)
+                        copy {
+                            from zipTree(dependency)
+                            exclude 'classes.jar'
+                            into "${project.ext.eclipseSupport.aarDependenciesDir}/${dependencyProjectName}"
+                        }
+                        copyClosure(subProjectLibDir)
+                    }
+                } else {
+                    subProjectLibDir.listFiles().findAll {
+                        !it.isDirectory() && getDependencyName(it.name) == dependencyName
+                    }.each { File lib ->
+                        println "  REMOVED ${lib}"
+                        project.delete(lib)
+                        copyClosure(subProjectLibDir)
+                    }
+                }
+            }
+        }
+    }
+    if (!sameDependencyExists || isNewer) {
+        println "  Copy new dependency: ${dependencyFilename}"
+        copyClosure(libsDir)
+    }
+}
+
+String getBaseName(String filename) {
+    filename.lastIndexOf('.').with { it != -1 ? filename[0..<it] : filename }
+}
+
+String getDependencyName(String jarFilename) {
+    def baseFilename = getBaseName(jarFilename)
+    baseFilename.lastIndexOf('-').with { it != -1 ? baseFilename[0..<it] : baseFilename }
+}
+
+String getVersionName(String jarFilename) {
+    def baseFilename = getBaseName(jarFilename)
+    baseFilename.lastIndexOf('-').with { it != -1 ? baseFilename.substring(it + 1) : baseFilename }
+}
+
+String.metaClass.isNewerThan = { String v2 ->
+    String v1 = delegate
+    def versions1 = v1.tokenize('.')
+    def versions2 = v2.tokenize('.')
+    for (int i = 0; i < Math.min(versions1.size(), versions2.size()); i++) {
+        int n1 = versions1[i].toInteger()
+        int n2 = versions2[i].toInteger()
+        if (n2 < n1) {
+            return true
+        }
+    }
+    versions2.size() < versions1.size()
+}
+
+void generateProjectPropertiesFile(File aar) {
+    project.file("${project.ext.eclipseSupport.aarDependenciesDir}/${aar.name}/project.properties").text = """\
+target=${project.ext.eclipseSupport.androidTarget}
+android.library=true
+"""
+}
+
+void generateEclipseClasspathFile(File aar) {
+    project.file("${project.ext.eclipseSupport.aarDependenciesDir}/${aar.name}/.classpath").text = """\
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry exported="true" kind="con" path="org.springsource.ide.eclipse.gradle.classpathcontainer"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>
+"""
+}
+
+void generateEclipseProjectFile(File aar) {
+    def name = aar.name
+    project.file("${project.ext.eclipseSupport.aarDependenciesDir}/${name}/.project").text = """\
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>${project.name}-${name}</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.android.ide.eclipse.adt.PreCompilerBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.android.ide.eclipse.adt.ApkBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.springsource.ide.eclipse.gradle.core.nature</nature>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
+	</natures>
+</projectDescription>
+"""
+}

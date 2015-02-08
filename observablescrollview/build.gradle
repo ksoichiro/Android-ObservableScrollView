@@ -41,6 +41,16 @@ android {
             testCoverageEnabled = true
         }
     }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 apply plugin: 'com.github.kt3k.coveralls'
@@ -49,3 +59,5 @@ coveralls.jacocoReportPath = 'build/outputs/reports/coverage/debug/report.xml'
 
 // This is from 'https://github.com/chrisbanes/gradle-mvn-push'
 apply from: 'gradle-mvn-push.gradle'
+
+apply from: '../eclipse.gradle'
