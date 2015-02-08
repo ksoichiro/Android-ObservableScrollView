@@ -66,8 +66,9 @@ dependencies {
 }
 ```
 
-Eclipse is not supported but if you really want to build on Eclipse, [see here](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/docs/eclipse.md).
-
+Basically this project supports Android Studio.  
+If you'd like to use Eclipse, please [see here](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/docs/eclipse.md).
+It's partially supported.
 
 ### Add widgets to your layout
 
