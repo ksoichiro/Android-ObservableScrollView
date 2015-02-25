@@ -109,5 +109,3 @@ android {
         output.outputFile = new File(apk.parentFile, newName)
     }
 }
-
-apply from: '../eclipse.gradle'

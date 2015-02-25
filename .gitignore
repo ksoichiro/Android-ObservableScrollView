@@ -10,3 +10,6 @@ bin/
 gen/
 libs/
 aarDependencies/
+.project
+.classpath
+project.properties
