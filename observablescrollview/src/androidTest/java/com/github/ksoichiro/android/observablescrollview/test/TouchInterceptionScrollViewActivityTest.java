@@ -2,16 +2,17 @@ package com.github.ksoichiro.android.observablescrollview.test;
 
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 
-public class TouchInterceptionActivityTest extends ActivityInstrumentationTestCase2<TouchIntereceptionActivity> {
+public class TouchInterceptionScrollViewActivityTest extends ActivityInstrumentationTestCase2<TouchInterceptionScrollViewActivity> {
 
     private Activity activity;
     private ObservableScrollView scrollable;
 
-    public TouchInterceptionActivityTest() {
-        super(TouchIntereceptionActivity.class);
+    public TouchInterceptionScrollViewActivityTest() {
+        super(TouchInterceptionScrollViewActivity.class);
     }
 
     @Override
@@ -23,6 +24,9 @@ public class TouchInterceptionActivityTest extends ActivityInstrumentationTestCa
     }
 
     public void testScroll() throws Throwable {
+        TouchUtils.touchAndCancelView(this, scrollable);
+        getInstrumentation().waitForIdleSync();
+
         UiTestUtils.swipeVertically(this, scrollable, UiTestUtils.Direction.UP);
         getInstrumentation().waitForIdleSync();
 

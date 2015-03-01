@@ -3,7 +3,9 @@ package com.github.ksoichiro.android.observablescrollview.test;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -11,7 +13,7 @@ import com.github.ksoichiro.android.observablescrollview.Scrollable;
 import com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout;
 import com.nineoldandroids.view.ViewHelper;
 
-public class TouchIntereceptionActivity extends Activity implements ObservableScrollViewCallbacks {
+public class TouchInterceptionWebViewActivity extends Activity implements ObservableScrollViewCallbacks {
 
     private TouchInterceptionFrameLayout mInterceptionLayout;
     private Scrollable mScrollable;
@@ -24,9 +26,11 @@ public class TouchIntereceptionActivity extends Activity implements ObservableSc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_touchinterception);
+        setContentView(R.layout.activity_touchinterception_webview);
+        ((TextView) findViewById(R.id.title)).setText(getClass().getSimpleName());
         mScrollable = (Scrollable) findViewById(R.id.scrollable);
         mScrollable.setScrollViewCallbacks(this);
+        ((WebView) mScrollable).loadUrl("file:///android_asset/lipsum.html");
 
         mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height);
         mHeaderBarHeight = getResources().getDimensionPixelSize(R.dimen.header_bar_height);
