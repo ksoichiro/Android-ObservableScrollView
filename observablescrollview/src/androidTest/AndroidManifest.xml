@@ -25,6 +25,7 @@
         <activity android:name=".RecyclerViewActivity" />
         <activity android:name=".RecyclerViewScrollFromBottomActivity" />
         <activity android:name=".ScrollViewActivity" />
+        <activity android:name=".TouchIntereceptionActivity" />
         <activity android:name=".ViewPagerTabActivity" android:theme="@style/AppTheme.Toolbar" />
         <activity android:name=".ViewPagerTab2Activity" android:theme="@style/AppTheme.Toolbar" />
         <activity android:name=".WebViewActivity" />

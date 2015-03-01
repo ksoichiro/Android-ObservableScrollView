@@ -15,4 +15,7 @@
 -->
 <resources>
     <dimen name="tab_height">48dp</dimen>
+    <dimen name="header_bar_height">72dp</dimen>
+    <dimen name="action_bar_size">56dp</dimen>
+    <dimen name="intersection_height">16dp</dimen>
 </resources>
