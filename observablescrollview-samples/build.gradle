@@ -93,6 +93,7 @@ android {
         main {
             manifest.srcFile 'AndroidManifest.xml'
             res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
         }
     }
 
