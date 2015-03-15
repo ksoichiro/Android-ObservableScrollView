@@ -45,10 +45,20 @@ If you are a wercker user, you can download the latest build artifact.
 
 Clone this repository and build the app using Gradle wrapper.
 
+Mac / Linux / Git Bash, Cygwin on Windows:
+
 ```sh
 $ git clone https://github.com/ksoichiro/Android-ObservableScrollView.git 
 $ cd Android-ObservableScrollView
 $ ./gradlew installDevDebug
+```
+
+Windows:
+
+```sh
+> git clone https://github.com/ksoichiro/Android-ObservableScrollView.git 
+> cd Android-ObservableScrollView
+> gradlew installDevDebug
 ```
 
 ## Usage
