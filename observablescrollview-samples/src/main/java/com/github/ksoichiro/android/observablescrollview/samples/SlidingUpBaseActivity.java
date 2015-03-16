@@ -24,6 +24,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -79,6 +80,12 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
     private boolean mHeaderColorChangedToBottom;
     private boolean mHeaderIsAtBottom;
     private boolean mHeaderIsNotAtBottom;
+    private View.OnClickListener fabClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(SlidingUpBaseActivity.this, "floating action button clicked", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +126,7 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
         mScrollable = createScrollable();
 
         mFab = findViewById(R.id.fab);
+        mFab.setOnClickListener(fabClickListener);
         mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
 
         mInterceptionLayout = (TouchInterceptionFrameLayout) findViewById(R.id.scroll_wrapper);
@@ -179,8 +187,17 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
         @Override
         public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffX, float diffY) {
             final int minInterceptionLayoutY = -mIntersectionHeight;
-            return minInterceptionLayoutY < (int) ViewHelper.getY(mInterceptionLayout)
-                    || (moving && mScrollable.getCurrentScrollY() - diffY < 0);
+
+            //slight fix for untappable floating action button for larger screens
+            Rect fabRect = new Rect();
+            mFab.getHitRect(fabRect);
+            //if the user's touch is within the floating action button's touch area, dont intercept
+            if (fabRect.contains((int)ev.getX(), (int)ev.getY())) {
+                return false;
+            }else{
+                return minInterceptionLayoutY < (int) ViewHelper.getY(mInterceptionLayout)
+                        || (moving && mScrollable.getCurrentScrollY() - diffY < 0);
+            }
         }
 
         @Override
