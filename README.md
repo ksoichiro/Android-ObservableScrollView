@@ -30,9 +30,14 @@ It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and m
 
 ## Samples
 
+You can install the sample app with the following methods.
+
 ### Google Play store
 
 [![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.github.ksoichiro.android.observablescrollview.samples2)
+
+Please note that the app on the Play Store is not always the latest version.  
+If you'd like to install the latest one, install it manually with Gradle.
 
 ### wercker
 
@@ -53,13 +58,17 @@ $ cd Android-ObservableScrollView
 $ ./gradlew installDevDebug
 ```
 
-Windows:
+Windows (Command prompt):
 
 ```sh
 > git clone https://github.com/ksoichiro/Android-ObservableScrollView.git 
 > cd Android-ObservableScrollView
 > gradlew installDevDebug
 ```
+
+### Install manually with IDE
+
+See README in the `observablescrollview-samples` directory.
 
 ## Usage
 
@@ -83,7 +92,13 @@ It's partially supported.
 
 ### Add widgets to your layout
 
-Use one of the `ObservableListView`, `ObservableScrollView`, `ObservableWebView`, `ObservableRecyclerView`, `ObservableGridView` in your XML layout file.
+Use one of the following widgets in your XML layout file.
+
+* `ObservableListView`
+* `ObservableScrollView`
+* `ObservableWebView`
+* `ObservableRecyclerView`
+* `ObservableGridView`
 
 ### Control scroll events with callbacks
 
@@ -210,4 +225,3 @@ Please check the [contributing guideline](https://github.com/ksoichiro/Android-O
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
