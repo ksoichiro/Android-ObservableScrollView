@@ -22,7 +22,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.melnykov:floatingactionbutton:1.0.7'
-    debugCompile project(':observablescrollview')
+    debugCompile project(':library')
     // Release build uses the synced latest version
     releaseCompile "com.github.ksoichiro:android-observablescrollview:${SYNCED_VERSION_NAME}"
 

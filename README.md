@@ -10,22 +10,22 @@ Android-ObservableScrollView
 Android library to observe scroll events on scrollable views.  
 It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and may be helpful to implement look and feel of Material Design apps.
 
-![](observablescrollview-samples/demo12.gif)
-![](observablescrollview-samples/demo10.gif)
-![](observablescrollview-samples/demo11.gif)
-![](observablescrollview-samples/demo13.gif)
+![](samples/images/demo12.gif)
+![](samples/images/demo10.gif)
+![](samples/images/demo11.gif)
+![](samples/images/demo13.gif)
 
-![](observablescrollview-samples/demo1.gif)
-![](observablescrollview-samples/demo2.gif)
-![](observablescrollview-samples/demo3.gif)
-![](observablescrollview-samples/demo4.gif)
+![](samples/images/demo1.gif)
+![](samples/images/demo2.gif)
+![](samples/images/demo3.gif)
+![](samples/images/demo4.gif)
 
-![](observablescrollview-samples/demo5.gif)
-![](observablescrollview-samples/demo6.gif)
-![](observablescrollview-samples/demo7.gif)
-![](observablescrollview-samples/demo8.gif)
+![](samples/images/demo5.gif)
+![](samples/images/demo6.gif)
+![](samples/images/demo7.gif)
+![](samples/images/demo8.gif)
 
-![](observablescrollview-samples/demo9.gif)
+![](samples/images/demo9.gif)
 
 
 ## Samples
@@ -68,7 +68,7 @@ Windows (Command prompt):
 
 ### Install manually with IDE
 
-See README in the `observablescrollview-samples` directory.
+See README in the `samples` directory.
 
 ## Usage
 
@@ -129,7 +129,7 @@ Example:
     }
 ```
 
-See [sample app's Activity codes](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/observablescrollview-samples/src/main/java/com/github/ksoichiro/android/observablescrollview/samples) for more details.
+See [sample app's Activity codes](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/samples/src/main/java/com/github/ksoichiro/android/observablescrollview/samples) for more details.
 
 
 ## Supported widgets
@@ -192,6 +192,10 @@ This project is built and tested under the following environment.
 
 If you're using this library in your app and you'd like to list it here,  
 please let me know via [email](soichiro.kashima@gmail.com) or pull requests or issues.
+
+
+## Frequently asked questions
+
 
 
 ## Contributions

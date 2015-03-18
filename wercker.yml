@@ -23,6 +23,6 @@ build:
     - script:
         name: inspect build result
         code: |
-          ls -la ./observablescrollview-samples/build/outputs/apk
-          cp ./observablescrollview-samples/build/outputs/apk/*.apk $WERCKER_REPORT_ARTIFACTS_DIR
+          ls -la ./samples/build/outputs/apk
+          cp ./samples/build/outputs/apk/*.apk $WERCKER_REPORT_ARTIFACTS_DIR
           rm -f $WERCKER_REPORT_ARTIFACTS_DIR/*-unaligned.apk

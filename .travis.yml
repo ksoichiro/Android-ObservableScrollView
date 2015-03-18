@@ -20,4 +20,4 @@ script:
     # This causes build errors while developing a new feature, so disable release build.
     - travis_retry ./gradlew --full-stacktrace -q assembleDevDebug connectedCheck
 after_success:
-    - ./gradlew :observablescrollview:coveralls
+    - ./gradlew :library:coveralls
