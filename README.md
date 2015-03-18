@@ -196,12 +196,12 @@ please let me know via [email](soichiro.kashima@gmail.com) or pull requests or i
 
 ## Frequently asked questions
 
-
+[Please see here](docs/faq.md).
 
 ## Contributions
 
 Any contributions are welcome!  
-Please check the [contributing guideline](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/CONTRIBUTING.md) before submitting a new issue.
+Please check the [FAQ](docs/faq.md) and [contributing guideline](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/CONTRIBUTING.md) before submitting a new issue.
 
 
 ## Developed By
