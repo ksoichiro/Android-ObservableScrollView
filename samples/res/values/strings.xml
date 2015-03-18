@@ -42,6 +42,7 @@
     <string name="title_activity_handletouchrecyclerview">Handling touch with RecyclerView</string>
     <string name="title_activity_handletouchscrollview">Handling touch with ScrollView</string>
     <string name="title_activity_handletouchwebview">Handling touch with WebView</string>
+    <string name="title_activity_parallaxtoolbarlistview">Parallax listView &amp; toolbar</string>
     <string name="title_activity_parallaxtoolbarscrollview">Parallax scrollView &amp; toolbar</string>
     <string name="title_activity_scrollfrombottomlistview">ListView, scrolling from bottom</string>
     <string name="title_activity_scrollfrombottomrecyclerview">RecyclerView, scrolling from bottom</string>
