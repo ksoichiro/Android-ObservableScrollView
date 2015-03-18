@@ -96,15 +96,24 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         super.onScrollChanged(l, t, oldl, oldt);
         if (mCallbacks != null) {
             if (getChildCount() > 0) {
-                int firstVisiblePosition = getChildPosition(getChildAt(0));
-                int lastVisiblePosition = getChildPosition(getChildAt(getChildCount() - 1));
+                int firstVisiblePosition;
+                int lastVisiblePosition;
+
+                if (getLayoutManager() instanceof LinearLayoutManager) {
+                    LinearLayoutManager manager = (LinearLayoutManager) getLayoutManager();
+                    firstVisiblePosition = manager.findFirstVisibleItemPosition();
+                    lastVisiblePosition = manager.findLastVisibleItemPosition();
+                } else {
+                    throw new IllegalArgumentException("need to be an LinearLayoutManager child");
+                }
+
                 for (int i = firstVisiblePosition, j = 0; i <= lastVisiblePosition; i++, j++) {
                     if (mChildrenHeights.indexOfKey(i) < 0 || getChildAt(j).getHeight() != mChildrenHeights.get(i)) {
                         mChildrenHeights.put(i, getChildAt(j).getHeight());
                     }
                 }
 
-                View firstVisibleChild = getChildAt(0);
+                View firstVisibleChild = getChildAt(firstVisiblePosition);
                 if (firstVisibleChild != null) {
                     if (mPrevFirstVisiblePosition < firstVisiblePosition) {
                         // scroll down
