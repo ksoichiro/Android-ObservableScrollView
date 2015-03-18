@@ -17,8 +17,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:orientation="vertical">
+    android:clipChildren="false">
 
     <FrameLayout
         android:id="@+id/image_holder"
