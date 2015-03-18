@@ -48,7 +48,7 @@ This will generate dependency codes from AAR files using Gradle wrapper and some
 1. Select `General` > `Existing Projects into Workspace` and click `Next`.
     * Warning: DO NOT `Android` > `Existing Android Code into Workspace`.
 1. Click `Browse` and select project root directory (`Android-ObservableScrollView`).
-1. Check `Search` for nested projects.
+1. Check `Search for nested projects`.
 1. Select all projects and click next.
 1. Some warning messages will be generated, but ignore them and wait until build finishes.
 
