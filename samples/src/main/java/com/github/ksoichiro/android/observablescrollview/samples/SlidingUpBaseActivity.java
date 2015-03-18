@@ -188,13 +188,13 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
         public boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffX, float diffY) {
             final int minInterceptionLayoutY = -mIntersectionHeight;
 
-            //slight fix for untappable floating action button for larger screens
+            // slight fix for untappable floating action button for larger screens
             Rect fabRect = new Rect();
             mFab.getHitRect(fabRect);
-            //if the user's touch is within the floating action button's touch area, dont intercept
-            if (fabRect.contains((int)ev.getX(), (int)ev.getY())) {
+            // if the user's touch is within the floating action button's touch area, don't intercept
+            if (fabRect.contains((int) ev.getX(), (int) ev.getY())) {
                 return false;
-            }else{
+            } else {
                 return minInterceptionLayoutY < (int) ViewHelper.getY(mInterceptionLayout)
                         || (moving && mScrollable.getCurrentScrollY() - diffY < 0);
             }
