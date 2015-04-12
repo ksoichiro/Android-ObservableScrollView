@@ -21,7 +21,7 @@
 
     <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="21"
+        android:targetSdkVersion="22"
         tools:overrideLibrary="com.melnykov.fab" />
 
     <application
@@ -31,7 +31,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.Toolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
