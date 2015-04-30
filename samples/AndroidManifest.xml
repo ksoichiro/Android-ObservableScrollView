@@ -227,6 +227,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FlexibleSpaceToolbarWebViewActivity"
+            android:label="@string/title_activity_flexiblespacewithwebview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.github.ksoichiro.android.observablescrollview.samples" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".FragmentActionBarControlListViewActivity"
             android:label="@string/title_activity_fragmentactionbarcontrollistview"
             android:theme="@style/AppTheme">

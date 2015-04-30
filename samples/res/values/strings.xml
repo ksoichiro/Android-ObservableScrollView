@@ -35,6 +35,7 @@
     <string name="title_activity_fillgapscrollview">Fill Gap &amp; ScrollView</string>
     <string name="title_activity_flexiblespacewithimageRecyclerview">Flexible Space</string>
     <string name="title_activity_flexiblespacewithimagelistview">Flexible Space</string>
+    <string name="title_activity_flexiblespacewithwebview">Flexible Space</string>
     <string name="title_activity_fragmentactionbarcontrollistview">ListView on Fragment &amp; Action Bar</string>
     <string name="title_activity_fragmenttransition">ActionBar &amp; Toolbar manipulation with Fragment</string>
     <string name="title_activity_handletouchgridview">Handling touch with GridView</string>
