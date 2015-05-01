@@ -13,7 +13,7 @@ build:
           echo $ANDROID_UPDATE_FILTER
           echo $ANDROID_NDK_HOME
     - android-sdk-update:
-        filter: tools,platform-tools,android-21,build-tools-21.1.1,extra-android-support,extra-android-m2repository
+        filter: tools,platform-tools,android-21,android-22,build-tools-22.0.1,extra-android-support,extra-android-m2repository
     # A step that executes `gradle build` command
     - script:
         name: run gradle
