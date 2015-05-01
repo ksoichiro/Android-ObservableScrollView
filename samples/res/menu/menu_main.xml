@@ -22,6 +22,7 @@
         android:id="@+id/menu_about"
         android:orderInCategory="100"
         android:title="@string/menu_about"
+        android:icon="@drawable/ic_action_info"
         app:showAsAction="ifRoom" />
 
 </menu>

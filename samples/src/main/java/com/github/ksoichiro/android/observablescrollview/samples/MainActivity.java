@@ -197,7 +197,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private class FilterAdapter extends ArrayAdapter<Filter> {
         public FilterAdapter(Context context) {
-            super(context, android.R.layout.simple_list_item_1, Filter.values());
+            super(context, android.R.layout.simple_spinner_item, Filter.values());
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         }
     }
 }

@@ -29,21 +29,39 @@
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        android:elevation="@dimen/toolbar_elevation"
         app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
         app:theme="@style/Toolbar"
         >
 
-        <Spinner
-            android:id="@+id/spinner_toolbar"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_short"
+                android:layout_marginRight="@dimen/margin_short"
+                android:background="#99ffffff" />
+
+            <Spinner
+                style="@style/Spinner"
+                android:id="@+id/spinner_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
 
-    <ListView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@android:id/list"
+    <FrameLayout
+        android:foreground="?android:windowContentOverlay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
 </LinearLayout>
