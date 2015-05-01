@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.melnykov:floatingactionbutton:1.0.7'
     debugCompile project(':library')

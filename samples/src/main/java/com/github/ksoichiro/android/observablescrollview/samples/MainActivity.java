@@ -21,7 +21,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +31,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private static final String CATEGORY_SAMPLES = MainActivity.class.getPackage().getName();
     private static final String TAG_CLASS_NAME = "className";
     private static final String TAG_DESCRIPTION = "description";

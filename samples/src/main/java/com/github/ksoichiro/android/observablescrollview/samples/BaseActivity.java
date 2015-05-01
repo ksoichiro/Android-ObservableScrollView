@@ -17,7 +17,7 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.content.res.TypedArray;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
@@ -28,7 +28,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public abstract class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     private static final int NUM_OF_ITEMS = 100;
     private static final int NUM_OF_ITEMS_FEW = 3;
 

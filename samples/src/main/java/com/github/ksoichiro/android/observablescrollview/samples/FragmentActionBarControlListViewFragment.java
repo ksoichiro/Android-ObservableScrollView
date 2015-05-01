@@ -18,7 +18,7 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +55,7 @@ public class FragmentActionBarControlListViewFragment extends BaseFragment imple
 
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-        ActionBarActivity activity = (ActionBarActivity) getActivity();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity == null) {
             return;
         }
