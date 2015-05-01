@@ -16,17 +16,22 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -51,18 +56,56 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             return collator.compare(lhs.get("className"), rhs.get("className"));
         }
     };
+    private ListView listView;
+
+    // Quickly navigate through the examples.
+    static enum Filter {
+        All,
+        GridView,
+        RecyclerView,
+        ScrollView,
+        ListView,
+        WebView,
+        Toolbar,
+        ActionBar,
+        FlexibleSpace,
+        Parallax,
+        ViewPager,
+    }
+
+    Filter currentFilter = Filter.All;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView listView = (ListView) findViewById(android.R.id.list);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        listView = (ListView) findViewById(android.R.id.list);
+        listView.setOnItemClickListener(this);
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner_toolbar);
+        spinner.setAdapter(new FilterAdapter(this));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentFilter = Filter.values()[position];
+                refreshData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void refreshData() {
         listView.setAdapter(new SimpleAdapter(this, getData(),
                 R.layout.list_item_main,
                 new String[]{TAG_CLASS_NAME, TAG_DESCRIPTION,},
                 new int[]{R.id.className, R.id.description,}));
-        listView.setOnItemClickListener(this);
     }
 
     @Override
@@ -111,12 +154,16 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
                 if (nameLabel.contains(".")) {
                     nameLabel = nameLabel.replaceAll("[^.]*\\.", "");
                 }
-                addItem(data,
-                        nameLabel,
-                        nextLabel,
-                        activityIntent(
-                                info.activityInfo.applicationInfo.packageName,
-                                info.activityInfo.name));
+
+                // Filter logic.
+                if (currentFilter == Filter.All || nameLabel.contains(currentFilter.name())) {
+                    addItem(data,
+                            nameLabel,
+                            nextLabel,
+                            activityIntent(
+                                    info.activityInfo.applicationInfo.packageName,
+                                    info.activityInfo.name));
+                }
             }
         }
 
@@ -147,5 +194,11 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
 
         Intent intent = (Intent) map.get(TAG_INTENT);
         startActivity(intent);
+    }
+
+    private class FilterAdapter extends ArrayAdapter<Filter> {
+        public FilterAdapter(Context context) {
+            super(context, android.R.layout.simple_list_item_1, Filter.values());
+        }
     }
 }
