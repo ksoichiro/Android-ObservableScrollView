@@ -82,7 +82,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ksoichiro:android-observablescrollview:1.5.0'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.5.1'
 }
 ```
 
@@ -157,6 +157,9 @@ This project is built and tested under the following environment.
 
 ## Release notes
 
+* v1.5.1
+    * Fix `scrollY` of `onScrollChanged` in `ObservableGridView` jumps
+      when the first visible item changes.
 * v1.5.0
     * Add a helper class `CacheFragmentStatePagerAdapter` to implement ViewPager pattern.
     * Fix that swipe down (over-scroll) causes item click.
