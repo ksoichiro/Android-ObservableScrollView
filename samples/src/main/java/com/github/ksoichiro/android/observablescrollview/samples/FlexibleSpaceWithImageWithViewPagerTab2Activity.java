@@ -97,6 +97,15 @@ public class FlexibleSpaceWithImageWithViewPagerTab2Activity extends BaseActivit
         ScrollUtils.addOnGlobalLayoutListener(mInterceptionLayout, new Runnable() {
             @Override
             public void run() {
+                // Extra space is required to move mInterceptionLayout when it's scrolled.
+                // It's better to adjust its height when it's laid out
+                // than to adjust the height when scroll events (onMoveMotionEvent) occur
+                // because it causes lagging.
+                // See #87: https://github.com/ksoichiro/Android-ObservableScrollView/issues/87
+                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mInterceptionLayout.getLayoutParams();
+                lp.height = getScreenHeight() + mFlexibleSpaceHeight;
+                mInterceptionLayout.requestLayout();
+
                 updateFlexibleSpace();
             }
         });
@@ -158,11 +167,6 @@ public class FlexibleSpaceWithImageWithViewPagerTab2Activity extends BaseActivit
             int flexibleSpace = mFlexibleSpaceHeight - mTabHeight;
             float translationY = ScrollUtils.getFloat(ViewHelper.getTranslationY(mInterceptionLayout) + diffY, -flexibleSpace, 0);
             updateFlexibleSpace(translationY);
-            if (translationY < 0) {
-                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mInterceptionLayout.getLayoutParams();
-                lp.height = (int) (-translationY + getScreenHeight());
-                mInterceptionLayout.requestLayout();
-            }
         }
 
         @Override
