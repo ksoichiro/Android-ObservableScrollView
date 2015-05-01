@@ -2,9 +2,11 @@ language: android
 android:
   components:
     - build-tools-21.1.1
+    - build-tools-22.0.1
     - tools
     - android-19
     - android-21
+    - android-22
     - sys-img-armeabi-v7a-android-19
     - extra-android-support
     - extra-android-m2repository
