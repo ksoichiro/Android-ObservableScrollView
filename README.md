@@ -105,27 +105,27 @@ Widgets above provides callbacks with `ObservableScrollViewCallbacks` interface.
 You can listen scroll events of the widgets by using `setScrollViewCallbacks()`.
 
 ```java
-    ObservableListView listView = (ObservableListView) findViewById(R.id.list);
-    listView.setScrollViewCallbacks(this);
+ObservableListView listView = (ObservableListView) findViewById(R.id.list);
+listView.setScrollViewCallbacks(this);
 ```
 
 Then implement your interaction codes to the callbacks.  
 Example:
 
 ```java
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-        ActionBar ab = getSupportActionBar();
-        if (scrollState == ScrollState.UP) {
-            if (ab.isShowing()) {
-                ab.hide();
-            }
-        } else if (scrollState == ScrollState.DOWN) {
-            if (!ab.isShowing()) {
-                ab.show();
-            }
+@Override
+public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+    ActionBar ab = getSupportActionBar();
+    if (scrollState == ScrollState.UP) {
+        if (ab.isShowing()) {
+            ab.hide();
+        }
+    } else if (scrollState == ScrollState.DOWN) {
+        if (!ab.isShowing()) {
+            ab.show();
         }
     }
+}
 ```
 
 See [sample app's Activity codes](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/samples/src/main/java/com/github/ksoichiro/android/observablescrollview/samples) for more details.

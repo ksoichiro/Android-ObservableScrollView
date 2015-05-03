@@ -20,7 +20,7 @@
       "main": ["css/*.min.css", "fonts/*"]
     },
     "highlightjs": {
-      "main": ["*.js", "**/*.css"]
+      "main": ["*.js"]
     },
     "respond-minmax": {
       "main": "dest/*.min.js"
