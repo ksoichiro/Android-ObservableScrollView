@@ -7,3 +7,5 @@ and check if there are some patterns you want to implement.
 1. [Download from wercker](../../docs/eaxmple/wercker.md)
 1. [Build on Android Studio](../../docs/example/android-studio.md)
 1. [Build on Eclipse](../../docs/example/eclipse.md)
+
+[Next: Download from Google Play &raquo;](../../docs/example/google-play.md)

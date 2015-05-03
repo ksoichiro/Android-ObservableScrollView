@@ -31,3 +31,5 @@ Scroll the screen, and click anywhere in the "inspect build result" section to o
 Finally, you can download the apk file by clicking the `artifact.tar.gz` link.
 
 ![](../images/wercker_3.png)
+
+[Next: Build on Android Studio &raquo;](../../docs/example/android-studio.md)

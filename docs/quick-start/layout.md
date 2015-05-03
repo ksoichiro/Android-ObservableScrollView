@@ -16,3 +16,5 @@ Android-ObservableScrollView provides several types of views that are scroll-abl
 And they extend the standard widget (`ScrollView`, `GridView`, ...), and they provide some callbacks to get scroll events.
 
 After writing the above layout, you can write animation codes using these callbacks.
+
+[Next: Animation codes &raquo;](../../docs/quick-start/animation.md)

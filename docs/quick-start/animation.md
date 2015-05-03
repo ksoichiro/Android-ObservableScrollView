@@ -157,3 +157,5 @@ public class MainActivity extends AppCompatActivity
   }
 }
 ```
+
+[Next: Try the example app &raquo;](../../docs/example/index.md)

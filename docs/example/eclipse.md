@@ -22,9 +22,15 @@ Please note that with these instructions you could bulid project on Eclipse, but
 
 ### Get the source codes
 
+Get the source code of the library and example app, by cloning git repository or downloading archives.
+
+If you use git, execute the following command in your workspace directory.
+
 ```
 $ git clone https://github.com/ksoichiro/Android-ObservableScrollView.git
 ```
+
+If you are using Windows, try it on GitBash or Cygwin or something that supports git.
 
 ### Define ANDROID_HOME environment variable
 
@@ -59,3 +65,4 @@ This will generate dependency codes from AAR files using Gradle wrapper and some
 
 That's all!
  
+[Next: Basic techniques &raquo;](../../docs/basic/index.md)
