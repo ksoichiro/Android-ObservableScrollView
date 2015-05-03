@@ -14,10 +14,12 @@
         <li><ul><li class="topic"><a href="<%- baseUrl %>/docs/overview">Overview</a></li></ul></li>
         <% for (var sectionSlug in public._data) { %>
             <li>
-                <h4 class="section"><%- public._data[sectionSlug].title %></h4>
+                <h4 class="section"><a href="<%- baseUrl %>/docs/<%- sectionSlug %>/"><%- public._data[sectionSlug].title %></a></h4>
                 <ul>
                     <% for (var topicSlug in public.docs[sectionSlug]._data) { %>
-                        <li class="topic"><a href="<%- baseUrl %>/docs/<%- sectionSlug %>/<%- topicSlug %>"><%- public.docs[sectionSlug]._data[topicSlug].title %></a></li>
+                        <% if (topicSlug !== "index") { %>
+                            <li class="topic"><a href="<%- baseUrl %>/docs/<%- sectionSlug %>/<%- topicSlug %>"><%- public.docs[sectionSlug]._data[topicSlug].title %></a></li>
+                        <% } %>
                     <% } %>
                 </ul>
             </li>
