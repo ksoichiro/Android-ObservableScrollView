@@ -1,4 +1,4 @@
-# Building on Eclipse
+# Build on Eclipse
 
 This library and samples basically support Android Studio and Gradle.  
 Because they have strong power to handle dependencies and ability to configure flexibly,  
