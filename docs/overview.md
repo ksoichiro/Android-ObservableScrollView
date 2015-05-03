@@ -24,3 +24,8 @@ See [Basic techniques](../docs/basic/index.md) section.
 
 If you'd like to create complex, awesome scrolling animation using ViewPager or something,
 please check out [Advanced techniques](../docs/advanced/index.md) section.
+
+## If you're interested in improving this library...
+
+Please see the [contribution guideline](../CONTRIBUTING.md).  
+Also, [For contributiors](../docs/contributor/index.md) section will be useful to understand / manage the entire project.
