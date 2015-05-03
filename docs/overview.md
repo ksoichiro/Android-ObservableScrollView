@@ -1,6 +1,6 @@
 # Overview
 
-Android-ObservableScrollView is a library to handle scroll position for Android library, and contains lots of examples to demonstrate how this library works.
+Android-ObservableScrollView is a library to handle scroll position for Android apps, and contains lots of examples to demonstrate how this library works.
 
 However, creating awesome scrolling effects depends deeply on how you use it: layout, offset calculation to animate views, etc.
 
