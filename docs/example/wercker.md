@@ -1,6 +1,7 @@
 # Download from wercker
 
 [wercker](http://wercker.com/) is a CI service and this project uses wercker to provide the latest sample apk.
+If you're not interested in this, go to the next topic.
 
 ## Login to wercker
 
