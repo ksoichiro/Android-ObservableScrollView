@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "title": "Dependencies"
+  },
+  "layout": {
+    "title": "Layout"
+  },
+  "animation": {
+    "title": "Animation codes"
+  }
+}

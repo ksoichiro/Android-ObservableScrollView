@@ -1,0 +1,14 @@
+{
+  "quick-start": {
+    "title": "Quick start"
+  },
+  "example": {
+    "title": "Try the example app"
+  },
+  "basic": {
+    "title": "Basic techniques"
+  },
+  "advanced": {
+    "title": "Advanced techniques"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "globals": {
+    "baseUrl": "$BASE_URL",
+    "title": "Android-ObservableScrollView",
+    "name": "Android-ObservableScrollView",
+    "description": "Android library to observe scroll events on scrollable views.",
+    "githubUser": "ksoichiro",
+    "githubRepo": "Android-ObservableScrollView",
+    "githubUrl": "https://github.com/ksoichiro/Android-ObservableScrollView",
+    "copyrightYear": "2014",
+    "copyrightHolder": "Soichiro Kashima"
+  }
+}

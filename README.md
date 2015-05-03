@@ -1,5 +1,4 @@
-Android-ObservableScrollView
-===
+# Android-ObservableScrollView
 
 [![Build Status](http://img.shields.io/travis/ksoichiro/Android-ObservableScrollView.svg?style=flat)](https://travis-ci.org/ksoichiro/Android-ObservableScrollView)
 [![Coverage Status](https://img.shields.io/coveralls/ksoichiro/Android-ObservableScrollView/master.svg?style=flat)](https://coveralls.io/r/ksoichiro/Android-ObservableScrollView?branch=master)
@@ -10,22 +9,22 @@ Android-ObservableScrollView
 Android library to observe scroll events on scrollable views.  
 It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and may be helpful to implement look and feel of Material Design apps.
 
-![](samples/images/demo12.gif)
-![](samples/images/demo10.gif)
-![](samples/images/demo11.gif)
-![](samples/images/demo13.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo12.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo10.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo11.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo13.gif)
 
-![](samples/images/demo1.gif)
-![](samples/images/demo2.gif)
-![](samples/images/demo3.gif)
-![](samples/images/demo4.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo1.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo2.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo3.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo4.gif)
 
-![](samples/images/demo5.gif)
-![](samples/images/demo6.gif)
-![](samples/images/demo7.gif)
-![](samples/images/demo8.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo5.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo6.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo7.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo8.gif)
 
-![](samples/images/demo9.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo9.gif)
 
 
 ## Samples
@@ -42,7 +41,7 @@ If you'd like to install the latest one, install it manually with Gradle.
 ### wercker
 
 If you are a wercker user, you can download the latest build artifact.
-[See here for details](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/docs/wercker.md).
+[See here for details](docs/example/wercker.md).
 
 [![wercker status](https://app.wercker.com/status/8d1e27d9f4a662b25dbe70402733582b/m/master "wercker status")](https://app.wercker.com/project/bykey/8d1e27d9f4a662b25dbe70402733582b)
 
@@ -87,7 +86,7 @@ dependencies {
 ```
 
 Basically this project supports Android Studio.  
-If you'd like to use Eclipse, please [see here](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/docs/eclipse.md).
+If you'd like to use Eclipse, please [see here](docs/example/eclipse.md).
 It's partially supported.
 
 ### Add widgets to your layout
@@ -140,11 +139,11 @@ You can handle these widgets with `Scrollable` interface.
 
 | Widget | Since | Note |
 |:------:|:-----:| ---- |
-| ListView | v1.0.0 |    |
-| ScrollView | v1.0.0 |  |
-| WebView | v1.0.0 |     |
+| ListView | v1.0.0 | - |
+| ScrollView | v1.0.0 | - |
+| WebView | v1.0.0 | - |
 | RecyclerView | v1.1.0 | It's supported but RecyclerView provides scroll states and position with [OnScrollListener](https://developer.android.com/reference/android/support/v7/widget/RecyclerView.OnScrollListener.html). You should use it if you don't have any reason. |
-| GridView | v1.2.0 | |
+| GridView | v1.2.0 | - |
 
 
 ## Environment
@@ -219,17 +218,18 @@ Please check the [FAQ](docs/faq.md) and [contributing guideline](https://github.
 
 ## License
 
-    Copyright 2014 Soichiro Kashima
+```license
+Copyright 2014 Soichiro Kashima
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-        http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```

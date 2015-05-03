@@ -1,0 +1,20 @@
+{
+  "show-hide-action-bar": {
+    "title": "Show and hide the Action Bar"
+  },
+  "translating-toolbar": {
+    "title": "Translating Toolbar"
+  },
+  "translating-scrollable": {
+    "title": "Translating scrollable views"
+  },
+  "parallax-image": {
+    "title": "Parallax image"
+  },
+  "sticky-header": {
+    "title": "Sticky header"
+  },
+  "filling-gap": {
+    "title": "Filling gap on top of the Toolbar"
+  }
+}

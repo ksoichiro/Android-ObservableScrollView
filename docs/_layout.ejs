@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<%- partial("../_head", { title: title }) %>
+</head>
+<body>
+
+<%- partial("../_nav") %>
+
+<div class="container">
+<div id="grid-content">
+<div id="sidebar">
+    <ul>
+        <% for (var sectionSlug in public._data) { %>
+            <li>
+                <h4 class="section"><%- public._data[sectionSlug].title %></h4>
+                <ul>
+                    <% for (var topicSlug in public.docs[sectionSlug]._data) { %>
+                        <li class="topic"><a href="<%- baseUrl %>/docs/<%- sectionSlug %>/<%- topicSlug %>"><%- public.docs[sectionSlug]._data[topicSlug].title %></a></li>
+                    <% } %>
+                </ul>
+            </li>
+        <% } %>
+    </ul>
+</div>
+<div id="sidebar-main-content">
+<%- yield %>
+</div>
+</div>
+</div>
+
+<%- partial("../_footer") %>
+</body>
+</html>

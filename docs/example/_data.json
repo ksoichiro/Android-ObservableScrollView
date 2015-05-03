@@ -1,0 +1,14 @@
+{
+  "google-play": {
+    "title": "Google Play store"
+  },
+  "wercker": {
+    "title": "Download from wercker"
+  },
+  "android-studio": {
+    "title": "Setting up Android Studio"
+  },
+  "eclipse": {
+    "title": "Setting up Eclipse"
+  }
+}
