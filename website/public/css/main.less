@@ -76,6 +76,15 @@ code {
 
 // Layout
 
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  padding-top: 70px;
+}
+
 h1 {
   margin-top: 8px;
 }
@@ -94,7 +103,7 @@ nav.navbar {
   @shadow-v-offset: -3px;
   @shadow-blur-radius: 6px;
   @shadow-spread-radius: 6px;
-  @shadow-color: #ccc;
+  @shadow-color: rgba(32, 32, 32, 0.4);
   -moz-box-shadow:    @shadow-h-offset @shadow-v-offset @shadow-blur-radius @shadow-spread-radius @shadow-color;
   -webkit-box-shadow: @shadow-h-offset @shadow-v-offset @shadow-blur-radius @shadow-spread-radius @shadow-color;
   box-shadow:         @shadow-h-offset @shadow-v-offset @shadow-blur-radius @shadow-spread-radius @shadow-color;
@@ -138,6 +147,11 @@ nav.navbar {
 }
 
 // Page with sidebar
+.btn-sidebar-toggle {
+  .btn;
+  .btn-default;
+  .btn-xs;
+}
 #grid-content {
   .make-row();
   #sidebar {
@@ -178,6 +192,27 @@ nav.navbar {
   #sidebar-main-content {
     .make-xs-column(12);
     .make-sm-column(9);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  #grid-content {
+    position: relative;
+    -webkit-transition: all .25s ease-out;
+    -o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+    left: 0;
+
+    &.active {
+      left: 50%;
+    }
+
+    #sidebar {
+      left: -50%;
+      position: absolute;
+      top: 0;
+      width: 50%;
+    }
   }
 }
 
