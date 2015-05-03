@@ -42,8 +42,16 @@ var paths = {
 
 var port = 9000;
 
-gulp.task('clean', function(cb) {
-    del([paths.dest.root, paths.dest.lib, paths.dest.docs, paths.repo], cb);
+gulp.task('cleanDocs', function(cb) {
+    del([paths.dest.docs], cb);
+});
+
+gulp.task('cleanBowerFiles', function(cb) {
+    del([paths.dest.lib], cb);
+});
+
+gulp.task('clean', ['cleanDocs', 'cleanBowerFiles'], function(cb) {
+    del([paths.dest.root, paths.repo], cb);
 });
 
 gulp.task('build', ['copy'], function(cb) {
@@ -59,12 +67,12 @@ gulp.task('build', ['copy'], function(cb) {
     });
 });
 
-gulp.task('copyDocs', function() {
+gulp.task('copyDocs', ['cleanDocs'], function() {
     return gulp.src(paths.docs + '/**/*')
         .pipe(gulp.dest(paths.dest.docs));
 });
 
-gulp.task('copyBowerFiles', function() {
+gulp.task('copyBowerFiles', ['cleanBowerFiles'], function() {
     // Return streams so that the dependent tasks can detect when it has done.
     return gulp.src(mainBowerFiles(), { base: paths.bower })
         .pipe(gulp.dest(paths.dest.lib));
@@ -146,6 +154,8 @@ gulp.task('start', ['copy'], function() {
             gutil.log('Failed to start');
             gutil.log(err);
         } else {
+            gulp.watch([paths.docs + '/**/*', '!' + paths.docs + '/**/*.sw*'], ['copyDocs']);
+            gulp.watch(paths.bower + '/**/*', ['copyBowerFiles']);
             gutil.log('Started server: http://localhost:' + port);
             gutil.log('Press Ctrl+C to quit');
         }
