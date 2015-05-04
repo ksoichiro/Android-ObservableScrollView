@@ -1,3 +1,13 @@
 # Translating the Toolbar
 
-[Next: Translating itself &raquo;](../../docs/basic/translating-itself.md)
+This topic describes how to translate the Toolbar,
+which are implemented in the following examples.
+
+* ToolbarControlBaseActivity
+* ToolbarControlGridViewActivity
+* ToolbarControlListViewActivity
+* ToolbarControlRecyclerViewActivity
+* ToolbarControlScrollViewActivity
+* ToolbarControlWebViewActivity
+
+[Next: Parallax image &raquo;](../../docs/basic/parallax-image.md)

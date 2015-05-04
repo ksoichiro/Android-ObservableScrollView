@@ -8,14 +8,17 @@
   "translating-toolbar": {
     "title": "Translating the Toolbar"
   },
-  "translating-itself": {
-    "title": "Translating itself"
-  },
   "parallax-image": {
     "title": "Parallax image"
   },
   "sticky-header": {
     "title": "Sticky header"
+  },
+  "flexible-space-toolbar": {
+    "title": "Flexible space on the Toolbar"
+  },
+  "flexible-space-with-image": {
+    "title": "Flexible space with image"
   },
   "filling-gap": {
     "title": "Filling gap on top of the Toolbar"
