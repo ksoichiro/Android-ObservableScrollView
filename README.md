@@ -1,5 +1,4 @@
-Android-ObservableScrollView
-===
+# Android-ObservableScrollView
 
 [![Build Status](http://img.shields.io/travis/ksoichiro/Android-ObservableScrollView.svg?style=flat)](https://travis-ci.org/ksoichiro/Android-ObservableScrollView)
 [![Coverage Status](https://img.shields.io/coveralls/ksoichiro/Android-ObservableScrollView/master.svg?style=flat)](https://coveralls.io/r/ksoichiro/Android-ObservableScrollView?branch=master)
@@ -10,183 +9,57 @@ Android-ObservableScrollView
 Android library to observe scroll events on scrollable views.  
 It's easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and may be helpful to implement look and feel of Material Design apps.
 
-![](samples/images/demo12.gif)
-![](samples/images/demo10.gif)
-![](samples/images/demo11.gif)
-![](samples/images/demo13.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo12.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo10.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo11.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo13.gif)
 
-![](samples/images/demo1.gif)
-![](samples/images/demo2.gif)
-![](samples/images/demo3.gif)
-![](samples/images/demo4.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo1.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo2.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo3.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo4.gif)
 
-![](samples/images/demo5.gif)
-![](samples/images/demo6.gif)
-![](samples/images/demo7.gif)
-![](samples/images/demo8.gif)
-
-![](samples/images/demo9.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo5.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo6.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo7.gif)
+![](https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo8.gif)
 
 
-## Samples
+## Examples
 
-You can install the sample app with the following methods.
-
-### Google Play store
+### Download from Google Play
 
 [![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](https://play.google.com/store/apps/details?id=com.github.ksoichiro.android.observablescrollview.samples2)
 
-Please note that the app on the Play Store is not always the latest version.  
-If you'd like to install the latest one, install it manually with Gradle.
+Please note that the app on the Play store is not always the latest version.
 
-### wercker
+### Download from wercker
 
-If you are a wercker user, you can download the latest build artifact.
-[See here for details](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/docs/wercker.md).
+If you are a wercker user, you can download the latest build artifact.  
+[See here for details](docs/example/wercker.md).
 
 [![wercker status](https://app.wercker.com/status/8d1e27d9f4a662b25dbe70402733582b/m/master "wercker status")](https://app.wercker.com/project/bykey/8d1e27d9f4a662b25dbe70402733582b)
 
-### Install manually with Gradle
+### Install manually
 
-Clone this repository and build the app using Gradle wrapper.
-
-Mac / Linux / Git Bash, Cygwin on Windows:
-
-```sh
-$ git clone https://github.com/ksoichiro/Android-ObservableScrollView.git 
-$ cd Android-ObservableScrollView
-$ ./gradlew installDevDebug
-```
-
-Windows (Command prompt):
-
-```sh
-> git clone https://github.com/ksoichiro/Android-ObservableScrollView.git 
-> cd Android-ObservableScrollView
-> gradlew installDevDebug
-```
-
-### Install manually with IDE
-
-See README in the `samples` directory.
+Just clone and execute `installDevDebug` task with Gradle.  
+[See here for details](docs/example/android-studio.md).
 
 ## Usage
 
-### Add to your dependencies
+1. Add `com.github.ksoichiro:android-observablescrollview` to your `dependencies` in `build.gradle`.
+1. Add `ObservableListView` or other views you'd like to use.
+1. Write some animation codes to the callbacks such as `onScrollChanged`, `onUpOrCancelMotionEvent`, etc.
 
-AAR is distributed on the Maven Central repository.
+See [the quick start guide for details](docs/quick-start/index.md),
+and [the documentation](docs/overview.md) for further more.
 
-```groovy
-repositories {
-    mavenCentral()
-}
+## Reference
 
-dependencies {
-    compile 'com.github.ksoichiro:android-observablescrollview:1.5.1'
-}
-```
-
-Basically this project supports Android Studio.  
-If you'd like to use Eclipse, please [see here](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/docs/eclipse.md).
-It's partially supported.
-
-### Add widgets to your layout
-
-Use one of the following widgets in your XML layout file.
-
-* `ObservableListView`
-* `ObservableScrollView`
-* `ObservableWebView`
-* `ObservableRecyclerView`
-* `ObservableGridView`
-
-### Control scroll events with callbacks
-
-Widgets above provides callbacks with `ObservableScrollViewCallbacks` interface.  
-You can listen scroll events of the widgets by using `setScrollViewCallbacks()`.
-
-```java
-    ObservableListView listView = (ObservableListView) findViewById(R.id.list);
-    listView.setScrollViewCallbacks(this);
-```
-
-Then implement your interaction codes to the callbacks.  
-Example:
-
-```java
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-        ActionBar ab = getSupportActionBar();
-        if (scrollState == ScrollState.UP) {
-            if (ab.isShowing()) {
-                ab.hide();
-            }
-        } else if (scrollState == ScrollState.DOWN) {
-            if (!ab.isShowing()) {
-                ab.show();
-            }
-        }
-    }
-```
-
-See [sample app's Activity codes](https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/samples/src/main/java/com/github/ksoichiro/android/observablescrollview/samples) for more details.
-
-
-## Supported widgets
-
-Widgets are named with `Observable` prefix.  
-(e.g. `ListView` → `ObservableListView`)  
-You can handle these widgets with `Scrollable` interface.
-
-| Widget | Since | Note |
-|:------:|:-----:| ---- |
-| ListView | v1.0.0 |    |
-| ScrollView | v1.0.0 |  |
-| WebView | v1.0.0 |     |
-| RecyclerView | v1.1.0 | It's supported but RecyclerView provides scroll states and position with [OnScrollListener](https://developer.android.com/reference/android/support/v7/widget/RecyclerView.OnScrollListener.html). You should use it if you don't have any reason. |
-| GridView | v1.2.0 | |
-
-
-## Environment
-
-This project is built and tested under the following environment.
-
-| OS             | IDE                | JDK |
-| -------------- | ------------------ | --- |
-| Mac OS X 10.10 | Android Studio 1.0 | 1.7 |
-
-## Release notes
-
-* v1.5.1
-    * Fix `scrollY` of `onScrollChanged` in `ObservableGridView` jumps
-      when the first visible item changes.
-* v1.5.0
-    * Add a helper class `CacheFragmentStatePagerAdapter` to implement ViewPager pattern.
-    * Fix that swipe down (over-scroll) causes item click.
-* v1.4.0
-    * Add a custom view named `TouchInterceptionFrameLayout` and a new API `setTouchInterceptionViewGroup()` for `Scrollable`.  
-      With these class and API, you can move `Scrollable` itself using its scrolling events.
-    * Add a helper class `ScrollUtils` for implementing scrolling effects.
-* v1.3.2
-    * Fix that `ObservableRecyclerView` causes `BadParcelableException` on `onRestoreInstanceState`.
-* v1.3.1
-    * Fix that `onDownMotionEvent` not called and parameters of `onScrollChanged` are incorrect
-      when children views handle touch events.
-* v1.3.0
-    * Add new interface `Scrollable` to provide common API for scrollable widgets. 
-* v1.2.1
-    * Fix that the scroll states and other internal information are lost after `onSaveInstanceState()`.
-    * Fix that the scrollY is incorrect if the ListView/RecyclerView don't scroll from the top.
-      (It's just approximating the scroll offset and not the complete solution but better than before.)
-* v1.2.0
-    * Add GridView support.
-    * Fix ObservableListView cannot detect onScrollChanged on Android 2.3.
-    * Fix ObservableScrollView cannot detect UP and DOWN state in onUpOrCancelMotionEvent before Android 4.4.
-* v1.1.0
-    * Add RecyclerView support.
-* v1.0.0
-    * Initial release.
-
+* [Supported widgets](docs/reference/supported-widgets.md)
+* [Environment](docs/reference/enviromnent.md)
+* [Release notes](docs/reference/release-notes.md)
+* [FAQ](docs/faq.md)
 
 ## Apps that uses this library
 
@@ -194,12 +67,8 @@ This project is built and tested under the following environment.
 * [My Gradle](https://play.google.com/store/apps/details?id=se.project.generic.mygradle) by Erick Chavez Alcarraz
 
 If you're using this library in your app and you'd like to list it here,  
-please let me know via [email](soichiro.kashima@gmail.com) or pull requests or issues.
+please let me know via [email](mailto:soichiro.kashima@gmail.com) or [pull requests](https://github.com/ksoichiro/Android-ObservableScrollView/pulls) or [issues](https://github.com/ksoichiro/Android-ObservableScrollView/issues).
 
-
-## Frequently asked questions
-
-[Please see here](docs/faq.md).
 
 ## Contributions
 
@@ -212,24 +81,25 @@ Please check the [FAQ](docs/faq.md) and [contributing guideline](https://github.
 * Soichiro Kashima - <soichiro.kashima@gmail.com>
 
 
-## Credits
+## Thanks
 
 * Inspired by `ObservableScrollView` in [romannurik-code](https://code.google.com/p/romannurik-code/).
 
 
 ## License
 
-    Copyright 2014 Soichiro Kashima
+```license
+Copyright 2014 Soichiro Kashima
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-        http://www.apache.org/licenses/LICENSE-2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```

@@ -1,0 +1,35 @@
+.navbar-shadow() {
+  @shadow-h-offset: 0px;
+  @shadow-v-offset: -3px;
+  @shadow-blur-radius: 6px;
+  @shadow-spread-radius: 6px;
+  @shadow-color: rgba(32, 32, 32, 0.4);
+  -moz-box-shadow:    @shadow-h-offset @shadow-v-offset @shadow-blur-radius @shadow-spread-radius @shadow-color;
+  -webkit-box-shadow: @shadow-h-offset @shadow-v-offset @shadow-blur-radius @shadow-spread-radius @shadow-color;
+  box-shadow:         @shadow-h-offset @shadow-v-offset @shadow-blur-radius @shadow-spread-radius @shadow-color;
+}
+.navbar-shadow-clear() {
+  -moz-box-shadow:    none;
+  -webkit-box-shadow: none;
+  box-shadow:         none;
+}
+
+nav.navbar {
+  .navbar-shadow();
+  .navbar-brand {
+    background-image: url('../images/logo.svg');
+    background-repeat: no-repeat;
+    background-position: 12px center;
+    padding-left: 64px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  nav.navbar {
+    .navbar-brand {
+      background-position: 4px center;
+      padding-left: 56px;
+      padding-right: 8px;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "index": {
+    "title": "Try the example app"
+  },
+  "google-play": {
+    "title": "Download from Google Play"
+  },
+  "wercker": {
+    "title": "Download from wercker"
+  },
+  "android-studio": {
+    "title": "Build on Android Studio"
+  },
+  "eclipse": {
+    "title": "Build on Eclipse"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "index": {
+    "title": "Android-ObservableScrollView",
+    "layout": false
+  },
+  "quick-start": {
+    "title": "Quick start"
+  },
+  "example": {
+    "title": "Try the example app"
+  },
+  "basic": {
+    "title": "Basic techniques"
+  },
+  "advanced": {
+    "title": "Advanced techniques"
+  },
+  "contributor": {
+    "title": "For contributors"
+  },
+  "reference": {
+    "title": "Reference"
+  }
+}

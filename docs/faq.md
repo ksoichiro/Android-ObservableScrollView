@@ -1,4 +1,4 @@
-# Frequently asked questions
+# FAQ
 
 These are frequently asked questions from GitHub issues, emails I received from users, etc.
 
@@ -15,13 +15,13 @@ If you're interested in implementing new samples or fixing bugs, please help me.
 
 ### A. Yes, it does partially.
 
-Please see [here](eclipse.md) for details.
+Please see [here](../docs/example/eclipse.md) for details.
 
 ## Q. Doesn't work!
 
 ### A. Please describe your issue as much as possible.
 
-As I wrote in [the contribution guideline](../CONTRIBUTING.md),
+As I wrote in [the contribution guideline](https://github.com/ksoichiro/Android-ObservableScrollView/blob/master/CONTRIBUTING.md),
 the library itself only provides the scroll information,
 and creating awesome scrolling effects depends deeply on how you use it: layout, offset calculation to animate views, etc.
 

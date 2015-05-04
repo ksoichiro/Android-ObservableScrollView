@@ -1,4 +1,4 @@
-# Building on Eclipse
+# Build on Eclipse
 
 This library and samples basically support Android Studio and Gradle.  
 Because they have strong power to handle dependencies and ability to configure flexibly,  
@@ -11,20 +11,21 @@ Please note that with these instructions you could bulid project on Eclipse, but
 
 ## Prerequisites
 
-* [Eclipse IDE for Java Developers 4.4 (Luna) SR1](https://eclipse.org/downloads/packages/eclipse-ide-java-developers/lunasr1a)
-* [Eclipse ADT Plugin](http://developer.android.com/sdk/installing/installing-adt.html)
-* Oracle JDK 7
-* Android 5.0 SDK Platform (Rev.1+)
-* Android Support Repository (Rev.9+)
-* Android Support Library (Rev.21.0.2+)
+Please [check here](../../docs/reference/environment.md) to see if your enviroment satisfies the prerequisites for building the app.
 
 ## Instructions
 
 ### Get the source codes
 
+Get the source code of the library and example app, by cloning git repository or downloading archives.
+
+If you use git, execute the following command in your workspace directory.
+
 ```
 $ git clone https://github.com/ksoichiro/Android-ObservableScrollView.git
 ```
+
+If you are using Windows, try it on GitBash or Cygwin or something that supports git.
 
 ### Define ANDROID_HOME environment variable
 
@@ -59,3 +60,4 @@ This will generate dependency codes from AAR files using Gradle wrapper and some
 
 That's all!
  
+[Next: Basic techniques &raquo;](../../docs/basic/index.md)

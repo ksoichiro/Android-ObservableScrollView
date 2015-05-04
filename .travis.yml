@@ -1,24 +1,33 @@
 language: android
-android:
-  components:
-    - build-tools-22.0.1
-    - tools
-    - android-19
-    - android-21
-    - android-22
-    - sys-img-armeabi-v7a-android-19
-    - extra-android-support
-    - extra-android-m2repository
-  licenses:
-    - 'android-sdk-license-.+'
+env:
+    global:
+        - GIT_COMMITTER_NAME=ksoichiro
+        - GIT_COMMITTER_EMAIL=soichiro.kashima@gmail.com
+        - GIT_AUTHOR_NAME=ksoichiro
+        - GIT_AUTHOR_EMAIL=soichiro.kashima@gmail.com
+        - secure: JvSTH/5Jl7x3IwCvErTKoW6AjGr03MLwmJwiRQ8sDeEITeLS45EJCnpzvOZXIaxY98Uhl9WqYLYCkUWPkM6yqFEsKUEXKYFLkDoec3ek8GKUkiGWSsV5jCEkVBx8RqLWGbpSg7U/0Ua2doZqIYkBEJ1t5wKiANrt+q/04+jpXWs=
+    matrix:
+        - TEST_TARGET=android
+        - TEST_TARGET=website
+cache:
+    directories:
+        - website/node_modules
+        - website/bower_components
+install:
+    - true && ([ "$TEST_TARGET" != "website" ] || (cd website && npm install && cd ..))
+    - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=build-tools-22.0.1)
+    - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=tools)
+    - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=android-19)
+    - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=android-21)
+    - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=android-22)
+    - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=sys-img-armeabi-v7a-android-19)
+    - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=extra-android-support)
+    - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=extra-android-m2repository)
 before_script:
-    - echo no | android create avd --force -n test -t android-19 --abi default/armeabi-v7a
-    - emulator -avd test -no-skin -no-audio -no-window &
-    - android-wait-for-emulator
+    - true && ([ "$TEST_TARGET" != "android" ] || (echo no | android create avd --force -n test -t android-19 --abi default/armeabi-v7a))
+    - true && ([ "$TEST_TARGET" != "android" ] || emulator -avd test -no-skin -no-audio -no-window &)
+    - true && ([ "$TEST_TARGET" != "android" ] || android-wait-for-emulator)
 script:
-    # Release build type is only for Google Play store currently,
-    # which resolve dependency from Maven Central.
-    # This causes build errors while developing a new feature, so disable release build.
-    - travis_retry ./gradlew --full-stacktrace assembleDevDebug connectedCheck
+    - "/bin/bash .travis-script.sh"
 after_success:
     - ./gradlew :library:coveralls

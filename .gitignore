@@ -13,3 +13,4 @@ aarDependencies/
 .project
 .classpath
 project.properties
+*.swp

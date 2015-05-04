@@ -1,0 +1,14 @@
+{
+  "index": {
+    "title": "For contributors"
+  },
+  "ci": {
+    "title": "CI"
+  },
+  "update-website": {
+    "title": "Update website"
+  },
+  "release": {
+    "title": "Release"
+  }
+}
