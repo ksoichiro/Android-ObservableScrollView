@@ -97,7 +97,7 @@ dependencies {
 }
 ```
 
-# toolbarIsShown()/toolbarIsHidden()
+## toolbarIsShown()/toolbarIsHidden()
 
 Now let's start from the easiest part.  
 To avoid redundant translation, we need methods to check if the Toolbar is shown or hidden.  
