@@ -74,8 +74,15 @@ h3 {
   }
 }
 code {
-  color: #009688; // Teal 500
-  background-color: lighten(#E0F2F1, 7%); // Teal 50
+  color: @theme-main-color;
+  background-color: lighten(@theme-brand-color, 7%);
+}
+a,
+a:hover {
+  color: @theme-main-color;
+}
+a:hover {
+  text-decoration: none;
 }
 
 // Layout
