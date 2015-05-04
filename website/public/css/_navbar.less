@@ -17,9 +17,19 @@
 nav.navbar {
   .navbar-shadow();
   .navbar-brand {
-    background-image: url('../images/logo.png');
+    background-image: url('../images/logo.svg');
     background-repeat: no-repeat;
-    background-position: 4px center;
-    padding-left: 56px;
+    background-position: 12px center;
+    padding-left: 64px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  nav.navbar {
+    .navbar-brand {
+      background-position: 4px center;
+      padding-left: 56px;
+      padding-right: 8px;
+    }
   }
 }
