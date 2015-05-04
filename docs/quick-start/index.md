@@ -1,4 +1,4 @@
-# Quicks start
+# Quick start
 
 Thank you for having interest in this library!  
 In this section, I'll show some quick instructions for introducing this library into your app.
