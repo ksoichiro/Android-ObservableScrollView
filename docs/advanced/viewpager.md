@@ -9,3 +9,6 @@ which are implemented in the following examples.
 * ViewPagerTabListViewActivity
 * ViewPagerTabScrollViewActivity
 
+---
+
+Comming soon...

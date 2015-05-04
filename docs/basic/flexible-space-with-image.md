@@ -8,4 +8,8 @@ which are implemented in the following examples.
 * FlexibleSpaceWithImageScrollViewActivity
 * FlexibleSpaceWithImageWithViewPagerTab2Activity
 
+---
+
+Comming soon...
+
 [Next: Filling gap on top of the Toolbar &raquo;](../../docs/basic/filling-gap.md)

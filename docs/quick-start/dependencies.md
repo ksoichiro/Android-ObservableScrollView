@@ -8,7 +8,7 @@ In Quick start guide, we assume you're using Android Studio.
 
 Write the following dependency configuration to your `build.gradle`.
 
-```groovy
+```gradle
 repositories {
     mavenCentral()
 }

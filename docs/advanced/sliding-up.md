@@ -10,4 +10,8 @@ which are implemented in the following examples.
 * SlidingUpScrollViewActivity
 * SlidingUpWebViewActivity
 
+---
+
+Comming soon...
+
 [Next: ViewPager pattern &raquo;](../../docs/advanced/viewpager.md)

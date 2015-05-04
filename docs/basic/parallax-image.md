@@ -6,4 +6,8 @@ which are implemented in the following examples.
 * ParallaxToolbarListViewActivity
 * ParallaxToolbarScrollViewActivity
 
+---
+
+Comming soon...
+
 [Next: Sticky header &raquo;](../../docs/basic/filling-gap.md)

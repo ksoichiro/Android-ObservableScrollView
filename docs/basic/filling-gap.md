@@ -16,4 +16,8 @@ which are implemented in the following examples.
 * FillGap3RecyclerViewActivity
 * FillGap3ScrollViewActivity
 
+---
+
+Comming soon...
+
 [Next: Advanced techniques &raquo;](../../docs/advanced/index.md)
