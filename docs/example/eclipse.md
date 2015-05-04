@@ -11,12 +11,7 @@ Please note that with these instructions you could bulid project on Eclipse, but
 
 ## Prerequisites
 
-* [Eclipse IDE for Java Developers 4.4 (Luna) SR1](https://eclipse.org/downloads/packages/eclipse-ide-java-developers/lunasr1a)
-* [Eclipse ADT Plugin](http://developer.android.com/sdk/installing/installing-adt.html)
-* Oracle JDK 7
-* Android 5.0 SDK Platform (Rev.1+)
-* Android Support Repository (Rev.9+)
-* Android Support Library (Rev.21.0.2+)
+Please [check here](../../docs/reference/environment.md) to see if your enviroment satisfies the prerequisites for building the app.
 
 ## Instructions
 

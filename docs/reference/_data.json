@@ -1,0 +1,14 @@
+{
+  "index": {
+    "title": "Rerefence"
+  },
+  "supported-widgets": {
+    "title": "Supported widgets"
+  },
+  "environment": {
+    "title": "Environment"
+  },
+  "release-notes": {
+    "title": "Release notes"
+  }
+}

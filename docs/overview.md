@@ -6,26 +6,26 @@ However, creating awesome scrolling effects depends deeply on how you use it: la
 
 This documentation describes how to install this library and apply to your application.
 
-## Try quickly
+## Get started
 
-See [Quick start](../docs/quick-start/index.md) section first.
+See [quick start](../docs/quick-start/index.md) section.
 
 ## See the complete examples
 
-Download from Google Play or wercker for quick trial,
-or you'd like to build it, see [Try the example app](../docs/example/index.md) section.
+You can try the example app, to see what this library can do.  
+See [try the example app](../docs/example/index.md) section to know how to install the app.
 
 ## Learn from basics
 
-Okay, now you've setup environments, let's learn how to use it in your app.  
-See [Basic techniques](../docs/basic/index.md) section.
+Now you must have seen the examples and setup your environments, then let's learn how to use it in your app.  
+See [basic techniques](../docs/basic/index.md) section.
 
 ## Challenge complex and awesome techniques
 
 If you'd like to create complex, awesome scrolling animation using ViewPager or something,
-please check out [Advanced techniques](../docs/advanced/index.md) section.
+please check out [advanced techniques](../docs/advanced/index.md) section.
 
 ## If you're interested in improving this library...
 
 Please see the [contribution guideline](../CONTRIBUTING.md).  
-Also, [For contributiors](../docs/contributor/index.md) section will be useful to understand / manage the entire project.
+Also, [for contributiors](../docs/contributor/index.md) section will be useful to understand / manage the entire project.

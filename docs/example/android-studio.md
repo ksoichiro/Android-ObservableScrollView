@@ -7,13 +7,7 @@ If you're an Eclipse user, you can skip and go to the next topic.
 
 ## Prerequisites
 
-* Android Studio (1.0.0+)
-* Oracle JDK 7
-* Android SDK Tools (Rev.24.1.2)
-* Android SDK Build-tools (Rev.22.0.1)
-* Android 5.1.1 SDK Platform (Rev.2)
-* Android Support Repository (Rev.14)
-* Android Support Library (Rev.21.1.1)
+Please [check here](../../docs/reference/environment.md) to see if your enviroment satisfies the prerequisites for building the app.
 
 ## Instructions
 
