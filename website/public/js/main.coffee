@@ -6,7 +6,7 @@ $("a[href$='.md']").not("[href^='http']").each ->
   @.href = @.href.replace /\.md$/, ""
 
 # Insert subdirectory for links
-base = $("x-meta[name='base']").attr('value')
+base = $("meta[name='base']").attr('content')
 if base != ""
   $("a[href$='.md']").not("[href^='http']").each ->
     @.href = @.href.replace 'docs/', "#{base}/docs/"

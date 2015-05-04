@@ -1,7 +1,17 @@
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Language" content="en" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title><%- title %> | <%- title === name ? description : name %></title>
+<meta name="description" content="<%- description %>" />
+<meta name="robots" content="index" />
+<meta property="og:type" content="<%- ogType %>" />
+<meta property="og:site_name" content="<%- name %> | <%- description %>" />
+<meta property="og:title" content="<%- title %> | <%- title === name ? description : name %>" />
+<meta property="og:url" content="<%- ogUrl %>" />
+<meta property="og:description" content="<%- description %>" />
+<meta property="og:image" content="<%- baseUrl %>/thumbnail.png" />
+<meta property="og:locale" content="en" />
 <link rel="stylesheet" type="text/css" href="<%- baseUrl %>/lib/components-font-awesome/css/font-awesome.min.css" />
 <link rel="stylesheet" type="text/css" href="<%- baseUrl %>/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="<%- baseUrl %>/css/main.css" />
@@ -22,4 +32,4 @@
 <meta name="msapplication-TileColor" content="#ffffff" />
 <meta name="msapplication-TileImage" content="<%- baseUrl %>/ms-icon-144x144.png" />
 <meta name="theme-color" content="#ffffff" />
-<x-meta name="base" value="<%- baseUrl %>" />
+<meta name="base" content="<%- baseUrl %>" />

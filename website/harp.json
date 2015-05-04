@@ -7,6 +7,8 @@
     "githubUser": "ksoichiro",
     "githubRepo": "Android-ObservableScrollView",
     "githubUrl": "https://github.com/ksoichiro/Android-ObservableScrollView",
+    "ogType": "website",
+    "ogUrl": "http://ksoichiro.github.io/Android-ObservableScrollView",
     "copyrightYear": "2014",
     "copyrightHolder": "Soichiro Kashima"
   }
