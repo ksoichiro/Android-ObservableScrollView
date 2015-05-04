@@ -10,6 +10,6 @@ which are implemented in the following examples.
 
 ---
 
-Comming soon...
+Coming soon...
 
 [Next: Filling gap on top of the Toolbar &raquo;](../../docs/basic/filling-gap.md)

@@ -12,6 +12,6 @@ which are implemented in the following examples.
 
 ---
 
-Comming soon...
+Coming soon...
 
 [Next: ViewPager pattern &raquo;](../../docs/advanced/viewpager.md)

@@ -8,4 +8,8 @@ which are implemented in the following examples.
 * StickyHeaderScrollViewActivity
 * StickyHeaderWebViewActivity
 
+---
+
+Coming soon...
+
 [Next: Flexible space on the Toolbar &raquo;](../../docs/basic/flexible-space-toolbar.md)

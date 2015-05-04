@@ -8,6 +8,6 @@ which are implemented in the following examples.
 
 ---
 
-Comming soon...
+Coming soon...
 
 [Next: Sticky header &raquo;](../../docs/basic/filling-gap.md)
