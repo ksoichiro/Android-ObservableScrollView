@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Language" content="en" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Android-ObservableScrollView | Android library to observe scroll events on scrollable views.</title>
+<meta name="description" content="Android library to observe scroll events on scrollable views." />
+<meta name="robots" content="index" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Android-ObservableScrollView | Android library to observe scroll events on scrollable views." />
+<meta property="og:title" content="Android-ObservableScrollView | Android library to observe scroll events on scrollable views." />
+<meta property="og:url" content="http://ksoichiro.github.io/Android-ObservableScrollView" />
+<meta property="og:description" content="Android library to observe scroll events on scrollable views." />
+<meta property="og:image" content="/Android-ObservableScrollView/thumbnail.png" />
+<meta property="og:locale" content="en" />
+<link rel="stylesheet" type="text/css" href="/Android-ObservableScrollView/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/Android-ObservableScrollView/css/main.css" />
+<!--[if lt IE 9]>
+<script src="/Android-ObservableScrollView/lib/html5shiv/dist/html5shiv.min.js"></script>
+<script src="/Android-ObservableScrollView/lib/respond-minmax/dest/respond.min.js"></script>
+<![endif]-->
+<link rel="apple-touch-icon" sizes="57x57" href="/Android-ObservableScrollView/apple-icon-57x57.png" />
+<link rel="apple-touch-icon" sizes="60x60" href="/Android-ObservableScrollView/apple-icon-60x60.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/Android-ObservableScrollView/apple-icon-72x72.png" />
+<link rel="apple-touch-icon" sizes="76x76" href="/Android-ObservableScrollView/apple-icon-76x76.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/Android-ObservableScrollView/apple-icon-114x114.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="/Android-ObservableScrollView/apple-icon-120x120.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="/Android-ObservableScrollView/apple-icon-144x144.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/Android-ObservableScrollView/apple-icon-152x152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/Android-ObservableScrollView/apple-icon-180x180.png" />
+<link rel="icon" type="image/png" sizes="192x192"  href="/Android-ObservableScrollView/android-icon-192x192.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/Android-ObservableScrollView/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="96x96" href="/Android-ObservableScrollView/favicon-96x96.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/Android-ObservableScrollView/favicon-16x16.png" />
+<link rel="manifest" href="/Android-ObservableScrollView/manifest.json" />
+<meta name="msapplication-TileColor" content="#ffffff" />
+<meta name="msapplication-TileImage" content="/Android-ObservableScrollView/ms-icon-144x144.png" />
+<meta name="theme-color" content="#ffffff" />
+<meta name="base" content="/Android-ObservableScrollView" />
+
+</head>
+<body id="site-top">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/Android-ObservableScrollView/">Android-ObservableScrollView</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse right">
+      <ul class="nav navbar-nav">
+        <li><a href="/Android-ObservableScrollView/docs/overview">Documentation</a></li>
+        <li><a href="/Android-ObservableScrollView/docs/faq">FAQ</a></li>
+        <li><a href="https://github.com/ksoichiro/Android-ObservableScrollView">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div id="content-header">
+<div class="container">
+<h1 id="site-title" class="visible">Android-ObservableScrollView</h1>
+</div>
+</div>
+
+<div class="container">
+<div id="content">
+
+<div id="main-content">
+<h1>Android-ObservableScrollView</h1><p><a href="https://travis-ci.org/ksoichiro/Android-ObservableScrollView"><img src="http://img.shields.io/travis/ksoichiro/Android-ObservableScrollView.svg?style=flat" alt="Build Status"></a>
+<a href="https://coveralls.io/r/ksoichiro/Android-ObservableScrollView?branch=master"><img src="https://img.shields.io/coveralls/ksoichiro/Android-ObservableScrollView/master.svg?style=flat" alt="Coverage Status"></a>
+<a href="https://github.com/ksoichiro/Android-ObservableScrollView/releases/latest"><img src="http://img.shields.io/maven-central/v/com.github.ksoichiro/android-observablescrollview.svg?style=flat" alt="Maven Central"></a>
+<a href="https://android-arsenal.com/api?level=9"><img src="https://img.shields.io/badge/API-9%2B-brightgreen.svg?style=flat" alt="API"></a>
+<a href="https://android-arsenal.com/details/1/1136"><img src="https://img.shields.io/badge/Android%20Arsenal-Android--ObservableScrollView-brightgreen.svg?style=flat" alt="Android Arsenal"></a></p>
+<p>Android library to observe scroll events on scrollable views.<br>It&#39;s easy to interact with the Toolbar introduced in Android 5.0 Lollipop  and may be helpful to implement look and feel of Material Design apps.</p>
+<p><img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo12.gif" alt="">
+<img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo10.gif" alt="">
+<img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo11.gif" alt="">
+<img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo13.gif" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo1.gif" alt="">
+<img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo2.gif" alt="">
+<img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo3.gif" alt="">
+<img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo4.gif" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo5.gif" alt="">
+<img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo6.gif" alt="">
+<img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo7.gif" alt="">
+<img src="https://raw.githubusercontent.com/ksoichiro/Android-ObservableScrollView/master/samples/images/demo8.gif" alt=""></p>
+<h2>Examples</h2><h3>Download from Google Play</h3><p><a href="https://play.google.com/store/apps/details?id=com.github.ksoichiro.android.observablescrollview.samples2"><img src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png" alt="Get it on Google Play"></a></p>
+<p>Please note that the app on the Play store is not always the latest version.</p>
+<h3>Download from wercker</h3><p>If you are a wercker user, you can download the latest build artifact.<br><a href="docs/example/wercker.md">See here for details</a>.</p>
+<p><a href="https://app.wercker.com/project/bykey/8d1e27d9f4a662b25dbe70402733582b"><img src="https://app.wercker.com/status/8d1e27d9f4a662b25dbe70402733582b/m/master" alt="wercker status" title="wercker status"></a></p>
+<h3>Install manually</h3><p>Just clone and execute <code>installDevDebug</code> task with Gradle.<br><a href="docs/example/android-studio.md">See here for details</a>.</p>
+<h2>Usage</h2><ol>
+<li>Add <code>com.github.ksoichiro:android-observablescrollview</code> to your <code>dependencies</code> in <code>build.gradle</code>.</li>
+<li>Add <code>ObservableListView</code> or other views you&#39;d like to use.</li>
+<li>Write some animation codes to the callbacks such as <code>onScrollChanged</code>, <code>onUpOrCancelMotionEvent</code>, etc.</li>
+</ol>
+<p>See <a href="docs/quick-start/index.md">the quick start guide for details</a>,
+and <a href="docs/overview.md">the documentation</a> for further more.</p>
+<h2>Reference</h2><ul>
+<li><a href="docs/reference/supported-widgets.md">Supported widgets</a></li>
+<li><a href="docs/reference/enviromnent.md">Environment</a></li>
+<li><a href="docs/reference/release-notes.md">Release notes</a></li>
+<li><a href="docs/faq.md">FAQ</a></li>
+</ul>
+<h2>Apps that uses this library</h2><ul>
+<li><a href="https://play.google.com/store/apps/details?id=aj.jair.music">Jair Player</a> by Akshay Chordiya</li>
+<li><a href="https://play.google.com/store/apps/details?id=se.project.generic.mygradle">My Gradle</a> by Erick Chavez Alcarraz</li>
+</ul>
+<p>If you&#39;re using this library in your app and you&#39;d like to list it here,<br>please let me know via <a href="mailto:soichiro.kashima@gmail.com">email</a> or <a href="https://github.com/ksoichiro/Android-ObservableScrollView/pulls">pull requests</a> or <a href="https://github.com/ksoichiro/Android-ObservableScrollView/issues">issues</a>.</p>
+<h2>Contributions</h2><p>Any contributions are welcome!<br>Please check the <a href="docs/faq.md">FAQ</a> and <a href="https://github.com/ksoichiro/Android-ObservableScrollView/tree/master/CONTRIBUTING.md">contributing guideline</a> before submitting a new issue.</p>
+<h2>Developed By</h2><ul>
+<li>Soichiro Kashima - <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x73;&#111;&#x69;&#x63;&#104;&#105;&#114;&#x6f;&#x2e;&#107;&#97;&#115;&#104;&#105;&#109;&#97;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#46;&#99;&#111;&#x6d;">&#x73;&#111;&#x69;&#x63;&#104;&#105;&#114;&#x6f;&#x2e;&#107;&#97;&#115;&#104;&#105;&#109;&#97;&#x40;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#46;&#99;&#111;&#x6d;</a></li>
+</ul>
+<h2>Thanks</h2><ul>
+<li>Inspired by <code>ObservableScrollView</code> in <a href="https://code.google.com/p/romannurik-code/">romannurik-code</a>.</li>
+</ul>
+<h2>License</h2><pre><code class="language-license">Copyright 2014 Soichiro Kashima
+
+Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div class="footer">
+    <div class="btns">
+        <iframe class="ghstar" src="https://ghbtns.com/github-btn.html?user=ksoichiro&repo=Android-ObservableScrollView&type=star&count=true" frameborder="0" scrolling="0" ></iframe>
+        <iframe class="ghfork" src="https://ghbtns.com/github-btn.html?user=ksoichiro&repo=Android-ObservableScrollView&type=fork&count=true" frameborder="0" scrolling="0" ></iframe>
+    </div>
+    <div class="copyright">
+        Android is a trademark of Google Inc.<br />
+        © Copyright 2014, Soichiro Kashima.
+    </div>
+</div>
+
+<script src="/Android-ObservableScrollView/lib/jquery/dist/jquery.min.js"></script>
+<script src="/Android-ObservableScrollView/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/Android-ObservableScrollView/lib/highlightjs/highlight.pack.js"></script>
+<script src="/Android-ObservableScrollView/js/main.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

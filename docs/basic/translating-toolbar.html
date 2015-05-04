@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Language" content="en" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Translating the Toolbar | Android-ObservableScrollView</title>
+<meta name="description" content="Android library to observe scroll events on scrollable views." />
+<meta name="robots" content="index" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Android-ObservableScrollView | Android library to observe scroll events on scrollable views." />
+<meta property="og:title" content="Translating the Toolbar | Android-ObservableScrollView" />
+<meta property="og:url" content="http://ksoichiro.github.io/Android-ObservableScrollView" />
+<meta property="og:description" content="Android library to observe scroll events on scrollable views." />
+<meta property="og:image" content="/Android-ObservableScrollView/thumbnail.png" />
+<meta property="og:locale" content="en" />
+<link rel="stylesheet" type="text/css" href="/Android-ObservableScrollView/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/Android-ObservableScrollView/css/main.css" />
+<!--[if lt IE 9]>
+<script src="/Android-ObservableScrollView/lib/html5shiv/dist/html5shiv.min.js"></script>
+<script src="/Android-ObservableScrollView/lib/respond-minmax/dest/respond.min.js"></script>
+<![endif]-->
+<link rel="apple-touch-icon" sizes="57x57" href="/Android-ObservableScrollView/apple-icon-57x57.png" />
+<link rel="apple-touch-icon" sizes="60x60" href="/Android-ObservableScrollView/apple-icon-60x60.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/Android-ObservableScrollView/apple-icon-72x72.png" />
+<link rel="apple-touch-icon" sizes="76x76" href="/Android-ObservableScrollView/apple-icon-76x76.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/Android-ObservableScrollView/apple-icon-114x114.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="/Android-ObservableScrollView/apple-icon-120x120.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="/Android-ObservableScrollView/apple-icon-144x144.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/Android-ObservableScrollView/apple-icon-152x152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/Android-ObservableScrollView/apple-icon-180x180.png" />
+<link rel="icon" type="image/png" sizes="192x192"  href="/Android-ObservableScrollView/android-icon-192x192.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/Android-ObservableScrollView/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="96x96" href="/Android-ObservableScrollView/favicon-96x96.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/Android-ObservableScrollView/favicon-16x16.png" />
+<link rel="manifest" href="/Android-ObservableScrollView/manifest.json" />
+<meta name="msapplication-TileColor" content="#ffffff" />
+<meta name="msapplication-TileImage" content="/Android-ObservableScrollView/ms-icon-144x144.png" />
+<meta name="theme-color" content="#ffffff" />
+<meta name="base" content="/Android-ObservableScrollView" />
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/Android-ObservableScrollView/">Android-ObservableScrollView</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/Android-ObservableScrollView/docs/overview">Documentation</a></li>
+        <li><a href="/Android-ObservableScrollView/docs/faq">FAQ</a></li>
+        <li><a href="https://github.com/ksoichiro/Android-ObservableScrollView">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container">
+<p class="visible-xs">
+    <button type="button" class="btn-sidebar-toggle" data-toggle="offcanvas">Show menu</button>
+</p>
+<div id="grid-content">
+<div id="sidebar">
+    <ul>
+        <li><ul><li class="topic"><a href="/Android-ObservableScrollView/docs/overview">Overview</a></li></ul></li>
+        
+            
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/quick-start/">Quick start</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/quick-start/dependencies">Dependencies</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/quick-start/layout">Layout</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/quick-start/animation">Animation codes</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/example/">Try the example app</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/example/google-play">Download from Google Play</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/example/wercker">Download from wercker</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/example/android-studio">Build on Android Studio</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/example/eclipse">Build on Eclipse</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/basic/">Basic techniques</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/show-hide-action-bar">Show and hide the ActionBar</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/translating-toolbar">Translating the Toolbar</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/parallax-image">Parallax image</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/sticky-header">Sticky header</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/flexible-space-toolbar">Flexible space on the Toolbar</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/flexible-space-with-image">Flexible space with image</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/filling-gap">Filling gap on top of the Toolbar</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/advanced/">Advanced techniques</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/advanced/sliding-up">Sliding up pattern</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/advanced/viewpager">ViewPager pattern</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/contributor/">For contributors</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/contributor/ci">CI</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/contributor/update-website">Update website</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/contributor/release">Release</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/reference/">Reference</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/reference/supported-widgets">Supported widgets</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/reference/environment">Environment</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/reference/release-notes">Release notes</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+    </ul>
+</div>
+<div id="sidebar-main-content">
+<h1>Translating the Toolbar</h1><p>This topic describes how to translate the Toolbar,
+which are implemented in the following examples.</p>
+<ul>
+<li>ToolbarControlBaseActivity</li>
+<li>ToolbarControlGridViewActivity</li>
+<li>ToolbarControlListViewActivity</li>
+<li>ToolbarControlRecyclerViewActivity</li>
+<li>ToolbarControlScrollViewActivity</li>
+<li>ToolbarControlWebViewActivity</li>
+</ul>
+<hr>
+<h2>About the Toolbar</h2><p>In this section we learn how to translate the Toolbar.<br>Toolbar was introduced on Android 5.0, and you can also use it on pre-Lollipop devices
+by using <a href="http://developer.android.com/tools/support-library/features.html#v7-appcompat">v7 appcompat library</a>
+of the Android Support Library package.</p>
+<h2>Design of the examples</h2><p>The existing examples above, <code>ToolbarControlBaseActivity</code> has most of the codes to avoid writing duplicate codes.
+If you use one of them, you don&#39;t have to use this structure: extending Activity is not required to achieve this effect.</p>
+<h2>Create layout file</h2><p>In this topic, we use <code>ObservableListView</code> and <code>Toolbar</code>, and wrap them with <code>FrameLayout</code>.<br><code>FrameLayout</code> and <code>RelativeLayout</code> are useful to translate views inside of it separately.</p>
+<pre><code class="language-xml">&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+  xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+  android:layout_width=&quot;match_parent&quot;
+  android:layout_height=&quot;match_parent&quot;&gt;
+
+  &lt;android.support.v7.widget.Toolbar
+    android:id=&quot;@+id/toolbar&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:background=&quot;?attr/colorPrimary&quot;
+    android:minHeight=&quot;?attr/actionBarSize&quot;
+    app:popupTheme=&quot;@style/Theme.AppCompat.Light.DarkActionBar&quot;
+    app:theme=&quot;@style/Toolbar&quot; /&gt;
+
+  &lt;com.github.ksoichiro.android.observablescrollview.ObservableListView
+    android:id=&quot;@+id/scrollable&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:layout_marginTop=&quot;?attr/actionBarSize&quot; /&gt;
+&lt;/FrameLayout&gt;
+</code></pre>
+<h2>How to translate the Toolbar</h2><p>The basic idea about showing/hiding the Toolbar is exactly the same as the ActionBar.
+However, the Toolbar class does not provide any convinient methods like <code>show()</code> and <code>hide()</code> which the ActionBar class has.
+Therefore we should implement such methods to translate the Toolbar.
+Our goal is to make the following codes work:</p>
+<pre><code class="language-java">@Override
+public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+  if (scrollState == ScrollState.UP) {
+    if (toolbarIsShown()) { // TODO Not implemented
+      hideToolbar(); // TODO Not implemented
+    }
+  } else if (scrollState == ScrollState.DOWN) {
+    if (toolbarIsHidden()) { // TODO Not implemented
+      showToolbar(); // TODO Not implemented
+    }
+  }
+}
+</code></pre>
+<h2>Using NineOldAndroids</h2><p>Before we begin, you should confirm whether you&#39;re going to support pre-Honeycomb devices.
+To translate the Toolbar, we would like to use the <a href="http://developer.android.com/guide/topics/graphics/prop-animation.html">Property Animation APIs</a>
+which are introduced in API level 11, so if you are going to support pre-Honeycomb devices,
+<a href="https://github.com/JakeWharton/NineOldAndroids/">JakeWharton/NineOldAndroids</a> might be useful (although it&#39;s marked as deprecated).</p>
+<p>In this project, all the examples use NineOldAndroids.
+So if you don&#39;t support pre-Honeycomb devices, please replace <code>ViewHelper.methodName(viewObject)</code> to <code>viewObject.methodName()</code>.</p>
+<pre><code>NineOldAndroids: ViewHelper.getTranslationY(mToolbar)
+Platform API:    mToolbar.getTranslationY()
+</code></pre><p>If you use NineOldAndroids, add an entry to the <code>dependencies</code> closure in your <code>build.gradle</code>:</p>
+<pre><code class="language-gradle">dependencies {
+    compile &#39;com.nineoldandroids:library:2.4.0&#39;
+}
+</code></pre>
+<h2>toolbarIsShown()/toolbarIsHidden()</h2><p>Now let&#39;s start from the easiest part.<br>To avoid redundant translation, we need methods to check if the Toolbar is shown or hidden.<br>With the property animation APIs (or NineOldAndroids), we just simply check the <code>translationY</code> property.</p>
+<pre><code class="language-java">private boolean toolbarIsShown() {
+  // Toolbar is 0 in Y-axis, so we can say it&#39;s shown.
+  return ViewHelper.getTranslationY(mToolbar) == 0;
+}
+
+private boolean toolbarIsHidden() {
+  // Toolbar is outside of the screen and absolute Y matches the height of it.
+  // So we can say it&#39;s hidden.
+  return ViewHelper.getTranslationY(mToolbar) == -mToolbar.getHeight();
+}
+</code></pre>
+<h2>Implement showToolbar()/hideToolbar()</h2><p>Next, let&#39;s implement methods to animate the Toolbar.<br>Before thinking about details, write some pseudocodes to simplify the problem.<br>To show or hide the Toolbar, we just need one method to move the Toolbar.</p>
+<pre><code class="language-java">private void showToolbar() {
+  moveToolbar(0);
+}
+
+private void hideToolbar() {
+  moveToolbar(-mToolbar.getHeight());
+}
+</code></pre>
+<p>This should work, if we implement the <code>moveToolbar</code> method correctly :)</p>
+<p>Most of the animation codes are combination of property value calculations,
+and I think it&#39;s very hard to keep these information in my brain or imagine correctly.
+And this approach is useful to implement the complex animation.</p>
+<h2>Implement moveToolbar()</h2><p>Although we named the method <code>moveToolbar</code>, it&#39;s not everything we need to handle.
+In ActionBar examples, not only the ActionBar is moved but also the height of the view (<code>Observable*View</code>) is changed.
+And we need to implement this behavior for the Toolbar.</p>
+<p>To use the changing property values, we can use <code>ValueAnimator</code>.<br><code>ValueAnimator</code> has a callback method <code>onAnimationUpdate</code>, and we can get the animation progress from it.<br><code>ValueAnimator</code> itself does not animate anything, we need to animate something using a parameter of the callback.</p>
+<pre><code class="language-java">ValueAnimator animator = ValueAnimator.ofFloat(0, 100).setDuration(200);
+animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+  @Override
+  public void onAnimationUpdate(ValueAnimator animation) {
+    float value = (float) animation.getAnimatedValue();
+    // You can do whatever you want with the `value`.
+  }
+});
+</code></pre>
+<p>In the example code above, the local variable <code>value</code> changes from <code>0f</code> to <code>100f</code> in 200ms.<br>In this case, we should change the <code>translationY</code> property of the Toolbar,
+and change the height of the <code>Observable*View</code> like this:</p>
+<pre><code class="language-java">private void moveToolbar(float toTranslationY) {
+  ValueAnimator animator = ValueAnimator.ofFloat(ViewHelper.getTranslationY(mToolbar), toTranslationY).setDuration(200);
+  animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    @Override
+    public void onAnimationUpdate(ValueAnimator animation) {
+      float translationY = (float) animation.getAnimatedValue();
+      ViewHelper.setTranslationY(mToolbar, translationY);
+      ViewHelper.setTranslationY((View) mScrollable, translationY);
+      FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) ((View) mScrollable).getLayoutParams();
+      lp.height = (int) -translationY + getScreenHeight() - lp.topMargin;
+      ((View) mScrollable).requestLayout();
+    }
+  });
+  animator.start();
+}
+</code></pre>
+<p>The <code>translationY</code> local variable changes from <code>ViewHelper.getTranslationY(mToolbar)</code>( == current translationY)
+to <code>toTranslationY</code>.</p>
+<p>To translate the Toolbar, we just call <code>ViewHelper.setTranslationY()</code>.<br>And to change the height of the wrapper view (<code>FrameLayout</code>), set the height value of <code>FrameLayout.LayoutParams</code>
+and update by calling <code>requestLayout()</code>.</p>
+<h2>Avoid redundant animation</h2><p>We&#39;d better check the current <code>translationY</code> value
+and if it&#39;s already equal to <code>toTranslationY</code>, stop the animation.</p>
+<pre><code class="language-java">private void moveToolbar(float toTranslationY) {
+  // Check the current translationY
+  if (ViewHelper.getTranslationY(mToolbar) == toTranslationY) {
+    return;
+  }
+  // Codes after that are omitted
+}
+</code></pre>
+<p>That&#39;s all.</p>
+<p><a href="../../docs/basic/parallax-image.md">Next: Parallax image &raquo;</a></p>
+</div>
+</div>
+</div>
+
+<div class="footer">
+    <div class="btns">
+        <iframe class="ghstar" src="https://ghbtns.com/github-btn.html?user=ksoichiro&repo=Android-ObservableScrollView&type=star&count=true" frameborder="0" scrolling="0" ></iframe>
+        <iframe class="ghfork" src="https://ghbtns.com/github-btn.html?user=ksoichiro&repo=Android-ObservableScrollView&type=fork&count=true" frameborder="0" scrolling="0" ></iframe>
+    </div>
+    <div class="copyright">
+        Android is a trademark of Google Inc.<br />
+        © Copyright 2014, Soichiro Kashima.
+    </div>
+</div>
+
+<script src="/Android-ObservableScrollView/lib/jquery/dist/jquery.min.js"></script>
+<script src="/Android-ObservableScrollView/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/Android-ObservableScrollView/lib/highlightjs/highlight.pack.js"></script>
+<script src="/Android-ObservableScrollView/js/main.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>

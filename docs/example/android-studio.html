@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Language" content="en" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Build on Android Studio | Android-ObservableScrollView</title>
+<meta name="description" content="Android library to observe scroll events on scrollable views." />
+<meta name="robots" content="index" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Android-ObservableScrollView | Android library to observe scroll events on scrollable views." />
+<meta property="og:title" content="Build on Android Studio | Android-ObservableScrollView" />
+<meta property="og:url" content="http://ksoichiro.github.io/Android-ObservableScrollView" />
+<meta property="og:description" content="Android library to observe scroll events on scrollable views." />
+<meta property="og:image" content="/Android-ObservableScrollView/thumbnail.png" />
+<meta property="og:locale" content="en" />
+<link rel="stylesheet" type="text/css" href="/Android-ObservableScrollView/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/Android-ObservableScrollView/css/main.css" />
+<!--[if lt IE 9]>
+<script src="/Android-ObservableScrollView/lib/html5shiv/dist/html5shiv.min.js"></script>
+<script src="/Android-ObservableScrollView/lib/respond-minmax/dest/respond.min.js"></script>
+<![endif]-->
+<link rel="apple-touch-icon" sizes="57x57" href="/Android-ObservableScrollView/apple-icon-57x57.png" />
+<link rel="apple-touch-icon" sizes="60x60" href="/Android-ObservableScrollView/apple-icon-60x60.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/Android-ObservableScrollView/apple-icon-72x72.png" />
+<link rel="apple-touch-icon" sizes="76x76" href="/Android-ObservableScrollView/apple-icon-76x76.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/Android-ObservableScrollView/apple-icon-114x114.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="/Android-ObservableScrollView/apple-icon-120x120.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="/Android-ObservableScrollView/apple-icon-144x144.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/Android-ObservableScrollView/apple-icon-152x152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/Android-ObservableScrollView/apple-icon-180x180.png" />
+<link rel="icon" type="image/png" sizes="192x192"  href="/Android-ObservableScrollView/android-icon-192x192.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/Android-ObservableScrollView/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="96x96" href="/Android-ObservableScrollView/favicon-96x96.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/Android-ObservableScrollView/favicon-16x16.png" />
+<link rel="manifest" href="/Android-ObservableScrollView/manifest.json" />
+<meta name="msapplication-TileColor" content="#ffffff" />
+<meta name="msapplication-TileImage" content="/Android-ObservableScrollView/ms-icon-144x144.png" />
+<meta name="theme-color" content="#ffffff" />
+<meta name="base" content="/Android-ObservableScrollView" />
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/Android-ObservableScrollView/">Android-ObservableScrollView</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/Android-ObservableScrollView/docs/overview">Documentation</a></li>
+        <li><a href="/Android-ObservableScrollView/docs/faq">FAQ</a></li>
+        <li><a href="https://github.com/ksoichiro/Android-ObservableScrollView">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container">
+<p class="visible-xs">
+    <button type="button" class="btn-sidebar-toggle" data-toggle="offcanvas">Show menu</button>
+</p>
+<div id="grid-content">
+<div id="sidebar">
+    <ul>
+        <li><ul><li class="topic"><a href="/Android-ObservableScrollView/docs/overview">Overview</a></li></ul></li>
+        
+            
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/quick-start/">Quick start</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/quick-start/dependencies">Dependencies</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/quick-start/layout">Layout</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/quick-start/animation">Animation codes</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/example/">Try the example app</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/example/google-play">Download from Google Play</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/example/wercker">Download from wercker</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/example/android-studio">Build on Android Studio</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/example/eclipse">Build on Eclipse</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/basic/">Basic techniques</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/show-hide-action-bar">Show and hide the ActionBar</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/translating-toolbar">Translating the Toolbar</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/parallax-image">Parallax image</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/sticky-header">Sticky header</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/flexible-space-toolbar">Flexible space on the Toolbar</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/flexible-space-with-image">Flexible space with image</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/basic/filling-gap">Filling gap on top of the Toolbar</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/advanced/">Advanced techniques</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/advanced/sliding-up">Sliding up pattern</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/advanced/viewpager">ViewPager pattern</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/contributor/">For contributors</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/contributor/ci">CI</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/contributor/update-website">Update website</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/contributor/release">Release</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+            
+            <li>
+                <h4 class="section"><a href="/Android-ObservableScrollView/docs/reference/">Reference</a></h4>
+                <ul>
+                    
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/reference/supported-widgets">Supported widgets</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/reference/environment">Environment</a></li>
+                        
+                    
+                        
+                            <li class="topic"><a href="/Android-ObservableScrollView/docs/reference/release-notes">Release notes</a></li>
+                        
+                    
+                </ul>
+            </li>
+        
+    </ul>
+</div>
+<div id="sidebar-main-content">
+<h1>Build on Android Studio</h1><p>This library and samples basically support Android Studio and Gradle.<br>(Actually, I&#39;m using them to develop this library.)</p>
+<p>If you&#39;re an Eclipse user, you can skip and go to the next topic.</p>
+<h2>Prerequisites</h2><p>Please <a href="../../docs/reference/environment.md">check here</a> to see if your enviroment satisfies the prerequisites for building the app.</p>
+<h2>Instructions</h2><h3>Get the source codes</h3><p>Get the source code of the library and example app, by cloning git repository or downloading archives.</p>
+<p>If you use git, execute the following command in your workspace directory.</p>
+<pre><code>$ git clone https://github.com/ksoichiro/Android-ObservableScrollView.git
+</code></pre><p>If you are using Windows, try it on GitBash or Cygwin or something that supports git.</p>
+<h3>Import the project to Android Studio</h3><ol>
+<li>Select File &gt; New &gt; Import Project... from the menu.</li>
+<li>Select the directory that is cloned. If you can&#39;t see your cloned directory, click &quot;Refresh&quot; icon and find it.</li>
+<li>Android Studio will import the project and build it. This might take minutes to complete. Even when the project window is opened, wait until the Gradle tasks are finished and indexed.</li>
+<li>Click &quot;Run &#39;samples&#39;&quot; button to build and launch the app. Don&#39;t forget to connect your devices to your machine.</li>
+</ol>
+<h3>Build and install using Gradle</h3><p>If you just want to install the app to your device, you don&#39;t have to import project to Android Studio.</p>
+<p>After cloning the project, connect your device to your machine, and execute the following command on the terminal.</p>
+<p>Mac / Linux / Git Bash, Cygwin on Windows:</p>
+<pre><code class="language-sh">$ cd /path/to/Android-ObservableScrollView
+$ ./gradlew installDevDebug
+</code></pre>
+<p>Windows (Command prompt):</p>
+<pre><code class="language-sh">&gt; cd C:\path\to\Android-ObservableScrollView
+&gt; gradlew installDevDebug
+</code></pre>
+<p><a href="../../docs/example/eclipse.md">Next: Build on Eclipse &raquo;</a></p>
+</div>
+</div>
+</div>
+
+<div class="footer">
+    <div class="btns">
+        <iframe class="ghstar" src="https://ghbtns.com/github-btn.html?user=ksoichiro&repo=Android-ObservableScrollView&type=star&count=true" frameborder="0" scrolling="0" ></iframe>
+        <iframe class="ghfork" src="https://ghbtns.com/github-btn.html?user=ksoichiro&repo=Android-ObservableScrollView&type=fork&count=true" frameborder="0" scrolling="0" ></iframe>
+    </div>
+    <div class="copyright">
+        Android is a trademark of Google Inc.<br />
+        © Copyright 2014, Soichiro Kashima.
+    </div>
+</div>
+
+<script src="/Android-ObservableScrollView/lib/jquery/dist/jquery.min.js"></script>
+<script src="/Android-ObservableScrollView/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/Android-ObservableScrollView/lib/highlightjs/highlight.pack.js"></script>
+<script src="/Android-ObservableScrollView/js/main.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</body>
+</html>
