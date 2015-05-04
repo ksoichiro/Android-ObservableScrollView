@@ -1,6 +1,27 @@
 @import (reference) '_mixins.less';
+@import (reference) '_colors.less';
 
-// Top page animation
+@content-header-height: 300px;
+body#site-top {
+  padding-top: 0px;
+  #content-header {
+    padding-top: 100px;
+    height: @content-header-height;
+    background-color: #ffffff;
+    #site-title {
+      font-weight: 100;
+      padding-top: 50px;
+      color: @theme-main-color;
+    }
+  }
+  #main-content {
+    padding-top: 30px;
+    h1 {
+      display: none;
+    }
+  }
+}
+
 @media screen and (min-width: 768px) {
   body#site-top {
     padding-top: 0px;
@@ -36,15 +57,12 @@
     }
 
     padding-top: 0px;
-    @content-header-height: 300px;
     #content-header {
       display: block;
       padding-top: 100px;
       height: @content-header-height;
       background-color: @theme-main-color;
       #site-title {
-        font-weight: 100;
-        padding-top: 50px;
         font-size: 48px;
         color: #ffffff;
         visibility: hidden;

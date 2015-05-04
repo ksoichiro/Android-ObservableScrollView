@@ -15,29 +15,11 @@
 }
 
 nav.navbar {
+  .navbar-shadow();
   .navbar-brand {
     background-image: url('../images/logo.png');
     background-repeat: no-repeat;
     background-position: 4px center;
     padding-left: 56px;
-  }
-}
-body#site-top {
-  #content-header {
-    display: none;
-  }
-  nav.navbar {
-    .navbar-shadow();
-  }
-  #main-content {
-    padding-top: 20px;
-    h1 {
-      display: none;
-    }
-  }
-}
-body:not(#site-top) {
-  nav.navbar {
-    .navbar-shadow();
   }
 }
