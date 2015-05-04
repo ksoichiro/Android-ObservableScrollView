@@ -1,4 +1,8 @@
 {
+  "index": {
+    "title": "Android-ObservableScrollView",
+    "layout": false
+  },
   "quick-start": {
     "title": "Quick start"
   },

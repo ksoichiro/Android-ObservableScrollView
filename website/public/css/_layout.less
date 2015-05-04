@@ -1,0 +1,24 @@
+@import (reference) '_mixins.less';
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  padding-top: 70px;
+}
+
+h1 {
+  margin-top: 8px;
+}
+
+// Markdown fix
+// Apply .table to all <table>s
+table {
+  .table;
+}
+
+.container {
+  .override-container;
+}

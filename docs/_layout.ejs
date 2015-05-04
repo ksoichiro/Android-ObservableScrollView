@@ -16,6 +16,7 @@
     <ul>
         <li><ul><li class="topic"><a href="<%- baseUrl %>/docs/overview">Overview</a></li></ul></li>
         <% for (var sectionSlug in public._data) { %>
+            <% if (sectionSlug == "index") { continue; } %>
             <li>
                 <h4 class="section"><a href="<%- baseUrl %>/docs/<%- sectionSlug %>/"><%- public._data[sectionSlug].title %></a></h4>
                 <ul>

@@ -4,6 +4,7 @@
   "dependencies": {
     "jquery": "1.11.2",
     "bootstrap": "3.3.4",
+    "roboto-fontface": "0.4.0",
     "components-font-awesome": "4.3.0",
     "highlightjs": "8.5.0",
     "respond-minmax": "1.4.2",
@@ -15,6 +16,9 @@
     },
     "bootstrap": {
       "main": ["dist/css/*.min.css", "dist/js/*.min.js", "dist/fonts/*"]
+    },
+    "roboto-fontface": {
+      "main": ["fonts/Roboto-Thin*", "fonts/Roboto-Light*", "fonts/Roboto-Regular*"]
     },
     "components-font-awesome": {
       "main": ["css/*.min.css", "fonts/*"]

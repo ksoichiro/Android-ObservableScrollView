@@ -19,3 +19,19 @@ $(document).ready ->
       $('[data-toggle="offcanvas"]').text 'Hide menu'
     else
       $('[data-toggle="offcanvas"]').text 'Show menu'
+
+if $('#site-top')
+  $(window).scroll ->
+    if 70 < $(document).scrollTop()
+      $('.navbar-brand').addClass('visible')
+      $('#site-title').removeClass('visible')
+      $('#navbar').removeClass('right')
+    else
+      $('.navbar-brand').removeClass('visible')
+      $('#site-title').addClass('visible')
+      $('#navbar').addClass('right')
+
+    if 250 < $(document).scrollTop()
+      $('nav').addClass('sticky')
+    else
+      $('nav').removeClass('sticky')
