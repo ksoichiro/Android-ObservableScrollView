@@ -112,7 +112,7 @@ gulp.task('deploy', ['git-clone'], function(cb) {
                 .on('finish', function() {
                     gutil.log('finished to copy');
 
-                    git.exec({args: 'diff-index HEAD --', cwd: paths.repo}, function (err, stdout) {
+                    git.exec({args: 'status --porcelain', cwd: paths.repo}, function (err, stdout) {
                         if (err) {
                             gutil.log('Failed to check diff: ' + err);
                             throw err;
