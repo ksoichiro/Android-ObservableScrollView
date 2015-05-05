@@ -1,4 +1,5 @@
 language: android
+sudo: false
 env:
   global:
   - GIT_COMMITTER_NAME=ksoichiro
