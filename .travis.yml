@@ -31,4 +31,4 @@ before_script:
 script:
 - "/bin/bash .travis-script.sh"
 after_success:
-- true && ([ "$TEST_TARGET" != "android" ] || "./gradlew :library:coveralls")
+- true && ([ "$TEST_TARGET" != "android" ] || ./gradlew :library:coveralls)
