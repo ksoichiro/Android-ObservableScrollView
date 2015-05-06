@@ -142,6 +142,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
                         mPrevFirstVisibleChildHeight = firstVisibleChild.getHeight();
                     } else if (firstVisiblePosition == 0) {
                         mPrevFirstVisibleChildHeight = firstVisibleChild.getHeight();
+                        mPrevScrolledChildrenHeight = 0;
                     }
                     if (mPrevFirstVisibleChildHeight < 0) {
                         mPrevFirstVisibleChildHeight = 0;
