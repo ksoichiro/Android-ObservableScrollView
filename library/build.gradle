@@ -56,7 +56,7 @@ android {
 
 apply plugin: 'com.github.kt3k.coveralls'
 
-coveralls.jacocoReportPath = 'build/outputs/reports/coverage/debug/report.xml'
+coveralls.jacocoReportPath = 'build/reports/coverage/debug/report.xml'
 
 // This is from 'https://github.com/chrisbanes/gradle-mvn-push'
 apply from: 'gradle-mvn-push.gradle'
