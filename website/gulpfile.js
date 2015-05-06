@@ -124,7 +124,6 @@ gulp.task('deploy', ['git-clone'], function(cb) {
                                 .pipe(git.commit('Updated website.', {cwd: paths.repo}))
                                 .on('end', function() {
                                     gutil.log('finish');
-                                    gutil.log('git push ' + project.gitPushUrl + ' gh-pages --quiet');
                                     git.push(project.gitPushUrl, 'gh-pages', {args: '--quiet', /*quiet: true, */cwd: paths.repo}, function(err) {
                                         if (err) {
                                             gutil.log('Failed to push: ' + err);

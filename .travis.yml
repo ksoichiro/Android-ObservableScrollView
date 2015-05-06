@@ -6,7 +6,7 @@ env:
   - GIT_COMMITTER_EMAIL=soichiro.kashima@gmail.com
   - GIT_AUTHOR_NAME=ksoichiro
   - GIT_AUTHOR_EMAIL=soichiro.kashima@gmail.com
-  - secure: HvFN+OoRKWHErd7V9ROy0jfoGJ/xPvyaGfhG1lsyxmq9TVAHl+I+t14+gsU8A51PJQWU5FQTG/XDYaFyuY7kDybd5VhZXijy8gT8Yge01TE0UhxHmpMTlP2HI+X9Of9P77PBNnH0oYLVYLYp1x/Nw5JUJ5SfirHnuzD8NDFuQgY=
+  - secure: Iw0mIseFZ6M/HGi/ERPBT4fabx0G1OVeHCbu6ANoVybO8yHBRHHuUc4pdZOOtEi+Ce/4a5TPZXbGPIVMZrN1ewS3uDAHsEFjmtehsqjk5iKXapvy04dwLsX9jCsQNl0n5679tRZ2eXUGqyVSddc5pIyWwJAGgBmnM/SHDaRy4YA=
   matrix:
   - TEST_TARGET=android
   - TEST_TARGET=website
