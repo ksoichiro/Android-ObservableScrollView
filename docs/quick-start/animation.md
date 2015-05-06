@@ -4,7 +4,7 @@ This time, we implement ActionBar animation using `AppCompatActivity` in the sup
 
 ## Apply layout to the activity
 
-At first, let `Activity` extend the `AppCompatActivity` and set [the layout we wrote](../../../docs/quick-start/layout.md) to it.
+At first, let `Activity` extend the `AppCompatActivity` and set [the layout we wrote](../../docs/quick-start/layout.md) to it.
 
 ```java
 import android.support.v7.app.AppCompatActivity;
@@ -103,7 +103,7 @@ You can see the ActionBar gets hidden or shown when you swipe the ListView.
 As you can see, the most important codes are the animation codes in the callbacks.
 You can learn how to write these code in this tutorial.
 
-In the [next section](../../../docs/example/index.md), we'll check the existing examples to see what we can do with this library.
+In the [next section](../../docs/example/index.md), we'll check the existing examples to see what we can do with this library.
 
 ## Program list
 
