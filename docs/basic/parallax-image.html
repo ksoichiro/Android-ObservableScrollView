@@ -237,11 +237,212 @@
 <h1>Parallax image</h1><p>This topic describes how to create parallax effect,
 which are implemented in the following examples.</p>
 <ul>
-<li>ParallaxToolbarListViewActivity</li>
 <li>ParallaxToolbarScrollViewActivity</li>
+<li>ParallaxToolbarListViewActivity</li>
 </ul>
 <hr>
-<p>Coming soon...</p>
+<h2>Overview</h2><p>In this topic, &quot;parallax&quot; means the following layout and behavior:</p>
+<ul>
+<li>The layout has an image on the top of the layout.</li>
+<li>The image will move with half the speed of that of the ScrollView.</li>
+<li>ScrollView itself has a big padding, which is like a &quot;window&quot; to see the image.</li>
+</ul>
+<p>To make the image &quot;parallax&quot;, we need to do some tricks on the layout.  </p>
+<p><code>ObservableScrollView</code> and <code>ObservableListView</code> are a little different
+around handling paddings.
+I&#39;ll explain from <code>ObservableScrollView</code>.</p>
+<hr>
+<h2>ScrollView</h2><h3>Layout</h3><h4>Basic structure</h4><p>At first, let&#39;s see the following basic structure of the layout.</p>
+<pre><code class="language-xml">&lt;FrameLayout&gt;
+  &lt;ObservableScrollView&gt;
+    &lt;RelativeLayout&gt;
+      &lt;ImageView&gt;
+      &lt;View&gt;
+      &lt;TextView&gt;
+    &lt;/RelativeLayout&gt;
+  &lt;/ObservableScrollView&gt;
+  &lt;Toolbar&gt;
+&lt;/FrameLayout&gt;
+</code></pre>
+<p>Please note that in this XML, I intentionally omitted attributes(<code>android:XXX</code>)
+and package name (<code>com.github.XXX</code>) for readability.</p>
+<h5>Why should we use FrameLayout?</h5><p>As you can see on the example app, Toolbar is overlaid to the ObservableScrollView.
+To do this, we need to use <code>FrameLayout</code> or <code>RelativeLayout</code>.</p>
+<h5>What&#39;s inside of the ObservableScrollView?</h5><p><code>ObservableScrollView</code> extends <code>ScrollView</code>, so it can have no more than 1 child.
+However we need more children, so placing a <code>ViewGroup</code> as the child of <code>ObservableScrollView</code> is required.</p>
+<p><code>ImageView</code> is the <code>View</code> which is going to have &quot;parallax&quot; effect.
+You can replace it to other type of <code>View</code> if you want.</p>
+<p><code>TextView</code> is the main content of the screen, you can also replace it to other type of <code>View</code>.</p>
+<p><code>View</code> is an &quot;anchor&quot;, I&#39;ll explain it later.</p>
+<p>We need to move the content and the image separately,
+so the parent of them &mdash; child of <code>ObservableScrollView</code> &mdash;
+should be <code>RelativeLayout</code> or <code>FrameLayout</code>.
+This time, we use <code>RelativeLayout</code> for that purpose.</p>
+<h4>Don&#39;t move the content when its parent is scrolled</h4><p>How do you place the main content (a <code>TextView</code> for this time) under the <code>ImageView</code>?</p>
+<p>Suppose you define the position with <code>android:layout_below</code> attribute:</p>
+<pre><code class="language-xml">&lt;!-- some attributes are omitted --&gt;
+&lt;RelativeLayout&gt;
+  &lt;ImageView android:id=&quot;@+id/image&quot;&gt;
+  &lt;TextView android:layout_below=&quot;@id/image&quot;&gt;
+&lt;/RelativeLayout&gt;
+</code></pre>
+<p>We need to move <code>ImageView</code> but if we do this, 
+the <code>TextView</code> moves with the same speed as <code>ImageView</code>
+because its layout is defined with <code>android:layout_below=&quot;@id/image&quot;</code>.
+So we should define the <code>TextView</code>&#39;s position with another &quot;anchor&quot; view:</p>
+<pre><code class="language-xml">&lt;!-- some attributes are omitted --&gt;
+&lt;RelativeLayout&gt;
+  &lt;ImageView android:id=&quot;@+id/image&quot;
+             android:layout_height=&quot;@dimen/parallax_image_height&quot;&gt;
+  &lt;View android:id=&quot;@+id/anchor&quot;
+        android:layout_height=&quot;@dimen/parallax_image_height&quot;
+        android:minHeight=&quot;@dimen/parallax_image_height&quot; /&gt;
+  &lt;TextView android:layout_below=&quot;@id/anchor&quot;&gt;
+&lt;/RelativeLayout&gt;
+</code></pre>
+<p>With this anchor view, we can move only <code>ImageView</code>.
+The anchor <code>View</code> and <code>TextView</code> will remain in their position.</p>
+<h4>Set the content color explicitly</h4><p>We need to set the background color of the main content explicitly,
+because the image is underlying.</p>
+<pre><code class="language-xml">&lt;TextView android:layout_below=&quot;@id/anchor&quot;
+  android:background=&quot;@android:color/white&quot; /&gt;
+</code></pre>
+<h4>Complete the layout</h4><p>Now set the rest of the attributes of the layout,
+such as <code>android:layout_width</code>, <code>android:padding</code>, etc.<br>Please see the folloing codes for details.</p>
+<ul>
+<li><code>res/layout/activity_parallaxtoolbarscrollview.java</code></li>
+</ul>
+<h3>Animation</h3><h4>Basic structure of Activity</h4><p>We use <code>AppCompatActivity</code> of the v7 appcompat library for the base <code>Activity</code> class,
+and implement <code>ObservableScrollViewCallbacks</code>.</p>
+<pre><code class="language-java">public class ParallaxToolbarScrollViewActivity
+  extends AppCompatActivity implements ObservableScrollViewCallbacks {
+</code></pre>
+<h4>Initialize views</h4><p>Then initialize the views like this.</p>
+<pre><code class="language-java">// Fields
+private View mImageView;
+private View mToolbarView;
+private ObservableScrollView mScrollView;
+private int mParallaxImageHeight;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  setContentView(R.layout.activity_parallaxtoolbarscrollview);
+
+  setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+  mImageView = findViewById(R.id.image);
+  mToolbarView = findViewById(R.id.toolbar);
+  mToolbarView.setBackgroundColor(
+    ScrollUtils.getColorWithAlpha(0, getResources().getColor(R.color.primary)));
+
+  mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
+  mScrollView.setScrollViewCallbacks(this);
+
+  mParallaxImageHeight = getResources().getDimensionPixelSize(
+    R.dimen.parallax_image_height);
+}
+</code></pre>
+<p>The Toolbar should be transparent at the beginning, so set the alpha of the background color to 0
+by using the <code>ScrollUtils</code> utility class.
+This is optional and you can omit this if you don&#39;t use the Toolbar.</p>
+<h4>Change the position on scrolling</h4><p>We use <code>onScrollChanged()</code> method, one of <code>ObservableScrollViewCallbacks</code>, to animate the view.
+What we need to do in this method is:</p>
+<ol>
+<li>translate the <code>ImageView</code> in Y-axis using <code>scrollY</code> parameter</li>
+<li>change the alpha value of the background color of the <code>Toolbar</code> using <code>scrollY</code> parameter</li>
+</ol>
+<p>The second one is optional. You can omit this if you don&#39;t use the Toolbar.</p>
+<h5>Translate the ImageView</h5><p>Just set the <code>translateY</code> property to half of <code>scrollY</code>.<br>If you want to change the &quot;depth&quot; of the parallax effect, adjust this value (<code>scrollY / 2</code>).</p>
+<pre><code class="language-java">@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+  ViewHelper.setTranslationY(mImageView, scrollY / 2);
+}
+</code></pre>
+<h5>Change the alpha of the Toolbar background color</h5><p>We should change the alpha value of the background color of the Toolbar,
+so we can write like this.</p>
+<pre><code class="language-java">@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+  int baseColor = getResources().getColor(R.color.primary);
+  float alpha = 0; // TODO Fix this value
+  mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(alpha, baseColor));
+</code></pre>
+<p>Changing alpha is a little complicated, so I wrote <code>float alpha = 0</code> temporarily.<br>Let&#39;s confirm the conditions of the colors and fix the <code>alpha</code> value.</p>
+<ul>
+<li>If the <code>ObservableScrollView</code> is not scrolled, Toolbar is transparent.<br>(If <code>scrollY</code> equals to 0, alpha of the Toolbar is 0.)</li>
+<li>If the <code>ObservableScrollView</code> is scrolled, it becomes opaque gradually,
+and when it&#39;s scrolled to a certain point, Toolbar is completely opaque.<br>(If <code>scrollY</code> equals to <code>mParallaxImageHeight</code>, alpha of the Toolbar is 1.)</li>
+</ul>
+<p>We need to express these conditions as a formula.</p>
+<p><code>alpha</code> should changes from 0 to 1, but <code>scrollY</code> changes from 0 to thousands,
+so <code>scrollY</code> should be scaled.<br>We should divide <code>scrollY</code> with <code>mParallaxImageHeight</code> because
+when <code>alpha</code> becomes 1, <code>scrollY</code> should be equal to <code>mParallaxImageHeight</code>.</p>
+<pre><code class="language-java">float alpha = (float) scrollY / mParallaxImageHeight;
+</code></pre>
+<p>Please note that <code>scrollY</code> and <code>mParallaxImageHeight</code> are both type <code>int</code>,
+so you need to cast one of them to <code>float</code>.</p>
+<p>But how is it when <code>scrollY</code> becomes more than <code>mParallaxImageHeight</code>?<br>Let&#39;s simulate the result values:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"><code>scrollY</code></th>
+<th style="text-align:right"><code>mParallaxImageHeight</code></th>
+<th style="text-align:right"><code>alpha</code></th>
+<th>Valid alpha?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:right">300</td>
+<td style="text-align:right">0</td>
+<td>Valid</td>
+</tr>
+<tr>
+<td style="text-align:right">150</td>
+<td style="text-align:right">300</td>
+<td style="text-align:right">0.5</td>
+<td>Valid</td>
+</tr>
+<tr>
+<td style="text-align:right">300</td>
+<td style="text-align:right">300</td>
+<td style="text-align:right">1.0</td>
+<td>Valid</td>
+</tr>
+<tr>
+<td style="text-align:right">450</td>
+<td style="text-align:right">300</td>
+<td style="text-align:right"><em><strong>1.5</strong></em></td>
+<td><em><strong>Invalid</strong></em></td>
+</tr>
+</tbody>
+</table>
+<p>As we can see in the 4th row (<code>scrollY == 450</code>),
+we need to control <code>alpha</code> so that it will not exceed 1.0.
+This time we use <code>Math.min()</code> to limit the value from 0 to 1.</p>
+<pre><code class="language-java">float alpha = Math.min(1, (float) scrollY / mParallaxImageHeight);
+</code></pre>
+<p>Now it&#39;s done.<br><code>onScrollChanged</code> will be like this:</p>
+<pre><code class="language-java">@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+  int baseColor = getResources().getColor(R.color.primary);
+  float alpha = Math.min(1, (float) scrollY / mParallaxImageHeight);
+  mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(alpha, baseColor));
+  ViewHelper.setTranslationY(mImageView, scrollY / 2);
+}
+</code></pre>
+<h4>Restore scroll state</h4><p>We need to handle one more thing: restoring scroll state when the Activity is restored.<br><code>ObservableScrollView</code> itself stores its scroll position,
+so you just need to update the view
+in the <code>onRestoreInstanceState()</code> method.</p>
+<pre><code class="language-java">@Override
+protected void onRestoreInstanceState(Bundle savedInstanceState) {
+  super.onRestoreInstanceState(savedInstanceState);
+  onScrollChanged(mScrollView.getCurrentScrollY(), false, false);
+}
+</code></pre>
+<hr>
+<h2>ListView</h2><p>Coming soon...</p>
 <p><a href="../../docs/basic/filling-gap.md">Next: Sticky header &raquo;</a></p>
 </div>
 </div>
