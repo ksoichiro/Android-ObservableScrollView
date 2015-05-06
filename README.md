@@ -57,7 +57,7 @@ and [the documentation](docs/overview.md) for further more.
 ## Reference
 
 * [Supported widgets](docs/reference/supported-widgets.md)
-* [Environment](docs/reference/enviromnent.md)
+* [Environment](docs/reference/environment.md)
 * [Release notes](docs/reference/release-notes.md)
 * [FAQ](docs/faq.md)
 
