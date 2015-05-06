@@ -8,7 +8,7 @@ if [ "$TEST_TARGET" = "android" ]; then
   # Release build type is only for Google Play store currently,
   # which resolve dependency from Maven Central.
   # This causes build errors while developing a new feature, so disable release build.
-  ./gradlew --full-stacktrace assembleDevDebug connectedCheck
+  ./gradlew --full-stacktrace assembleDevDebug :library:connectedCheck
 elif [ "$TEST_TARGET" = "website" ]; then
   if [ "$TRAVIS_PULL_REQUEST" = "false" ] && [ "$TRAVIS_BRANCH" = "master" ] && [ ! -z "$GH_TOKEN" ]; then
     echo "Update website..."
