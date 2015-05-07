@@ -279,4 +279,4 @@ protected void onRestoreInstanceState(Bundle savedInstanceState) {
 
 Coming soon...
 
-[Next: Sticky header &raquo;](../../docs/basic/filling-gap.md)
+[Next: Sticky header &raquo;](../../docs/basic/sticky-header.md)
