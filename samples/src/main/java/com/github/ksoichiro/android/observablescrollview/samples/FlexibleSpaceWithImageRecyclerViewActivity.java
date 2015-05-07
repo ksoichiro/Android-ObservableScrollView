@@ -69,16 +69,6 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
 
         // mRecyclerViewBackground makes RecyclerView's background except header view.
         mRecyclerViewBackground = findViewById(R.id.list_background);
-        final View contentView = getWindow().getDecorView().findViewById(android.R.id.content);
-        contentView.post(new Runnable() {
-            @Override
-            public void run() {
-                // mRecylcerViewBackground's should fill its parent vertically
-                // but the height of the content view is 0 on 'onCreate'.
-                // So we should get it with post().
-                mRecyclerViewBackground.getLayoutParams().height = contentView.getHeight();
-            }
-        });
 
         //since you cannot programatically add a headerview to a recyclerview we added an empty view as the header
         // in the adapter and then are shifting the views OnCreateView to compensate

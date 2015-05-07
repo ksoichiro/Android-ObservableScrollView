@@ -75,14 +75,6 @@ public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActi
         ScrollUtils.addOnGlobalLayoutListener((View) scrollable, new Runnable() {
             @Override
             public void run() {
-                // mListBackgroundView makes ListView's background except header view.
-                if (mListBackgroundView != null) {
-                    final View contentView = getWindow().getDecorView().findViewById(android.R.id.content);
-                    // mListBackgroundView's should fill its parent vertically
-                    // but the height of the content view is 0 on 'onCreate'.
-                    mListBackgroundView.getLayoutParams().height = contentView.getHeight();
-                }
-
                 mReady = true;
                 updateViews(scrollable.getCurrentScrollY(), false);
             }
