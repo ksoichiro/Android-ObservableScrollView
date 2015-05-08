@@ -36,12 +36,12 @@ At first, let's see the following basic structure of the layout.
 <FrameLayout>
   <ObservableScrollView>
     <RelativeLayout>
-      <ImageView>
-      <View>
-      <TextView>
+      <ImageView/>
+      <View/>
+      <TextView/>
     </RelativeLayout>
   </ObservableScrollView>
-  <Toolbar>
+  <Toolbar/>
 </FrameLayout>
 ```
 
@@ -277,6 +277,165 @@ protected void onRestoreInstanceState(Bundle savedInstanceState) {
 
 ## ListView
 
-Coming soon...
+Let's see the difference of the implementation between ListView version and ScrollView version.
+
+### Layout
+
+#### Basic structure
+
+```xml
+<FrameLayout>
+  <ImageView/>
+  <View/>
+  <ObservableListView/>
+  <Toolbar/>
+</FrameLayout>
+```
+
+We use `FrameLayout` to the root view, just like ScrollView pattern.  
+`FrameLayout` can be used to move children views separately.
+
+`ImageView` is the view which should have "parallax" effect.
+
+The next `View` is used for different purpose from that of ScrollView.
+I'll explain this later.
+
+
+#### Why do we use different layout?
+
+Unlike ScrollView, ListView cannot have children views,
+so `ImageView` should be outside of the scrollable view (ListView)
+and we should move the `ImageView` manually.
+
+#### How do we place ImageView and ListView?
+
+`ImageView` is going to be scrolled slower than ListView
+(because we're going to make "parallax" effect), 
+so `ImageView` should be underneath the ListView.
+Otherwise, the bottom of the `ImageView` overlaps with the top of the ListView.
+
+Also, ListView should have a big padding
+at the top of the ListView to make `ImageView` visible.  
+We achieve this by adding a transparent header view to the ListView.
+
+#### Why do we need a View?
+
+As I mentioned above, ListView should have a transparent header,
+so its background color should be also transparent.
+But if we do this, not only the header view but also the items of the ListView
+become transparent.
+
+![](../images/basic_1.png)
+
+
+To avoid this, we set a dummy background view under the ListView.
+
+### Animation
+
+#### Basic structure of Activity
+
+It's same as `ParallaxToolbarScrollViewActivity` example.
+
+```java
+public class ParallaxToolbarListViewActivity
+  extends BaseActivity implements ObservableScrollViewCallbacks {
+```
+
+#### Initialize views
+
+Like ScrollView, initialize the `ObservableListView`, `ImageView`, Toolbar, etc.  
+And as I explained, ListView should have a header view.
+
+```java
+private View mImageView;
+private View mToolbarView;
+private View mListBackgroundView;
+private ObservableListView mListView;
+private int mParallaxImageHeight;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  setContentView(R.layout.activity_parallaxtoolbarlistview) ;
+
+  setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+  mImageView = findViewById(R.id.image);
+  mToolbarView = findViewById(R.id.toolbar);
+  mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, getResources().getColor(R.color.primary)));
+
+  mParallaxImageHeight = getResources().getDimensionPixelSize(R.dimen.parallax_image_height);
+
+  mListView = (ObservableListView) findViewById(R.id.list);
+  mListView.setScrollViewCallbacks(this);
+  // Set padding view for ListView. This is the flexible space.
+  View paddingView = new View(this);
+  AbsListView.LayoutParams lp = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
+          mParallaxImageHeight);
+  paddingView.setLayoutParams(lp);
+  paddingView.setClickable(true);
+
+  mListView.addHeaderView(paddingView);
+  setDummyData(mListView);
+  mListBackgroundView = findViewById(R.id.list_background);
+```
+
+Note that following code is necessary to disable header view's list selector effect.
+
+```java
+  paddingView.setClickable(true);
+```
+
+`setDummyData()` should be replaced to appropriate data population codes.
+
+#### Change the position on scrolling
+
+##### Translate the ImageView
+
+We use `onScrollChanged` method to translate views.
+
+```java
+@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+}
+```
+
+Basically, we should just set the translateY property to half of `scrollY`.
+But be careful, unlike ScrollView, when `scrollY` gets larger then `translateY` of `ImageView` should become smaller
+because `ImageView` is not a child of the ListView.
+So we should use `-scrollY / 2` as `translationY` (and you can adjust "`/ 2`" if you want).
+
+```java
+ViewHelper.setTranslationY(mImageView, -scrollY / 2);
+```
+
+##### Translate the background view
+
+The background should move with ListView, but it should have an offset `mParallaxImageHeight`
+so we can write like this:
+
+```java
+ViewHelper.setTranslationY(mListBackgroundView, mParallaxImageHeight - scrollY);
+```
+
+But how is it when `scrollY` becomes more than `mParallaxImageHeight`?  
+Let's simulate the result values:
+
+| `mParallaxImageHeight` | `scrollY` | `mParallaxImageHeight - scrollY` | TranslationY of `mListViewBackgroundView` should be |
+| ----------------------:| ---------:|---------------------------------:|----------------------------------------------------:|
+| 300                    | 0         | 300                              | 300                                                 |
+| 300                    | 150       | 150                              | 150                                                 |
+| 300                    | 300       | 0                                | 0                                                   |
+| 300                    | 450       | -150                             | 0                                                   |
+
+The 4th `mParallaxImageHeight - scrollY` becomes negative and it's invalid.  
+So use `Math.max()` to avoid this.
+
+```java
+ViewHelper.setTranslationY(mListBackgroundView, Math.max(0, -scrollY + mParallaxImageHeight));
+```
+
+That's all.  
+The rest of the codes are the same as `ObservableScrollView` example.
 
 [Next: Sticky header &raquo;](../../docs/basic/sticky-header.md)
