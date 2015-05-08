@@ -256,12 +256,12 @@ I&#39;ll explain from <code>ObservableScrollView</code>.</p>
 <pre><code class="language-xml">&lt;FrameLayout&gt;
   &lt;ObservableScrollView&gt;
     &lt;RelativeLayout&gt;
-      &lt;ImageView&gt;
-      &lt;View&gt;
-      &lt;TextView&gt;
+      &lt;ImageView/&gt;
+      &lt;View/&gt;
+      &lt;TextView/&gt;
     &lt;/RelativeLayout&gt;
   &lt;/ObservableScrollView&gt;
-  &lt;Toolbar&gt;
+  &lt;Toolbar/&gt;
 &lt;/FrameLayout&gt;
 </code></pre>
 <p>Please note that in this XML, I intentionally omitted attributes(<code>android:XXX</code>)
@@ -442,8 +442,131 @@ protected void onRestoreInstanceState(Bundle savedInstanceState) {
 }
 </code></pre>
 <hr>
-<h2>ListView</h2><p>Coming soon...</p>
-<p><a href="../../docs/basic/filling-gap.md">Next: Sticky header &raquo;</a></p>
+<h2>ListView</h2><p>Let&#39;s see the difference of the implementation between ListView version and ScrollView version.</p>
+<h3>Layout</h3><h4>Basic structure</h4><pre><code class="language-xml">&lt;FrameLayout&gt;
+  &lt;ImageView/&gt;
+  &lt;View/&gt;
+  &lt;ObservableListView/&gt;
+  &lt;Toolbar/&gt;
+&lt;/FrameLayout&gt;
+</code></pre>
+<p>We use <code>FrameLayout</code> to the root view, just like ScrollView pattern.<br><code>FrameLayout</code> can be used to move children views separately.</p>
+<p><code>ImageView</code> is the view which should have &quot;parallax&quot; effect.</p>
+<p>The next <code>View</code> is used for different purpose from that of ScrollView.
+I&#39;ll explain this later.</p>
+<h4>Why do we use different layout?</h4><p>Unlike ScrollView, ListView cannot have children views,
+so <code>ImageView</code> should be outside of the scrollable view (ListView)
+and we should move the <code>ImageView</code> manually.</p>
+<h4>How do we place ImageView and ListView?</h4><p><code>ImageView</code> is going to be scrolled slower than ListView
+(because we&#39;re going to make &quot;parallax&quot; effect), 
+so <code>ImageView</code> should be underneath the ListView.
+Otherwise, the bottom of the <code>ImageView</code> overlaps with the top of the ListView.</p>
+<p>Also, ListView should have a big padding
+at the top of the ListView to make <code>ImageView</code> visible.<br>We achieve this by adding a transparent header view to the ListView.</p>
+<h4>Why do we need a View?</h4><p>As I mentioned above, ListView should have a transparent header,
+so its background color should be also transparent.
+But if we do this, not only the header view but also the items of the ListView
+become transparent.</p>
+<p><img src="../images/basic_1.png" alt=""></p>
+<p>To avoid this, we set a dummy background view under the ListView.</p>
+<h3>Animation</h3><h4>Basic structure of Activity</h4><p>It&#39;s same as <code>ParallaxToolbarScrollViewActivity</code> example.</p>
+<pre><code class="language-java">public class ParallaxToolbarListViewActivity
+  extends BaseActivity implements ObservableScrollViewCallbacks {
+</code></pre>
+<h4>Initialize views</h4><p>Like ScrollView, initialize the <code>ObservableListView</code>, <code>ImageView</code>, Toolbar, etc.<br>And as I explained, ListView should have a header view.</p>
+<pre><code class="language-java">private View mImageView;
+private View mToolbarView;
+private View mListBackgroundView;
+private ObservableListView mListView;
+private int mParallaxImageHeight;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  setContentView(R.layout.activity_parallaxtoolbarlistview) ;
+
+  setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+  mImageView = findViewById(R.id.image);
+  mToolbarView = findViewById(R.id.toolbar);
+  mToolbarView.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, getResources().getColor(R.color.primary)));
+
+  mParallaxImageHeight = getResources().getDimensionPixelSize(R.dimen.parallax_image_height);
+
+  mListView = (ObservableListView) findViewById(R.id.list);
+  mListView.setScrollViewCallbacks(this);
+  // Set padding view for ListView. This is the flexible space.
+  View paddingView = new View(this);
+  AbsListView.LayoutParams lp = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
+          mParallaxImageHeight);
+  paddingView.setLayoutParams(lp);
+  paddingView.setClickable(true);
+
+  mListView.addHeaderView(paddingView);
+  setDummyData(mListView);
+  mListBackgroundView = findViewById(R.id.list_background);
+</code></pre>
+<p>Note that following code is necessary to disable header view&#39;s list selector effect.</p>
+<pre><code class="language-java">  paddingView.setClickable(true);
+</code></pre>
+<p><code>setDummyData()</code> should be replaced to appropriate data population codes.</p>
+<h4>Change the position on scrolling</h4><h5>Translate the ImageView</h5><p>We use <code>onScrollChanged</code> method to translate views.</p>
+<pre><code class="language-java">@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+}
+</code></pre>
+<p>Basically, we should just set the translateY property to half of <code>scrollY</code>.
+But be careful, unlike ScrollView, when <code>scrollY</code> gets larger then <code>translateY</code> of <code>ImageView</code> should become smaller
+because <code>ImageView</code> is not a child of the ListView.
+So we should use <code>-scrollY / 2</code> as <code>translationY</code> (and you can adjust &quot;<code>/ 2</code>&quot; if you want).</p>
+<pre><code class="language-java">ViewHelper.setTranslationY(mImageView, -scrollY / 2);
+</code></pre>
+<h5>Translate the background view</h5><p>The background should move with ListView, but it should have an offset <code>mParallaxImageHeight</code>
+so we can write like this:</p>
+<pre><code class="language-java">ViewHelper.setTranslationY(mListBackgroundView, mParallaxImageHeight - scrollY);
+</code></pre>
+<p>But how is it when <code>scrollY</code> becomes more than <code>mParallaxImageHeight</code>?<br>Let&#39;s simulate the result values:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"><code>mParallaxImageHeight</code></th>
+<th style="text-align:right"><code>scrollY</code></th>
+<th style="text-align:right"><code>mParallaxImageHeight - scrollY</code></th>
+<th style="text-align:right">TranslationY of <code>mListViewBackgroundView</code> should be</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">300</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">300</td>
+<td style="text-align:right">300</td>
+</tr>
+<tr>
+<td style="text-align:right">300</td>
+<td style="text-align:right">150</td>
+<td style="text-align:right">150</td>
+<td style="text-align:right">150</td>
+</tr>
+<tr>
+<td style="text-align:right">300</td>
+<td style="text-align:right">300</td>
+<td style="text-align:right">0</td>
+<td style="text-align:right">0</td>
+</tr>
+<tr>
+<td style="text-align:right">300</td>
+<td style="text-align:right">450</td>
+<td style="text-align:right">-150</td>
+<td style="text-align:right">0</td>
+</tr>
+</tbody>
+</table>
+<p>The 4th <code>mParallaxImageHeight - scrollY</code> becomes negative and it&#39;s invalid.<br>So use <code>Math.max()</code> to avoid this.</p>
+<pre><code class="language-java">ViewHelper.setTranslationY(mListBackgroundView, Math.max(0, -scrollY + mParallaxImageHeight));
+</code></pre>
+<p>That&#39;s all.<br>The rest of the codes are the same as <code>ObservableScrollView</code> example.</p>
+<p><a href="../../docs/basic/sticky-header.md">Next: Sticky header &raquo;</a></p>
 </div>
 </div>
 </div>
