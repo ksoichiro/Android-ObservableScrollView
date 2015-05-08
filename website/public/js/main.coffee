@@ -35,3 +35,9 @@ if $('#site-top')
       $('nav').addClass('sticky')
     else
       $('nav').removeClass('sticky')
+
+# Create fragment links
+$(document).ready ->
+  $('#sidebar-main-content h2, #sidebar-main-content h3, #sidebar-main-content h4, #sidebar-main-content h5').each ->
+    fragment = $(@).text().toLowerCase().replace(/[ _\.\/]/g, '-').replace(/--+/g, '-').replace(/([,':()\?!]|-+ |-+$)/g, '')
+    $(@).html($(@).html() + '<a id="' + fragment + '" class="marker"></a><a href="#' + fragment + '" class="anchor">#</a>')
