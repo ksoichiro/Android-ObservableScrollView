@@ -80,12 +80,7 @@ public class FlexibleSpaceToolbarScrollViewActivity extends BaseActivity impleme
 
     private void updateFlexibleSpaceText(final int scrollY) {
         ViewHelper.setTranslationY(mFlexibleSpaceView, -scrollY);
-        int adjustedScrollY = scrollY;
-        if (scrollY < 0) {
-            adjustedScrollY = 0;
-        } else if (mFlexibleSpaceHeight < scrollY) {
-            adjustedScrollY = mFlexibleSpaceHeight;
-        }
+        int adjustedScrollY = (int) ScrollUtils.getFloat(scrollY, 0, mFlexibleSpaceHeight);
         float maxScale = (float) (mFlexibleSpaceHeight - mToolbarView.getHeight()) / mToolbarView.getHeight();
         float scale = maxScale * ((float) mFlexibleSpaceHeight - adjustedScrollY) / mFlexibleSpaceHeight;
 

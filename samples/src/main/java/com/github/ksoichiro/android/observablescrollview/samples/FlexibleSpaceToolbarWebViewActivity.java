@@ -93,12 +93,7 @@ public class FlexibleSpaceToolbarWebViewActivity extends BaseActivity implements
 
     private void updateFlexibleSpaceText(final int scrollY) {
         ViewHelper.setTranslationY(mFlexibleSpaceView, -scrollY);
-        int adjustedScrollY = scrollY;
-        if (scrollY < 0) {
-            adjustedScrollY = 0;
-        } else if (mFlexibleSpaceHeight < scrollY) {
-            adjustedScrollY = mFlexibleSpaceHeight;
-        }
+        int adjustedScrollY = (int) ScrollUtils.getFloat(scrollY, 0, mFlexibleSpaceHeight);
 
         // Special logic for WebView.
         adjustTopMargin(mWebViewContainer, adjustedScrollY <= mFlexibleSpaceHeight ? 0 : mFlexibleSpaceHeight + getActionBarSize());
