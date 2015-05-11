@@ -243,7 +243,227 @@ which are implemented in the following examples.</p>
 <li>StickyHeaderWebViewActivity</li>
 </ul>
 <hr>
-<p>Coming soon...</p>
+<h2>Overview</h2><p>This is a complex version of <a href="../../docs/basic/translating-toolbar.md">Toolbar translation pattern</a>.</p>
+<p>We add a features to keep the half of the header view to the top of the screen.
+And this time I&#39;ll explain using ScrollView.
+Replacing it to other type of scrollable views are not so difficult.</p>
+<h2>Using ScrollView</h2><h3>Layout with ScrollView</h3><p>Let&#39;s look at the layout file as always.</p>
+<p>Here is the basic structure of StickyHeader pattern with ScrollView.
+This is a little difficult than Toolbar&#39;s one.</p>
+<pre><code class="language-xml">&lt;FrameLayout&gt;
+  &lt;ObservableScrollView android:id=&quot;@+id/scroll&quot;&gt;
+    &lt;LinearLayout android:orientation=&quot;vertical&quot;&gt;
+      &lt;View android:minHeight=&quot;?attr/actionBarSize&quot;/&gt;
+      &lt;View android:minHeight=&quot;?attr/actionBarSize&quot;/&gt;
+      &lt;TextView/&gt;
+    &lt;/LinearLayout&gt;
+  &lt;/ObservableScrollView&gt;
+  &lt;LinearLayout
+    android:id=&quot;@+id/header&quot;
+    android:orientation=&quot;vertical&quot;&gt;
+    &lt;Toolbar
+      android:id=&quot;@+id/toolbar&quot;
+      android:minHeight=&quot;?attr/actionBarSize&quot;/&gt;
+    &lt;TextView
+      android:id=&quot;@+id/sticky&quot;
+      android:layout_height=&quot;?attr/actionBarSize&quot;/&gt;
+  &lt;/LinearLayout&gt;
+&lt;/FrameLayout&gt;
+</code></pre>
+<p>In Toolbar translation pattern, we used only <code>ObservableScrollView</code> and <code>Toolbar</code> in <code>FrameLayout</code>.
+This time, we need to make each views more complex.</p>
+<h4>Create header space for ScrollView with twice the size of ActionBar</h4><p>At the initial state of views, ScrollView needs to have a header view with twice the size of the ActionBar.
+The half of this header view will be &quot;sticky&quot;.<br>So we simply add 2 <code>View</code>s with the height <code>?attr/actionBarSize</code> above the <code>TextView</code>.</p>
+<p>You can also add just 1 <code>View</code> with a certain size with <code>dp</code>,
+but it&#39;s better to use <code>?attr/actionBarSize</code> because it has multiple values for several size of screens,
+screen rotation and OS versions, and using the standard size is good for users.</p>
+<p>Another way to achieve this, is to set the height of the <code>View</code> programmatically.
+You can resolve the value of <code>?attr/actionBarSize</code> in <code>Activity#onCreate()</code>, multiply it by 2 and set it to the <code>View</code>.</p>
+<p>And please note that <code>TextView</code> is the real content of the ScrollView, so you can replace it to other view if you want.</p>
+<h4>Create sticky part for Toolbar</h4><p>Toolbar is replaced to <code>LinearLayout</code>, and it contains a Toolbar and a <code>TextView</code>.
+<code>TextView</code> will be the &quot;sticky&quot; view.
+You can replace it to some complex views.</p>
+<h3>Animate the views with ScrollView callbacks</h3><p>This time, we use two callbacks: <code>onScrollChanged()</code> and <code>onUpOrCancelMotionEvent()</code> to animate views.
+We are going to implement the following animation.</p>
+<ol>
+<li>Move the Toolbar and the sticky view (we call &quot;header views&quot;) when the ScrollView is scrolled.</li>
+<li>When we scroll the ScrollView, the Toolbar will go out of the screen.
+But when we scroll it more, sticky view must keep its position to the top of the screen.</li>
+<li>When the Toolbar is not completely hidden and we stop scrolling (touch up the ScrollView),<ul>
+<li>the Toolbar will be shown completely, if we were swiping down.</li>
+<li>the Toolbar will be hidden completely, if we were swiping up.</li>
+</ul>
+</li>
+<li>When we swipe down the ScrollView and touch up, the header view should
+come out immediately. Sometimes it&#39;s called &quot;Quick Return&quot; pattern.</li>
+</ol>
+<h4>Move the header view when ScrollView is scrolled</h4><p>Override the <code>onScrollChanged()</code>, and implement some codes with the condition <code>if (dragging)</code>.</p>
+<pre><code class="language-java">@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+  if (dragging) {
+    // TODO implement the rest of the codes
+  //} else { // ScrollView is scrolled by inertia
+  }
+}
+</code></pre>
+<p>This is because we want to move views only when it is dragged.
+Without this, we cannot achieve the 3rd condition above: showing or hiding the Toolbar automatically
+when the scroll ended.</p>
+<p>Next step, implement the header view translation.<br>At first, create a field with name <code>mHeaderView</code>, and initialize it in <code>onCreate()</code>:</p>
+<pre><code class="language-java">mHeaderView = findViewById(R.id.header);
+</code></pre>
+<p>When the scrollY parameter gets increased, the translationY of <code>mHeaderView</code> should decrease.
+So we can write like this:</p>
+<pre><code class="language-java">@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+  if (dragging) {
+    ViewHelper.setTranslationY(mHeaderView, -scrollY);
+  }
+}
+</code></pre>
+<h4>Sticky view must keep its position to the top of the screen</h4><p>The header view will disappear completely, and this is not what we want.
+<code>mHeaderView</code> should stop after moving the height of Toolbar.</p>
+<pre><code class="language-java">@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+  if (dragging) {
+    int toolbarHeight = mToolbarView.getHeight();
+    ViewHelper.setTranslationY(mHeaderView, Math.max(-toolbarHeight, -scrollY));
+  }
+}
+</code></pre>
+<p>You can see the sticky view keeping its position to the top of the screen.</p>
+<h4>When Toolbar is not completely hidden, show or hide it completely</h4><p>To do this, we should implement <code>onUpOrCancelMotionEvent</code>.<br>If we swipe down, Toolbar should be shown,
+and if we swipe up, Toolbar should be hidden.</p>
+<pre><code class="language-java">@Override
+public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+  if (scrollState == ScrollState.DOWN) {
+    showToolbar();
+  } else if (scrollState == ScrollState.UP) {
+    hideToolbar();
+  }
+}
+</code></pre>
+<p>But when we swipe up and scrolled less than Toolbar&#39;s height,
+hiding the Toolbar makes white space around the top of the ScrollView.<br>So we should show the Toolbar if <code>scrollY</code> is less than Toolbar&#39;s height.</p>
+<pre><code class="language-java">@Override
+public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+  if (scrollState == ScrollState.DOWN) {
+    showToolbar();
+  } else if (scrollState == ScrollState.UP) {
+    int toolbarHeight = mToolbarView.getHeight();
+    int scrollY = mScrollView.getCurrentScrollY();
+    if (toolbarHeight &lt;= scrollY) {
+      hideToolbar();
+    } else {
+      showToolbar();
+    }
+  }
+}
+</code></pre>
+<p>And sometimes <code>scrollState</code> becomes <code>STOP</code> (or <code>null</code>).
+If it becomes such values, the header view stops halfway.
+To avoid this behavior, write <code>else</code> clause.</p>
+<pre><code class="language-java">@Override
+public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+  if (scrollState == ScrollState.DOWN) {
+    showToolbar();
+  } else if (scrollState == ScrollState.UP) {
+    int toolbarHeight = mToolbarView.getHeight();
+    int scrollY = mScrollView.getCurrentScrollY();
+    if (toolbarHeight &lt;= scrollY) {
+      hideToolbar();
+    } else {
+      showToolbar();
+    }
+  } else {
+    // Even if onScrollChanged occurs without scrollY changing, toolbar should be adjusted
+    if (!toolbarIsShown() &amp;&amp; !toolbarIsHidden()) {
+      // Toolbar is moving but doesn&#39;t know which to move:
+      // you can change this to hideToolbar()
+      showToolbar();
+    }
+  }
+}
+</code></pre>
+<p>Then write the unimplemented methods.<br>Unlike Toolbar translation pattern, we use <code>ViewPropertyAnimator.animate()</code>
+because it&#39;s simple and we don&#39;t have to change the height of views.</p>
+<pre><code class="language-java">private boolean toolbarIsShown() {
+  return ViewHelper.getTranslationY(mHeaderView) == 0;
+}
+
+private boolean toolbarIsHidden() {
+  return ViewHelper.getTranslationY(mHeaderView) == -mToolbarView.getHeight();
+}
+
+private void showToolbar() {
+  float headerTranslationY = ViewHelper.getTranslationY(mHeaderView);
+  if (headerTranslationY != 0) {
+    ViewPropertyAnimator.animate(mHeaderView).cancel();
+    ViewPropertyAnimator.animate(mHeaderView).translationY(0).setDuration(200).start();
+  }
+}
+
+private void hideToolbar() {
+  float headerTranslationY = ViewHelper.getTranslationY(mHeaderView);
+  int toolbarHeight = mToolbarView.getHeight();
+  if (headerTranslationY != -toolbarHeight) {
+    ViewPropertyAnimator.animate(mHeaderView).cancel();
+    ViewPropertyAnimator.animate(mHeaderView).translationY(-toolbarHeight).setDuration(200).start();
+  }
+}
+</code></pre>
+<p>Once <code>ViewPropertyAnimator.animate()</code> is called, animation will be running in the next 200ms.
+And if the next animation(<code>showToolbar()</code> or <code>hideToolbar()</code>) is requested while the animation is running,
+the current animation should be canceled.
+Therefore we call <code>ViewPropertyAnimator.animate(mHeaderView).cancel()</code>
+before calling <code>start()</code>.</p>
+<h4>When swiping up, header view should scroll</h4><p>It&#39;s almost completed, and if you think it&#39;s OK, you don&#39;t have to write the following codes.</p>
+<p>When we scroll so much and swip down little, the header view will be shown.
+And after that, when we drag ScrollView to upper side,
+I think that the header view should move with ScrollView, but it doesn&#39;t.</p>
+<p>So we make the header view to scroll even when <code>scrollY</code> is larger than the Toolbar&#39;s height.</p>
+<p>To do this, we just calculate the distance from the first touch point and the current point.
+And the distance from the first touch point become larger than Toolbar&#39;s height,
+the header view should not scroll any longer.</p>
+<pre><code class="language-java">// Add a field to keep the first scrollY
+private int mBaseTranslationY;
+
+@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+  if (dragging) {
+    int toolbarHeight = mToolbarView.getHeight();
+    if (firstScroll) { // Add this if clause
+      float currentHeaderTranslationY = ViewHelper.getTranslationY(mHeaderView);
+      if (-toolbarHeight &lt; currentHeaderTranslationY) {
+        mBaseTranslationY = scrollY;
+      }
+    }
+    // Change -scrollY to -(scrollY - mBaseTranslationY)
+    float headerTranslationY = Math.max(-toolbarHeight, -(scrollY - mBaseTranslationY));
+    ViewPropertyAnimator.animate(mHeaderView).cancel();
+    ViewHelper.setTranslationY(mHeaderView, headerTranslationY);
+  }
+}
+
+@Override
+public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+    // Should be cleared when scroll ends
+    mBaseTranslationY = 0;
+</code></pre>
+<p>It&#39;s almost done, but sometimes we can see a weird behavior:
+the header view leaves the top of the screen.</p>
+<p><img src="../../docs/images/basic_2.png" alt=""></p>
+<p>This is because <code>headerTranslationY</code> can become larger than 0,
+so it should be limited by using <code>Math.min()</code>.</p>
+<pre><code class="language-java">float headerTranslationY = Math.min(0, Math.max(-toolbarHeight, -(scrollY - mBaseTranslationY));
+</code></pre>
+<p>Now it&#39;s working, but don&#39;t you think it&#39;s a little complicated expression?<br>Android-ObservableScrollView provides a small utility class <code>ScrollUtils</code>,
+and we can replace <code>Math.min(max, Math.max(min, value))</code> to <code>ScrollUtils.getFloat()</code>.</p>
+<pre><code class="language-java">float headerTranslationY = ScrollUtils.getFloat(-(scrollY - mBaseTranslationY), -toolbarHeight, 0);
+</code></pre>
+<p>Of course, you can confirm the meaning of each parameters easily.
+Pressing <code>F1</code> key on <code>getFloat()</code> will show the javadoc window:</p>
+<p><img src="../../docs/images/basic_3.png" alt=""></p>
 <p><a href="../../docs/basic/flexible-space-toolbar.md">Next: Flexible space on the Toolbar &raquo;</a></p>
 </div>
 </div>
