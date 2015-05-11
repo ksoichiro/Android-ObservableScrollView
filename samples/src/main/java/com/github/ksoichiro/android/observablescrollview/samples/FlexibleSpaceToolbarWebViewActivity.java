@@ -105,7 +105,6 @@ public class FlexibleSpaceToolbarWebViewActivity extends BaseActivity implements
         ViewHelper.setPivotY(mTitleView, 0);
         ViewHelper.setScaleX(mTitleView, 1 + scale);
         ViewHelper.setScaleY(mTitleView, 1 + scale);
-        ViewHelper.setTranslationY(mTitleView, ViewHelper.getTranslationY(mFlexibleSpaceView) + mFlexibleSpaceView.getHeight() - mTitleView.getHeight() * (1 + scale));
         int maxTitleTranslationY = mToolbarView.getHeight() + mFlexibleSpaceHeight - (int) (mTitleView.getHeight() * (1 + scale));
         int titleTranslationY = (int) (maxTitleTranslationY * ((float) mFlexibleSpaceHeight - adjustedScrollY) / mFlexibleSpaceHeight);
         ViewHelper.setTranslationY(mTitleView, titleTranslationY);
