@@ -18,7 +18,6 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.annotation.TargetApi;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -38,9 +37,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 public class FlexibleSpaceWithImageListViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private static final float MAX_TEXT_SCALE_DELTA = 0.3f;
-    private static final boolean TOOLBAR_IS_STICKY = false;
 
-    private View mToolbar;
     private View mImageView;
     private View mOverlayView;
     private View mListBackgroundView;
@@ -50,7 +47,6 @@ public class FlexibleSpaceWithImageListViewActivity extends BaseActivity impleme
     private int mFlexibleSpaceShowFabOffset;
     private int mFlexibleSpaceImageHeight;
     private int mFabMargin;
-    private int mToolbarColor;
     private boolean mFabIsShown;
 
     @Override
@@ -58,17 +54,9 @@ public class FlexibleSpaceWithImageListViewActivity extends BaseActivity impleme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flexiblespacewithimagelistview);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
         mFlexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         mFlexibleSpaceShowFabOffset = getResources().getDimensionPixelSize(R.dimen.flexible_space_show_fab_offset);
         mActionBarSize = getActionBarSize();
-        mToolbarColor = getResources().getColor(R.color.primary);
-
-        mToolbar = findViewById(R.id.toolbar);
-        if (!TOOLBAR_IS_STICKY) {
-            mToolbar.setBackgroundColor(Color.TRANSPARENT);
-        }
         mImageView = findViewById(R.id.image);
         mOverlayView = findViewById(R.id.overlay);
         ObservableListView listView = (ObservableListView) findViewById(R.id.list);
@@ -127,9 +115,6 @@ public class FlexibleSpaceWithImageListViewActivity extends BaseActivity impleme
         // Translate title text
         int maxTitleTranslationY = (int) (mFlexibleSpaceImageHeight - mTitleView.getHeight() * scale);
         int titleTranslationY = maxTitleTranslationY - scrollY;
-        if (TOOLBAR_IS_STICKY) {
-            titleTranslationY = Math.max(0, titleTranslationY);
-        }
         ViewHelper.setTranslationY(mTitleView, titleTranslationY);
 
         // Translate FAB
@@ -155,22 +140,6 @@ public class FlexibleSpaceWithImageListViewActivity extends BaseActivity impleme
             hideFab();
         } else {
             showFab();
-        }
-
-        if (TOOLBAR_IS_STICKY) {
-            // Change alpha of toolbar background
-            if (-scrollY + mFlexibleSpaceImageHeight <= mActionBarSize) {
-                mToolbar.setBackgroundColor(ScrollUtils.getColorWithAlpha(1, mToolbarColor));
-            } else {
-                mToolbar.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, mToolbarColor));
-            }
-        } else {
-            // Translate Toolbar
-            if (scrollY < mFlexibleSpaceImageHeight) {
-                ViewHelper.setTranslationY(mToolbar, 0);
-            } else {
-                ViewHelper.setTranslationY(mToolbar, -scrollY);
-            }
         }
     }
 

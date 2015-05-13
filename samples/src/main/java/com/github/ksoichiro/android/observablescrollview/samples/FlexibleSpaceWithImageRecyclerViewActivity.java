@@ -2,7 +2,6 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.annotation.TargetApi;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,9 +19,7 @@ import com.nineoldandroids.view.ViewHelper;
 public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private static final float MAX_TEXT_SCALE_DELTA = 0.3f;
-    private static final boolean TOOLBAR_IS_STICKY = false;
 
-    private View mToolbar;
     private View mImageView;
     private View mOverlayView;
     private View mRecyclerViewBackground;
@@ -30,18 +27,14 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
     private TextView mTitleView;
     private int mActionBarSize;
     private int mFlexibleSpaceImageHeight;
-    private int mToolbarColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flexiblespacewithimagerecyclerview);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
         mFlexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         mActionBarSize = getActionBarSize();
-        mToolbarColor = getResources().getColor(R.color.primary);
 
         mRecyclerView = (ObservableRecyclerView) findViewById(R.id.recycler);
         mRecyclerView.setScrollViewCallbacks(this);
@@ -56,10 +49,6 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
         });
         setDummyDataWithHeader(mRecyclerView, headerView);
 
-        mToolbar = findViewById(R.id.toolbar);
-        if (!TOOLBAR_IS_STICKY) {
-            mToolbar.setBackgroundColor(Color.TRANSPARENT);
-        }
         mImageView = findViewById(R.id.image);
         mOverlayView = findViewById(R.id.overlay);
 
@@ -119,28 +108,7 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
         // Translate title text
         int maxTitleTranslationY = (int) (mFlexibleSpaceImageHeight - mTitleView.getHeight() * scale);
         int titleTranslationY = maxTitleTranslationY - scrollY;
-        if (TOOLBAR_IS_STICKY) {
-            titleTranslationY = Math.max(0, titleTranslationY);
-        }
         ViewHelper.setTranslationY(mTitleView, titleTranslationY);
-
-
-        if (TOOLBAR_IS_STICKY) {
-            // Change alpha of toolbar background
-            if (-scrollY + mFlexibleSpaceImageHeight <= mActionBarSize) {
-                mToolbar.setBackgroundColor(ScrollUtils.getColorWithAlpha(1, mToolbarColor));
-            } else {
-                mToolbar.setBackgroundColor(ScrollUtils.getColorWithAlpha(0, mToolbarColor));
-            }
-        } else {
-            // Translate Toolbar
-            if (scrollY < mFlexibleSpaceImageHeight) {
-                ViewHelper.setTranslationY(mToolbar, 0);
-            } else {
-                ViewHelper.setTranslationY(mToolbar, -scrollY);
-            }
-        }
-
     }
 
     @Override
