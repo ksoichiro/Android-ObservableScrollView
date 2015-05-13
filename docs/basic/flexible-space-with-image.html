@@ -16,6 +16,7 @@
 <meta property="og:image" content="/Android-ObservableScrollView/thumbnail.png" />
 <meta property="og:locale" content="en" />
 <link rel="stylesheet" type="text/css" href="/Android-ObservableScrollView/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/Android-ObservableScrollView/lib/octicons/octicons/octicons.css" />
 <link rel="stylesheet" type="text/css" href="/Android-ObservableScrollView/css/main.css" />
 <!--[if lt IE 9]>
 <script src="/Android-ObservableScrollView/lib/html5shiv/dist/html5shiv.min.js"></script>
@@ -66,7 +67,7 @@
       <ul class="nav navbar-nav">
         <li><a href="/Android-ObservableScrollView/docs/overview">Documentation</a></li>
         <li><a href="/Android-ObservableScrollView/docs/faq">FAQ</a></li>
-        <li><a href="https://github.com/ksoichiro/Android-ObservableScrollView">GitHub</a></li>
+        <li><a href="https://github.com/ksoichiro/Android-ObservableScrollView" title="GitHub"><span class="octicon octicon-mark-github"></span></a></li>
       </ul>
     </div>
   </div>
@@ -240,10 +241,173 @@ which are implemented in the following examples.</p>
 <li>FlexibleSpaceWithImageListViewActivity</li>
 <li>FlexibleSpaceWithImageRecyclerViewActivity</li>
 <li>FlexibleSpaceWithImageScrollViewActivity</li>
-<li>FlexibleSpaceWithImageWithViewPagerTab2Activity</li>
 </ul>
+<p>First, please check the &quot;<a href="../../docs/basic/flexible-space-toolbar.md">Flexible space on the Toolbar</a>&quot;
+tutorial, if you haven&#39;t.  </p>
 <hr>
-<p>Coming soon...</p>
+<h2>Using ScrollView</h2><h3>Layout with ScrollView</h3><h4>Basic structure</h4><pre><code class="language-xml">&lt;FrameLayout&gt;
+    &lt;ImageView android:id=&quot;@+id/image&quot;/&gt;
+    &lt;View android:id=&quot;@+id/overlay&quot;/&gt;
+    &lt;ObservableScrollView android:id=&quot;@+id/scroll&quot;&gt;
+        &lt;LinearLayout android:orientation=&quot;vertical&quot;&gt;
+            &lt;View/&gt;
+            &lt;TextView/&gt;
+        &lt;/LinearLayout&gt;
+    &lt;/ObservableScrollView&gt;
+    &lt;LinearLayout android:orientation=&quot;vertical&quot;&gt;
+        &lt;TextView android:id=&quot;@+id/title&quot;/&gt;
+        &lt;View/&gt;
+    &lt;/LinearLayout&gt;
+    &lt;FloatingActionButton android:id=&quot;@+id/fab&quot;/&gt;
+&lt;/FrameLayout&gt;
+</code></pre>
+<p>The root <code>FrameLayout</code> is used for moving children separately.</p>
+<p><code>ImageView</code>(<code>@id/image</code>) is the image that will be translated with parallax effect.</p>
+<p><code>View</code>(<code>@id/overlay</code>) is a overlay view as the name suggests.<br>If you try this Activity in the demo app, you can see the image is fading in and out.
+This view overlaps with the image and its opacity is changed by scroll position.</p>
+<p><code>LinearLayout</code> and its chlidren are the real title views.<br>You would have read the former tutorial, so I will not explain it so much.</p>
+<p><code>FloatingActionButton</code> is a widget from the simple and awesome <a href="https://github.com/makovkastar/FloatingActionButton">FloatingActionButton</a> library.<br>But this is optional, so you can remove it if you are not going to place any buttons.
+I added it just because I think it&#39;s a very symbolic widget of the Material Design
+and some of you might be interested in it.</p>
+<p>To confirm other attributes,
+please see <code>res/layout/activity_flexiblespacewithimagescrollview.xml</code> in the example app.</p>
+<h3>Initialization</h3><p>Most of the codes are easy and not related to this pattern.<br>Just write the following initialization codes:</p>
+<p>Copy the title to the title view (<code>TextView</code>) and set null to the original title:</p>
+<pre><code class="language-java">mTitleView.setText(getTitle());
+setTitle(null);
+</code></pre>
+<p>Get the dimension values and save them to fields (to simplify animation codes):</p>
+<pre><code class="language-Java">mFlexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
+mFlexibleSpaceShowFabOffset = getResources().getDimensionPixelSize(R.dimen.flexible_space_show_fab_offset);
+mFabMargin = getResources().getDimensionPixelSize(R.dimen.margin_standard);
+mActionBarSize = getActionBarSize();
+</code></pre>
+<p>Get the views which has ID to fields (to simplify animation codes), and initialize them if necessary:</p>
+<pre><code class="language-java">mImageView = findViewById(R.id.image);
+mOverlayView = findViewById(R.id.overlay);
+mScrollView = (ObservableScrollView) findViewById(R.id.scroll);
+mScrollView.setScrollViewCallbacks(this);
+mTitleView = (TextView) findViewById(R.id.title);
+mFab = findViewById(R.id.fab);
+</code></pre>
+<p>Although this is not so related to the scroll animation,
+you should scale the floating action button (FAB) to 0 in <code>onCreate()</code>,
+because we&#39;d like to hide it at the beginning and gradually show (scale) it
+by scrolling.</p>
+<pre><code class="language-java">ViewHelper.setScaleX(mFab, 0);
+ViewHelper.setScaleY(mFab, 0);
+</code></pre>
+<p>You should also add <code>implements ObservableScrollViewCallbacks</code> to the Activity
+and implement those methods as always.</p>
+<h3>Animation</h3><p>We use <code>onScrollChanged()</code> to create animation.<br>We&#39;ll write the following codes:</p>
+<ul>
+<li>Translate the overlay view and the image view</li>
+<li>Change the alpha of the overlay view</li>
+<li>Translate and scale the title view</li>
+<li>Translate the FAB</li>
+<li>Show/hide the FAB</li>
+</ul>
+<p>Let&#39;s see one by one.</p>
+<h4>Translate the overlay view and the image view</h4><p>As we implemented in the former tutorials,
+to move <code>ImageView</code> which is outside the ScrollView,
+we must use <code>-scrollY</code> and divide it by 2 to create &quot;parallax&quot; effect.</p>
+<pre><code class="language-java">@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+  float flexibleRange = mFlexibleSpaceImageHeight - mActionBarSize;
+  int minOverlayTransitionY = mActionBarSize - mOverlayView.getHeight();
+  ViewHelper.setTranslationY(mOverlayView, ScrollUtils.getFloat(-scrollY, minOverlayTransitionY, 0));
+  ViewHelper.setTranslationY(mImageView, ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
+</code></pre>
+<p>Although we want to move the overlay view with the image,
+we don&#39;t have to make the scroll speed of the overlay to the same as the image view.
+So translate <code>mOverlayView</code> to <code>-scrollY</code> (not <code>-scrollY / 2</code>).</p>
+<h4>Change the alpha of the overlay view</h4><p>Calculating the alpha value is easy, just convert the <code>scrollY</code> to range between 0 and 1.
+To do this, we divide <code>scrollY</code> by <code>flexibleRange</code> (which we assigned above),
+and limit the value range from 0 to 1 by using <code>ScrollUtils.getFloat()</code>.</p>
+<pre><code class="language-java">  ViewHelper.setAlpha(mOverlayView, ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
+</code></pre>
+<h4>Translate and scale the title view</h4><p>This is almost the same as the &quot;Flexible space on the Toolbar&quot; pattern.
+The differences are how to calculate the scale and the translationY.</p>
+<pre><code class="language-java">@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+  // Codes that are already explained above are omitted
+
+  float scale = 1 + ScrollUtils.getFloat((flexibleRange - scrollY) / flexibleRange, 0, MAX_TEXT_SCALE_DELTA);
+  ViewHelper.setPivotX(mTitleView, 0);
+  ViewHelper.setPivotY(mTitleView, 0);
+  ViewHelper.setScaleX(mTitleView, scale);
+  ViewHelper.setScaleY(mTitleView, scale);
+
+  int maxTitleTranslationY = (int) (mFlexibleSpaceImageHeight - mTitleView.getHeight() * scale);
+  int titleTranslationY = maxTitleTranslationY - scrollY;
+  ViewHelper.setTranslationY(mTitleView, titleTranslationY);
+</code></pre>
+<h4>Translate the FAB</h4><p>Translating the FAB is actually not related to this topic, but I&#39;ll explain for your reference.</p>
+<p>The basic idea is to change the <code>translationY</code> property of the FAB,
+but on pre-Honeycomb devices, this doesn&#39;t work when you use <code>setOnClickListener</code>.
+To fix the issue, we&#39;ll set the margins of the FrameLayout and lay it out again by calling <code>requestLayout()</code>.</p>
+<pre><code class="language-java">@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+  // Codes that are already explained above are omitted
+
+  int maxFabTranslationY = mFlexibleSpaceImageHeight - mFab.getHeight() / 2;
+  float fabTranslationY = ScrollUtils.getFloat(
+      -scrollY + mFlexibleSpaceImageHeight - mFab.getHeight() / 2,
+      mActionBarSize - mFab.getHeight() / 2,
+      maxFabTranslationY);
+  if (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.HONEYCOMB) {
+    // On pre-honeycomb, ViewHelper.setTranslationX/Y does not set margin,
+    // which causes FAB&#39;s OnClickListener not working.
+    FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mFab.getLayoutParams();
+    lp.leftMargin = mOverlayView.getWidth() - mFabMargin - mFab.getWidth();
+    lp.topMargin = (int) fabTranslationY;
+    mFab.requestLayout();
+  } else {
+    ViewHelper.setTranslationX(mFab, mOverlayView.getWidth() - mFabMargin - mFab.getWidth());
+    ViewHelper.setTranslationY(mFab, fabTranslationY);
+  }
+</code></pre>
+<p>The expression <code>- mFab.getHeight() / 2</code> in the calculation of <code>maxFabTranslationY</code> means
+that the half of the FAB overlaps to the image.</p>
+<p>And about the <code>fabTranslationY</code> calculation,
+you might think that the expression <code>mActionBarSize - mFab.getHeight() / 2</code> for the min value
+is meaningless, but this is required when you scroll the view fast.
+Because if it scrolls faster than the FAB scaling to 0, it looks as if it just moved away.</p>
+<h4>Show/hide the FAB</h4><p>Showing or hiding the FAB is easy.
+If the translationY of the FAB exceeds the threshold, then hide it.
+Otherwise, show it.</p>
+<pre><code class="language-java">@Override
+public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+  // Codes that are already explained above are omitted
+
+  if (fabTranslationY &lt; mFlexibleSpaceShowFabOffset) {
+    hideFab();
+  } else {
+    showFab();
+  }
+}
+</code></pre>
+<p><code>hideFab()</code> and <code>showFab()</code> methods can be implemented like this:</p>
+<pre><code class="language-java">  private boolean mFabIsShown;
+
+  private void showFab() {
+    if (!mFabIsShown) {
+      ViewPropertyAnimator.animate(mFab).cancel();
+      ViewPropertyAnimator.animate(mFab).scaleX(1).scaleY(1).setDuration(200).start();
+      mFabIsShown = true;
+    }
+  }
+
+  private void hideFab() {
+    if (mFabIsShown) {
+      ViewPropertyAnimator.animate(mFab).cancel();
+      ViewPropertyAnimator.animate(mFab).scaleX(0).scaleY(0).setDuration(200).start();
+      mFabIsShown = false;
+    }
+  }
+</code></pre>
+<p>We need a state variable to indicate whether the FAB is shown or not.</p>
+<p>That&#39;s all.</p>
 <p><a href="../../docs/basic/filling-gap.md">Next: Filling gap on top of the Toolbar &raquo;</a></p>
 </div>
 </div>
