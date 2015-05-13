@@ -48,6 +48,12 @@ public class ViewPagerTabScrollViewFragment extends BaseFragment {
                     }
                 });
             }
+
+            // TouchInterceptionViewGroup should be a parent view other than ViewPager.
+            // This is a workaround for the issue #117:
+            // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
+            scrollView.setTouchInterceptionViewGroup((ViewGroup) parentActivity.findViewById(R.id.root));
+
             scrollView.setScrollViewCallbacks((ObservableScrollViewCallbacks) parentActivity);
         }
         return view;
