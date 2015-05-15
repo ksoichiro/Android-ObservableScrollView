@@ -57,3 +57,35 @@ If you're in a hurry, please send me an email. I'll release it as soon as possib
 1. Release SNAPSHOT version to the Sonatype snapshot repository.
 1. Release to the Sonatype repository. If it's successfully released, it will be synced to Maven Central in a couple of hours.
 1. Update README to prompt to use the latest version.
+
+## Q. Can I use this library with API level 8?
+
+### A. It's not supported, but you can.
+
+By adding `tools:overrideLibrary` to `<uses-sdk>` tag,
+you can build this library with `android:minSdkVersion="8"`.
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.app">
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="22"
+        tools:overrideLibrary="com.github.ksoichiro.android.observablescrollview" />
+```
+
+If you have other libraries to override, separate them with comma.
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.app">
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="22"
+        tools:overrideLibrary="com.melnykov.fab,com.github.ksoichiro.android.observablescrollview" />
+```
+
