@@ -256,6 +256,27 @@ I&#39;d very appreciate it if you help me refactor them.</p>
 <li>Release to the Sonatype repository. If it&#39;s successfully released, it will be synced to Maven Central in a couple of hours.</li>
 <li>Update README to prompt to use the latest version.</li>
 </ol>
+<h2>Q. Can I use this library with API level 8?</h2><h3>A. It&#39;s not supported, but you can.</h3><p>By adding <code>tools:overrideLibrary</code> to <code>&lt;uses-sdk&gt;</code> tag,
+you can build this library with <code>android:minSdkVersion=&quot;8&quot;</code>.</p>
+<pre><code class="language-xml">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    package=&quot;com.example.app&quot;&gt;
+
+    &lt;uses-sdk
+        android:minSdkVersion=&quot;8&quot;
+        android:targetSdkVersion=&quot;22&quot;
+        tools:overrideLibrary=&quot;com.github.ksoichiro.android.observablescrollview&quot; /&gt;
+</code></pre>
+<p>If you have other libraries to override, separate them with comma.</p>
+<pre><code class="language-xml">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    package=&quot;com.example.app&quot;&gt;
+
+    &lt;uses-sdk
+        android:minSdkVersion=&quot;8&quot;
+        android:targetSdkVersion=&quot;22&quot;
+        tools:overrideLibrary=&quot;com.melnykov.fab,com.github.ksoichiro.android.observablescrollview&quot; /&gt;
+</code></pre>
 </div>
 </div>
 </div>
