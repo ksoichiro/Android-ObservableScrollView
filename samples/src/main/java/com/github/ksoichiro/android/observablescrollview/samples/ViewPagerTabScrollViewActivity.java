@@ -55,7 +55,7 @@ public class ViewPagerTabScrollViewActivity extends BaseActivity implements Obse
         mHeaderView = findViewById(R.id.header);
         ViewCompat.setElevation(mHeaderView, getResources().getDimension(R.dimen.toolbar_elevation));
         mToolbarView = findViewById(R.id.toolbar);
-        mPagerAdapter = new NavigationAdapter(getSupportFragmentManager());
+        mPagerAdapter = newViewPagerAdapter();
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
 
@@ -184,6 +184,10 @@ public class ViewPagerTabScrollViewActivity extends BaseActivity implements Obse
         }
     }
 
+    protected NavigationAdapter newViewPagerAdapter() {
+        return new NavigationAdapter(getSupportFragmentManager());
+    }
+
     private boolean toolbarIsShown() {
         return ViewHelper.getTranslationY(mHeaderView) == 0;
     }
@@ -210,7 +214,7 @@ public class ViewPagerTabScrollViewActivity extends BaseActivity implements Obse
         propagateToolbarState(false);
     }
 
-    private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
+    protected static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
 
         private static final String[] TITLES = new String[]{"Applepie", "Butter Cookie", "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb", "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"};
 
@@ -224,9 +228,13 @@ public class ViewPagerTabScrollViewActivity extends BaseActivity implements Obse
             mScrollY = scrollY;
         }
 
+        protected Fragment newFragment() {
+            return new ViewPagerTabScrollViewFragment();
+        }
+
         @Override
         protected Fragment createItem(int position) {
-            Fragment f = new ViewPagerTabScrollViewFragment();
+            Fragment f = newFragment();
             if (0 <= mScrollY) {
                 Bundle args = new Bundle();
                 args.putInt(ViewPagerTabScrollViewFragment.ARG_SCROLL_Y, mScrollY);
