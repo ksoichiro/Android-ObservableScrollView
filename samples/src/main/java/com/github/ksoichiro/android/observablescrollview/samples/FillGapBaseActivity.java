@@ -40,7 +40,7 @@ public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActi
     protected int mActionBarSize;
     protected int mIntersectionHeight;
 
-    private View mImageHolder;
+    private View mImage;
     private View mHeaderBackground;
     private int mPrevScrollY;
     private boolean mGapIsChanging;
@@ -61,7 +61,7 @@ public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActi
         // within mIntersectionHeight.
         mIntersectionHeight = getResources().getDimensionPixelSize(R.dimen.intersection_height);
 
-        mImageHolder = findViewById(R.id.image_holder);
+        mImage = findViewById(R.id.image);
         mHeader = findViewById(R.id.header);
         mHeaderBar = findViewById(R.id.header_bar);
         mHeaderBackground = findViewById(R.id.header_background);
@@ -105,7 +105,7 @@ public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActi
             return;
         }
         // Translate image
-        ViewHelper.setTranslationY(mImageHolder, -scrollY / 2);
+        ViewHelper.setTranslationY(mImage, -scrollY / 2);
 
         // Translate header
         ViewHelper.setTranslationY(mHeader, getHeaderTranslationY(scrollY));

@@ -19,18 +19,12 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <FrameLayout
-        android:id="@+id/image_holder"
+    <ImageView
+        android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/flexible_space_image_height"
-            android:scaleType="centerCrop"
-            android:src="@drawable/example" />
-    </FrameLayout>
+        android:layout_height="@dimen/flexible_space_image_height"
+        android:scaleType="centerCrop"
+        android:src="@drawable/example" />
 
     <View
         android:id="@+id/list_background"
