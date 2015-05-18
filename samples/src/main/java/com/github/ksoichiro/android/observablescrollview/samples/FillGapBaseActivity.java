@@ -52,8 +52,6 @@ public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActi
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResId());
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-
         mFlexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         mActionBarSize = getActionBarSize();
 
