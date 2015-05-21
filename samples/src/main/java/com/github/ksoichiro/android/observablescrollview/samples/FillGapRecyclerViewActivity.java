@@ -22,6 +22,9 @@ import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.nineoldandroids.view.ViewHelper;
 
+/**
+ * Warning: This example does not work on Android 2.3.
+ */
 public class FillGapRecyclerViewActivity extends FillGapBaseActivity<ObservableRecyclerView> implements ObservableScrollViewCallbacks {
 
     @Override

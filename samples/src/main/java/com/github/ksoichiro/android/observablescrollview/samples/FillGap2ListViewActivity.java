@@ -20,6 +20,9 @@ import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.nineoldandroids.view.ViewHelper;
 
+/**
+ * Warning: This example does not work on Android 2.3.
+ */
 public class FillGap2ListViewActivity extends FillGap2BaseActivity<ObservableListView> implements ObservableScrollViewCallbacks {
 
     @Override

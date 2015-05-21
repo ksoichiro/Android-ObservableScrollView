@@ -19,6 +19,9 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 
+/**
+ * Warning: This example does not work on Android 2.3.
+ */
 public class FillGap3ScrollViewActivity extends FillGap3BaseActivity<ObservableScrollView> implements ObservableScrollViewCallbacks {
     @Override
     protected int getLayoutResId() {

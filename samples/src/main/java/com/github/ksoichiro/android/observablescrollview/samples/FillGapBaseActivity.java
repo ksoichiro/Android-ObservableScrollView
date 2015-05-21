@@ -31,6 +31,11 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
+/**
+ * Warning: This example does not work on Android 2.3.
+ *
+ * @param <S> Scrollable
+ */
 public abstract class FillGapBaseActivity<S extends Scrollable> extends BaseActivity implements ObservableScrollViewCallbacks {
 
     protected View mHeader;
