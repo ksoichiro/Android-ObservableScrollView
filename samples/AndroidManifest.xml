@@ -208,6 +208,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FlexibleSpaceWithImageWithViewPagerTabActivity"
+            android:label="@string/title_activity_flexiblespacewithimagewithviewpagertab"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.github.ksoichiro.android.observablescrollview.samples" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".FlexibleSpaceWithImageWithViewPagerTab2Activity"
             android:label="@string/title_activity_flexiblespacewithimagewithviewpagertab2"
             android:theme="@style/AppTheme.Toolbar">
