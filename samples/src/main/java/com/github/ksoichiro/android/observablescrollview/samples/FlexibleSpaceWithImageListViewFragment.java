@@ -68,7 +68,6 @@ public class FlexibleSpaceWithImageListViewFragment extends FlexibleSpaceWithIma
         View imageView = view.findViewById(R.id.image);
         View overlayView = view.findViewById(R.id.overlay);
         ObservableListView scrollView = (ObservableListView) view.findViewById(R.id.scroll);
-        scrollView.setScrollViewCallbacks(this);
         TextView titleView = (TextView) view.findViewById(R.id.title);
         View listBackgroundView = view.findViewById(R.id.list_background);
 

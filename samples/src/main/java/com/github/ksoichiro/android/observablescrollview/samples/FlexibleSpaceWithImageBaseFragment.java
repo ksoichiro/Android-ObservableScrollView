@@ -27,7 +27,7 @@ public abstract class FlexibleSpaceWithImageBaseFragment<S extends Scrollable> e
 
     protected static final float MAX_TEXT_SCALE_DELTA = 0.3f;
 
-    public final void updateFlexibleSpace() {
+    protected void updateFlexibleSpace() {
         updateFlexibleSpace(getScrollable().getCurrentScrollY(), getView());
     }
 

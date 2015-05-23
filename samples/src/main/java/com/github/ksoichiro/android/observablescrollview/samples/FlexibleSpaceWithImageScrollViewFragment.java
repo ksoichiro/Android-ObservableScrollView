@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
+import com.github.ksoichiro.android.observablescrollview.Scrollable;
 import com.nineoldandroids.view.ViewHelper;
 
 public class FlexibleSpaceWithImageScrollViewFragment extends FlexibleSpaceWithImageBaseFragment<ObservableScrollView> {
@@ -49,13 +50,25 @@ public class FlexibleSpaceWithImageScrollViewFragment extends FlexibleSpaceWithI
     }
 
     @Override
+    protected void updateFlexibleSpace() {
+        // Sometimes scrollable.getCurrentScrollY() and the real scrollY has different values.
+        // As a workaround, we should call scrollVerticallyTo() to make sure that they match.
+        Scrollable s = getScrollable();
+        s.scrollVerticallyTo(s.getCurrentScrollY());
+
+        // If scrollable.getCurrentScrollY() and the real scrollY has the same values,
+        // calling scrollVerticallyTo() won't invoke scroll (or onScrollChanged()), so we call it here.
+        // Calling this twice is not a problem as long as updateFlexibleSpace(int, View) has idempotence.
+        updateFlexibleSpace(s.getCurrentScrollY(), getView());
+    }
+
+    @Override
     protected void updateFlexibleSpace(int scrollY, View view) {
         int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         int tabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
         View imageView = view.findViewById(R.id.image);
         View overlayView = view.findViewById(R.id.overlay);
         ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
-        scrollView.setScrollViewCallbacks(this);
         TextView titleView = (TextView) view.findViewById(R.id.title);
 
         // Translate overlay and image
