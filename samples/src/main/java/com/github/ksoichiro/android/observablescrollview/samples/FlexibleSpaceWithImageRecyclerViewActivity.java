@@ -23,7 +23,6 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
     private View mImageView;
     private View mOverlayView;
     private View mRecyclerViewBackground;
-    private ObservableRecyclerView mRecyclerView;
     private TextView mTitleView;
     private int mActionBarSize;
     private int mFlexibleSpaceImageHeight;
@@ -36,10 +35,10 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
         mFlexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         mActionBarSize = getActionBarSize();
 
-        mRecyclerView = (ObservableRecyclerView) findViewById(R.id.recycler);
-        mRecyclerView.setScrollViewCallbacks(this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setHasFixedSize(false);
+        ObservableRecyclerView recyclerView = (ObservableRecyclerView) findViewById(R.id.recycler);
+        recyclerView.setScrollViewCallbacks(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(false);
         final View headerView = LayoutInflater.from(this).inflate(R.layout.recycler_header, null);
         headerView.post(new Runnable() {
             @Override
@@ -47,7 +46,7 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
                 headerView.getLayoutParams().height = mFlexibleSpaceImageHeight;
             }
         });
-        setDummyDataWithHeader(mRecyclerView, headerView);
+        setDummyDataWithHeader(recyclerView, headerView);
 
         mImageView = findViewById(R.id.image);
         mOverlayView = findViewById(R.id.overlay);
@@ -59,7 +58,7 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
         // mRecyclerViewBackground makes RecyclerView's background except header view.
         mRecyclerViewBackground = findViewById(R.id.list_background);
 
-        //since you cannot programatically add a headerview to a recyclerview we added an empty view as the header
+        //since you cannot programmatically add a header view to a RecyclerView we added an empty view as the header
         // in the adapter and then are shifting the views OnCreateView to compensate
         final float scale = 1 + MAX_TEXT_SCALE_DELTA;
         mRecyclerViewBackground.post(new Runnable() {
