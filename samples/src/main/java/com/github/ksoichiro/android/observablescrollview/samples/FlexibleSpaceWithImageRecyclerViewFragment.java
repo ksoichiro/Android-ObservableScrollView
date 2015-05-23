@@ -17,7 +17,6 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,14 +28,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-public class FlexibleSpaceWithImageRecyclerViewFragment extends BaseFragment implements ObservableScrollViewCallbacks {
-
-    private static final float MAX_TEXT_SCALE_DELTA = 0.3f;
+public class FlexibleSpaceWithImageRecyclerViewFragment extends FlexibleSpaceWithImageBaseFragment<ObservableRecyclerView> {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,20 +55,13 @@ public class FlexibleSpaceWithImageRecyclerViewFragment extends BaseFragment imp
 
         recyclerView.setScrollViewCallbacks(this);
 
-        updateFlexibleSpace(view, 0, false, false);
+        updateFlexibleSpace(0, view);
 
         return view;
     }
 
     @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        if (getView() == null) {
-            return;
-        }
-        updateFlexibleSpace(getView(), scrollY, firstScroll, dragging);
-    }
-
-    private void updateFlexibleSpace(View view, int scrollY, boolean firstScroll, boolean dragging) {
+    protected void updateFlexibleSpace(int scrollY, View view) {
         int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         int tabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
 
@@ -107,18 +95,11 @@ public class FlexibleSpaceWithImageRecyclerViewFragment extends BaseFragment imp
         ViewHelper.setTranslationY(titleView, titleTranslationY);
 
         // Also pass this event to parent Activity
-        Activity parentActivity = getActivity();
-        if (parentActivity != null && parentActivity instanceof ObservableScrollViewCallbacks) {
-            ((ObservableScrollViewCallbacks) parentActivity).onScrollChanged(scrollY, firstScroll, dragging);
+        FlexibleSpaceWithImageWithViewPagerTabActivity parentActivity =
+                (FlexibleSpaceWithImageWithViewPagerTabActivity) getActivity();
+        if (parentActivity != null) {
+            parentActivity.onScrollChanged(scrollY, (ObservableRecyclerView) view.findViewById(R.id.scroll));
         }
-    }
-
-    @Override
-    public void onDownMotionEvent() {
-    }
-
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

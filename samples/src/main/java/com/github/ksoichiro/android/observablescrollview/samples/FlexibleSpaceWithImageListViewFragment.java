@@ -16,7 +16,6 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,15 +24,10 @@ import android.widget.AbsListView;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-public class FlexibleSpaceWithImageListViewFragment extends BaseFragment implements ObservableScrollViewCallbacks {
-
-    private static final float MAX_TEXT_SCALE_DELTA = 0.3f;
+public class FlexibleSpaceWithImageListViewFragment extends FlexibleSpaceWithImageBaseFragment<ObservableListView> {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,20 +56,13 @@ public class FlexibleSpaceWithImageListViewFragment extends BaseFragment impleme
 
         listView.setScrollViewCallbacks(this);
 
-        updateFlexibleSpace(view, 0, false, false);
+        updateFlexibleSpace(0, view);
 
         return view;
     }
 
     @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        if (getView() == null) {
-            return;
-        }
-        updateFlexibleSpace(getView(), scrollY, firstScroll, dragging);
-    }
-
-    private void updateFlexibleSpace(View view, int scrollY, boolean firstScroll, boolean dragging) {
+    protected void updateFlexibleSpace(int scrollY, View view) {
         int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         int tabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
         View imageView = view.findViewById(R.id.image);
@@ -110,17 +97,10 @@ public class FlexibleSpaceWithImageListViewFragment extends BaseFragment impleme
         ViewHelper.setTranslationY(titleView, titleTranslationY);
 
         // Also pass this event to parent Activity
-        Activity parentActivity = getActivity();
-        if (parentActivity != null && parentActivity instanceof ObservableScrollViewCallbacks) {
-            ((ObservableScrollViewCallbacks) parentActivity).onScrollChanged(scrollY, firstScroll, dragging);
+        FlexibleSpaceWithImageWithViewPagerTabActivity parentActivity =
+                (FlexibleSpaceWithImageWithViewPagerTabActivity) getActivity();
+        if (parentActivity != null) {
+            parentActivity.onScrollChanged(scrollY, scrollView);
         }
-    }
-
-    @Override
-    public void onDownMotionEvent() {
-    }
-
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
     }
 }

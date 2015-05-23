@@ -23,8 +23,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
@@ -32,10 +30,28 @@ import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
 /**
- * SlidingTabLayout and SlidingTabStrip are from google/iosched:
- * https://github.com/google/iosched
+ * <p>Another implementation of FlexibleImage pattern + ViewPager.</p>
+ *
+ * <p>This is a completely different approach comparing to FlexibleImageWithViewPager2Activity.
+ * When the current tab is changed, tabs will be translated in Y-axis
+ * using scrollY of the new page's Fragment.<br>
+ * You can use this pattern only if you don't mind that the tabs overlap with
+ * the content of the adjacent pages when swiping pages.</p>
+ *
+ * <p>Descriptions of this pattern:</p>
+ * <ul>
+ * <li>The parent Activity and children Fragments strongly depend on each other,
+ * so if you need to use this pattern, maybe you should extract some interfaces from them.<br>
+ * (This is just an example, so we won't do it here.)</li>
+ * <li>The parent Activity and children Fragments communicate bidirectionally:
+ * the parent Activity will update the Fragment's state when the tab is changed,
+ * and Fragments will tell the parent Activity to update the tab's translationY.</li>
+ * </ul>
+ *
+ * <p>SlidingTabLayout and SlidingTabStrip are from google/iosched:<br>
+ * https://github.com/google/iosched</p>
  */
-public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity implements ObservableScrollViewCallbacks {
+public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity {
 
     private ViewPager mPager;
     private NavigationAdapter mPagerAdapter;
@@ -59,6 +75,8 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setViewPager(mPager);
+
+        // Initialize the first Fragment's state when layout is completed.
         ScrollUtils.addOnGlobalLayoutListener(mSlidingTabLayout, new Runnable() {
             @Override
             public void run() {
@@ -66,8 +84,7 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
             }
         });
 
-        // When the page is selected, other fragments' scrollY should be adjusted
-        // according to the toolbar status(shown/hidden)
+        // When the page is selected, translate the tabs using the current Fragment's scrollY.
         mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {
@@ -84,54 +101,72 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         });
     }
 
-    @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        translateTab(scrollY, false);
-    }
-
-    @Override
-    public void onDownMotionEvent() {
-    }
-
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-    }
-
-    private void translateTab() {
-        Scrollable scrollable = getCurrentScrollable();
+    /**
+     * Called by children Fragments when their scrollY are changed.
+     * They all call this method even when they are inactive
+     * but this Activity should listen only the active child,
+     * so each Fragments will pass themselves for Activity to check if they are active.
+     *
+     * @param scrollY scroll position of Scrollable
+     * @param s caller Scrollable view
+     */
+    public void onScrollChanged(int scrollY, Scrollable s) {
+        FlexibleSpaceWithImageBaseFragment fragment =
+                (FlexibleSpaceWithImageBaseFragment) mPagerAdapter.getItemAt(mPager.getCurrentItem());
+        if (fragment == null) {
+            return;
+        }
+        View view = fragment.getView();
+        if (view == null) {
+            return;
+        }
+        Scrollable scrollable = (Scrollable) view.findViewById(R.id.scroll);
         if (scrollable == null) {
             return;
         }
+        if (scrollable == s) {
+            // This method is called by not only the current fragment but also other fragments
+            // when their scrollY is changed.
+            // So we need to check the caller(S) is the current fragment.
+            translateTab(scrollY, false);
+        }
+    }
+
+    private void translateTab() {
+        FlexibleSpaceWithImageBaseFragment fragment =
+                (FlexibleSpaceWithImageBaseFragment) mPagerAdapter.getItemAt(mPager.getCurrentItem());
+        if (fragment == null) {
+            return;
+        }
+        View view = fragment.getView();
+        if (view == null) {
+            return;
+        }
+        Scrollable scrollable = (Scrollable) view.findViewById(R.id.scroll);
+        if (scrollable == null) {
+            return;
+        }
+        // We should make sure to update the current fragment's state
+        // because its onScrollChanged is not always called.
+        fragment.updateFlexibleSpace();
         translateTab(scrollable.getCurrentScrollY(), true);
     }
 
     private void translateTab(int scrollY, boolean animated) {
+        // If tabs are moving, cancel it to start a new animation.
         ViewPropertyAnimator.animate(mSlidingTabLayout).cancel();
+        // Tabs will move between the top of the screen to the bottom of the image.
         float translationY = ScrollUtils.getFloat(-scrollY + mFlexibleSpaceHeight - mTabHeight, 0, mFlexibleSpaceHeight - mTabHeight);
         if (animated) {
+            // Animation will be invoked only when the current tab is changed.
             ViewPropertyAnimator.animate(mSlidingTabLayout)
                     .translationY(translationY)
                     .setDuration(200)
                     .start();
         } else {
+            // When Fragments' scroll, translate tabs immediately (without animation).
             ViewHelper.setTranslationY(mSlidingTabLayout, translationY);
         }
-    }
-
-    private Scrollable getCurrentScrollable() {
-        Fragment fragment = getCurrentFragment();
-        if (fragment == null) {
-            return null;
-        }
-        View view = fragment.getView();
-        if (view == null) {
-            return null;
-        }
-        return (Scrollable) view.findViewById(R.id.scroll);
-    }
-
-    private Fragment getCurrentFragment() {
-        return mPagerAdapter.getItemAt(mPager.getCurrentItem());
     }
 
     /**
