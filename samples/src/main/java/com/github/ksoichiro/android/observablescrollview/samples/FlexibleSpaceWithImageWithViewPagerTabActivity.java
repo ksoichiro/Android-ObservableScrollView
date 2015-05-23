@@ -33,6 +33,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
  * <p>Another implementation of FlexibleImage pattern + ViewPager.</p>
  *
  * <p>This is a completely different approach comparing to FlexibleImageWithViewPager2Activity.
+ * Each Fragments have their own flexible space and image.
  * When the current tab is changed, tabs will be translated in Y-axis
  * using scrollY of the new page's Fragment.<br>
  * You can use this pattern only if you don't mind that the tabs overlap with
