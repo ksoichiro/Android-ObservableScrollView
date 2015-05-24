@@ -33,14 +33,14 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
  * <p>Another implementation of FlexibleImage pattern + ViewPager.</p>
  *
  * <p>This is a completely different approach comparing to FlexibleImageWithViewPager2Activity.
- * Each Fragments have their own flexible space and image.
- * When the current tab is changed, tabs will be translated in Y-axis
- * using scrollY of the new page's Fragment.<br>
- * You can use this pattern only if you don't mind that the tabs overlap with
- * the content of the adjacent pages when swiping pages.</p>
  *
  * <p>Descriptions of this pattern:</p>
  * <ul>
+ * <li>Each Fragments have their own flexible space and image.</li>
+ * <li>When the current tab is changed, tabs will be translated in Y-axis
+ * using scrollY of the new page's Fragment.</li>
+ * <li>You can use this pattern only if you don't mind that the tabs overlap with
+ * the content of the adjacent pages when swiping pages.</li>
  * <li>The parent Activity and children Fragments strongly depend on each other,
  * so if you need to use this pattern, maybe you should extract some interfaces from them.<br>
  * (This is just an example, so we won't do it here.)</li>
@@ -48,6 +48,10 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
  * the parent Activity will update the Fragment's state when the tab is changed,
  * and Fragments will tell the parent Activity to update the tab's translationY.</li>
  * </ul>
+ *
+ * <p>To share flexible space and image between Fragments, each Scrollable views
+ * should be able to set scroll position (in pixels) by {@code scrollTo()} or something,
+ * but currently they don't have such methods.</p>
  *
  * <p>SlidingTabLayout and SlidingTabStrip are from google/iosched:<br>
  * https://github.com/google/iosched</p>
