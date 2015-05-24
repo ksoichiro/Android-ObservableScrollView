@@ -251,8 +251,53 @@ which are implemented in the following examples.</p>
 <li>FillGap3RecyclerViewActivity</li>
 <li>FillGap3ScrollViewActivity</li>
 </ul>
+<p>Please note that these patterns only works for Android 4+.</p>
 <hr>
+<h2>Overview</h2><p>There are many examples for this pattern, but they can be classified to the following:</p>
+<ul>
+<li>FillGap<ul>
+<li>When swiping up, the header bar expands and fill the gap between the header and the top of the screen.</li>
+</ul>
+</li>
+<li>FillGap2<ul>
+<li>Almost same as FillGap, but in this pattern,
+after the gap is filled with primary color, the filled space is going to shrink,
+and the header bar moves.</li>
+</ul>
+</li>
+<li>FillGap3<ul>
+<li>Usually FillGap should work only when the Scrollable view can scroll.
+But sometimes you may want to scroll them with few items, and you can achieve it with this pattern.</li>
+<li>This uses <code>TouchInterceptionFrameLayout</code> (one of the widgets in this library),
+and this component does not handle &quot;velocity&quot; of scrolls,
+so as soon as you touch up your fingers, translation will be stopped.</li>
+</ul>
+</li>
+</ul>
+<h2>Pattern1 (FillGap)</h2><h3>ScrollView</h3><h4>Basic structure</h4><pre><code class="language-xml">&lt;FrameLayout android:clipChildren=&quot;false&quot;&gt;
+  &lt;FrameLayout android:id=&quot;@+id/image_holder&quot;&gt;
+    &lt;ImageView android:id=&quot;@+id/image&quot;/&gt;
+  &lt;/FrameLayout&gt;
+  &lt;ObservableScrollView android:id=&quot;@+id/scroll&quot;&gt;
+    &lt;TextView android:id=&quot;@+id/container&quot;/&gt;
+  &lt;/ObservableScrollView&gt;
+  &lt;FrameLayout android:id=&quot;@+id/header&quot; android:clipChildren=&quot;false&quot;&gt;
+    &lt;View android:id=&quot;@+id/header_background&quot;/&gt;
+    &lt;LinearLayout android:id=&quot;@+id/header_bar&quot;&gt;
+      &lt;TextView android:id=&quot;@+id/title&quot;/&gt;
+    &lt;/LinearLayout&gt;
+  &lt;/FrameLayout&gt;
+&lt;/FrameLayout&gt;
+</code></pre>
+<p><code>clipChildren</code> attribute is important.
+Without it, part of the views are not drawn.</p>
+<p>Incorrect (without <code>android:clipChildren=&quot;false&quot;</code>):</p>
+<p><img src="../../docs/images/basic_7.png" alt=""></p>
+<p>Correct (with <code>android:clipChildren=&quot;false&quot;</code>):</p>
+<p><img src="../../docs/images/basic_6.png" alt=""></p>
 <p>Coming soon...</p>
+<h2>Pattern2 (FillGap2)</h2><p>Coming soon...</p>
+<h2>Pattern3 (FillGap3)</h2><p>Coming soon...</p>
 <p><a href="../../docs/advanced/index.md">Next: Advanced techniques &raquo;</a></p>
 </div>
 </div>
