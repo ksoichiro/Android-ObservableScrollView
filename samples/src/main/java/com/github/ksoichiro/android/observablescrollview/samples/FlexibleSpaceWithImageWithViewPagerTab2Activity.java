@@ -232,7 +232,7 @@ public class FlexibleSpaceWithImageWithViewPagerTab2Activity extends BaseActivit
             translationY = mScroller.getCurrY();
             Log.e("DEBUG", "updateLayout: currY: " + mScroller.getCurrY() + " velocity: " + mScroller.getCurrVelocity());
             int flexibleSpace = mFlexibleSpaceHeight - mTabHeight;
-            if (-flexibleSpace < translationY && translationY < 0) {
+            if (-flexibleSpace <= translationY && translationY <= 0) {
                 needsUpdate = true;
             } else if (translationY < -flexibleSpace) {
                 translationY = -flexibleSpace;
