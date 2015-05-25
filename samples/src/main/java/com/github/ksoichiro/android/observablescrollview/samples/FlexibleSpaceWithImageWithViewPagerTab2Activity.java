@@ -20,15 +20,20 @@ import android.annotation.TargetApi;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.VelocityTrackerCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
+import android.widget.OverScroller;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
@@ -56,6 +61,7 @@ import com.nineoldandroids.view.ViewHelper;
 public class FlexibleSpaceWithImageWithViewPagerTab2Activity extends BaseActivity implements ObservableScrollViewCallbacks {
 
     private static final float MAX_TEXT_SCALE_DELTA = 0.3f;
+    private static final int INVALID_POINTER = -1;
 
     private View mImageView;
     private View mOverlayView;
@@ -63,6 +69,11 @@ public class FlexibleSpaceWithImageWithViewPagerTab2Activity extends BaseActivit
     private TouchInterceptionFrameLayout mInterceptionLayout;
     private ViewPager mPager;
     private NavigationAdapter mPagerAdapter;
+    private VelocityTracker mVelocityTracker;
+    private OverScroller mScroller;
+    private float mBaseTranslationY;
+    private int mMaximumVelocity;
+    private int mActivePointerId = INVALID_POINTER;
     private int mSlop;
     private int mFlexibleSpaceHeight;
     private int mTabHeight;
@@ -99,8 +110,10 @@ public class FlexibleSpaceWithImageWithViewPagerTab2Activity extends BaseActivit
 
         ViewConfiguration vc = ViewConfiguration.get(this);
         mSlop = vc.getScaledTouchSlop();
+        mMaximumVelocity = vc.getScaledMaximumFlingVelocity();
         mInterceptionLayout = (TouchInterceptionFrameLayout) findViewById(R.id.container);
         mInterceptionLayout.setScrollInterceptionListener(mInterceptionListener);
+        mScroller = new OverScroller(getApplicationContext());
         ScrollUtils.addOnGlobalLayoutListener(mInterceptionLayout, new Runnable() {
             @Override
             public void run() {
@@ -167,20 +180,80 @@ public class FlexibleSpaceWithImageWithViewPagerTab2Activity extends BaseActivit
 
         @Override
         public void onDownMotionEvent(MotionEvent ev) {
+            mActivePointerId = ev.getPointerId(0);
+            mScroller.forceFinished(true);
+            if (mVelocityTracker == null) {
+                mVelocityTracker = VelocityTracker.obtain();
+            } else {
+                mVelocityTracker.clear();
+            }
+            mBaseTranslationY = ViewHelper.getTranslationY(mInterceptionLayout);
+            mVelocityTracker.addMovement(ev);
+            Log.e("DEBUG", "onDownMotionEvent: y: " + ev.getY());
         }
 
         @Override
         public void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY) {
             int flexibleSpace = mFlexibleSpaceHeight - mTabHeight;
             float translationY = ScrollUtils.getFloat(ViewHelper.getTranslationY(mInterceptionLayout) + diffY, -flexibleSpace, 0);
+            MotionEvent e = MotionEvent.obtainNoHistory(ev);
+            e.offsetLocation(0, translationY - mBaseTranslationY);
+            Log.e("DEBUG", "onMoveMotionEvent: y: " + e.getY());
+            mVelocityTracker.addMovement(e);
             updateFlexibleSpace(translationY);
         }
 
         @Override
         public void onUpOrCancelMotionEvent(MotionEvent ev) {
             mScrolled = false;
+            mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
+            int velocityY = (int) VelocityTrackerCompat.getYVelocity(mVelocityTracker, mActivePointerId);
+            mActivePointerId = INVALID_POINTER;
+            mScroller.forceFinished(true);
+            int baseTranslationY = (int) ViewHelper.getTranslationY(mInterceptionLayout);
+
+            int minY = -(mFlexibleSpaceHeight - mTabHeight);
+            int maxY = 0;
+            Log.e("DEBUG", "onUpOrCancelMotionEvent: fling: " + velocityY);
+            mScroller.fling(0, baseTranslationY, 0, velocityY, 0, 0, minY, maxY);
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    updateLayout();
+                }
+            });
         }
     };
+
+    private void updateLayout() {
+        boolean needsUpdate = false;
+        float translationY = 0;
+        if (mScroller.computeScrollOffset()) {
+            translationY = mScroller.getCurrY();
+            Log.e("DEBUG", "updateLayout: currY: " + mScroller.getCurrY() + " velocity: " + mScroller.getCurrVelocity());
+            int flexibleSpace = mFlexibleSpaceHeight - mTabHeight;
+            if (-flexibleSpace < translationY && translationY < 0) {
+                needsUpdate = true;
+            } else if (translationY < -flexibleSpace) {
+                translationY = -flexibleSpace;
+                needsUpdate = true;
+            } else if (0 < translationY) {
+                translationY = 0;
+                needsUpdate = true;
+            }
+        }
+
+        if (needsUpdate) {
+            updateFlexibleSpace(translationY);
+
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    updateLayout();
+                }
+            });
+        }
+    }
 
     private Scrollable getCurrentScrollable() {
         Fragment fragment = getCurrentFragment();
