@@ -23,11 +23,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.VelocityTrackerCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -189,7 +187,6 @@ public class FlexibleSpaceWithImageWithViewPagerTab2Activity extends BaseActivit
             }
             mBaseTranslationY = ViewHelper.getTranslationY(mInterceptionLayout);
             mVelocityTracker.addMovement(ev);
-            Log.e("DEBUG", "onDownMotionEvent: y: " + ev.getY());
         }
 
         @Override
@@ -198,7 +195,6 @@ public class FlexibleSpaceWithImageWithViewPagerTab2Activity extends BaseActivit
             float translationY = ScrollUtils.getFloat(ViewHelper.getTranslationY(mInterceptionLayout) + diffY, -flexibleSpace, 0);
             MotionEvent e = MotionEvent.obtainNoHistory(ev);
             e.offsetLocation(0, translationY - mBaseTranslationY);
-            Log.e("DEBUG", "onMoveMotionEvent: y: " + e.getY());
             mVelocityTracker.addMovement(e);
             updateFlexibleSpace(translationY);
         }
@@ -207,14 +203,13 @@ public class FlexibleSpaceWithImageWithViewPagerTab2Activity extends BaseActivit
         public void onUpOrCancelMotionEvent(MotionEvent ev) {
             mScrolled = false;
             mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
-            int velocityY = (int) VelocityTrackerCompat.getYVelocity(mVelocityTracker, mActivePointerId);
+            int velocityY = (int) mVelocityTracker.getYVelocity(mActivePointerId);
             mActivePointerId = INVALID_POINTER;
             mScroller.forceFinished(true);
             int baseTranslationY = (int) ViewHelper.getTranslationY(mInterceptionLayout);
 
             int minY = -(mFlexibleSpaceHeight - mTabHeight);
             int maxY = 0;
-            Log.e("DEBUG", "onUpOrCancelMotionEvent: fling: " + velocityY);
             mScroller.fling(0, baseTranslationY, 0, velocityY, 0, 0, minY, maxY);
             new Handler().post(new Runnable() {
                 @Override
@@ -230,7 +225,6 @@ public class FlexibleSpaceWithImageWithViewPagerTab2Activity extends BaseActivit
         float translationY = 0;
         if (mScroller.computeScrollOffset()) {
             translationY = mScroller.getCurrY();
-            Log.e("DEBUG", "updateLayout: currY: " + mScroller.getCurrY() + " velocity: " + mScroller.getCurrVelocity());
             int flexibleSpace = mFlexibleSpaceHeight - mTabHeight;
             if (-flexibleSpace <= translationY && translationY <= 0) {
                 needsUpdate = true;
