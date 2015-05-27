@@ -16,13 +16,20 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
+import android.annotation.TargetApi;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
+import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
@@ -36,27 +43,23 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
  *
  * <p>Descriptions of this pattern:</p>
  * <ul>
- * <li>Each Fragments have their own flexible space and image.</li>
  * <li>When the current tab is changed, tabs will be translated in Y-axis
  * using scrollY of the new page's Fragment.</li>
- * <li>You can use this pattern only if you don't mind that the tabs overlap with
- * the content of the adjacent pages when swiping pages.</li>
  * <li>The parent Activity and children Fragments strongly depend on each other,
  * so if you need to use this pattern, maybe you should extract some interfaces from them.<br>
  * (This is just an example, so we won't do it here.)</li>
  * <li>The parent Activity and children Fragments communicate bidirectionally:
  * the parent Activity will update the Fragment's state when the tab is changed,
  * and Fragments will tell the parent Activity to update the tab's translationY.</li>
+ * <li>This pattern can be used only with ObservableScrollView and ObservableRecyclerView currently.</li>
  * </ul>
- *
- * <p>To share flexible space and image between Fragments, each Scrollable views
- * should be able to set scroll position (in pixels) by {@code scrollTo()} or something,
- * but currently they don't have such methods.</p>
  *
  * <p>SlidingTabLayout and SlidingTabStrip are from google/iosched:<br>
  * https://github.com/google/iosched</p>
  */
 public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity {
+
+    protected static final float MAX_TEXT_SCALE_DELTA = 0.3f;
 
     private ViewPager mPager;
     private NavigationAdapter mPagerAdapter;
@@ -75,6 +78,9 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
         mTabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
 
+        TextView titleView = (TextView) findViewById(R.id.title);
+        titleView.setText(R.string.title_activity_flexiblespacewithimagewithviewpagertab);
+
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setCustomTabView(R.layout.tab_indicator, android.R.id.text1);
         mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.accent));
@@ -86,22 +92,6 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
             @Override
             public void run() {
                 translateTab(0, false);
-            }
-        });
-
-        // When the page is selected, translate the tabs using the current Fragment's scrollY.
-        mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i2) {
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                translateTab();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
             }
         });
     }
@@ -133,31 +123,40 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
             // This method is called by not only the current fragment but also other fragments
             // when their scrollY is changed.
             // So we need to check the caller(S) is the current fragment.
-            translateTab(scrollY, false);
+            int adjustedScrollY = Math.min(scrollY, mFlexibleSpaceHeight - mTabHeight);
+            translateTab(adjustedScrollY, false);
+            propagateScroll(adjustedScrollY);
         }
-    }
-
-    private void translateTab() {
-        FlexibleSpaceWithImageBaseFragment fragment =
-                (FlexibleSpaceWithImageBaseFragment) mPagerAdapter.getItemAt(mPager.getCurrentItem());
-        if (fragment == null) {
-            return;
-        }
-        View view = fragment.getView();
-        if (view == null) {
-            return;
-        }
-        Scrollable scrollable = (Scrollable) view.findViewById(R.id.scroll);
-        if (scrollable == null) {
-            return;
-        }
-        // We should make sure to update the current fragment's state
-        // because its onScrollChanged is not always called.
-        fragment.updateFlexibleSpace();
-        translateTab(scrollable.getCurrentScrollY(), true);
     }
 
     private void translateTab(int scrollY, boolean animated) {
+        int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
+        int tabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
+        View imageView = findViewById(R.id.image);
+        View overlayView = findViewById(R.id.overlay);
+        TextView titleView = (TextView) findViewById(R.id.title);
+
+        // Translate overlay and image
+        float flexibleRange = flexibleSpaceImageHeight - getActionBarSize();
+        int minOverlayTransitionY = tabHeight - overlayView.getHeight();
+        ViewHelper.setTranslationY(overlayView, ScrollUtils.getFloat(-scrollY, minOverlayTransitionY, 0));
+        ViewHelper.setTranslationY(imageView, ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
+
+        // Change alpha of overlay
+        ViewHelper.setAlpha(overlayView, ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
+
+        // Scale title text
+        float scale = 1 + ScrollUtils.getFloat((flexibleRange - scrollY - tabHeight) / flexibleRange, 0, MAX_TEXT_SCALE_DELTA);
+        setPivotXToTitle(titleView);
+        ViewHelper.setPivotY(titleView, 0);
+        ViewHelper.setScaleX(titleView, scale);
+        ViewHelper.setScaleY(titleView, scale);
+
+        // Translate title text
+        int maxTitleTranslationY = flexibleSpaceImageHeight - tabHeight - getActionBarSize();
+        int titleTranslationY = maxTitleTranslationY - scrollY;
+        ViewHelper.setTranslationY(titleView, titleTranslationY);
+
         // If tabs are moving, cancel it to start a new animation.
         ViewPropertyAnimator.animate(mSlidingTabLayout).cancel();
         // Tabs will move between the top of the screen to the bottom of the image.
@@ -174,6 +173,71 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void setPivotXToTitle(View view) {
+        final TextView mTitleView = (TextView) view.findViewById(R.id.title);
+        Configuration config = getResources().getConfiguration();
+        if (Build.VERSION_CODES.JELLY_BEAN_MR1 <= Build.VERSION.SDK_INT
+                && config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+            ViewHelper.setPivotX(mTitleView, view.findViewById(android.R.id.content).getWidth());
+        } else {
+            ViewHelper.setPivotX(mTitleView, 0);
+        }
+    }
+
+    private void propagateScroll(int scrollY) {
+        // Set scrollY for the fragments that are not created yet
+        mPagerAdapter.setScrollY(scrollY);
+
+        // Set scrollY for the active fragments
+        for (int i = 0; i < mPagerAdapter.getCount(); i++) {
+            // Skip current item
+            if (i == mPager.getCurrentItem()) {
+                continue;
+            }
+
+            // Skip destroyed or not created item
+            FlexibleSpaceWithImageBaseFragment f =
+                    (FlexibleSpaceWithImageBaseFragment) mPagerAdapter.getItemAt(i);
+            if (f == null) {
+                continue;
+            }
+
+            View view = f.getView();
+            if (view == null) {
+                continue;
+            }
+            propagateScroll(view, scrollY);
+            f.updateFlexibleSpace(scrollY);
+        }
+    }
+
+    private void propagateScroll(View view, int scrollY) {
+        Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
+        if (scrollView == null) {
+            return;
+        }
+        if (scrollView instanceof ObservableRecyclerView) {
+            final ObservableRecyclerView recyclerView = (ObservableRecyclerView) scrollView;
+            View firstVisibleChild = recyclerView.getChildAt(0);
+            if (firstVisibleChild != null) {
+                int offset = scrollY;
+                int position = 0;
+                if (mFlexibleSpaceHeight < scrollY) {
+                    int baseHeight = firstVisibleChild.getHeight();
+                    position = scrollY / baseHeight;
+                    offset = scrollY % baseHeight;
+                }
+                RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
+                if (lm != null && lm instanceof LinearLayoutManager) {
+                    ((LinearLayoutManager) lm).scrollToPositionWithOffset(position, -offset);
+                }
+            }
+        } else {
+            scrollView.scrollVerticallyTo(scrollY);
+        }
+    }
+
     /**
      * This adapter provides three types of fragments as an example.
      * {@linkplain #createItem(int)} should be modified if you use this example for your app.
@@ -182,26 +246,40 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
 
         private static final String[] TITLES = new String[]{"Applepie", "Butter Cookie", "Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread", "Honeycomb", "Ice Cream Sandwich", "Jelly Bean", "KitKat", "Lollipop"};
 
+        private int mScrollY;
+
         public NavigationAdapter(FragmentManager fm) {
             super(fm);
+        }
+
+        public void setScrollY(int scrollY) {
+            mScrollY = scrollY;
         }
 
         @Override
         protected Fragment createItem(int position) {
             Fragment f;
-            final int pattern = position % 3;
+            final int pattern = position % 4;
             switch (pattern) {
-                case 0: {
-                    f = new FlexibleSpaceWithImageScrollViewFragment();
-                    break;
-                }
+                case 0:
                 case 1: {
-                    f = new FlexibleSpaceWithImageListViewFragment();
+                    f = new FlexibleSpaceWithImageScrollViewFragment();
+                    if (0 <= mScrollY) {
+                        Bundle args = new Bundle();
+                        args.putInt(FlexibleSpaceWithImageScrollViewFragment.ARG_SCROLL_Y, mScrollY);
+                        f.setArguments(args);
+                    }
                     break;
                 }
                 case 2:
+                case 3:
                 default: {
                     f = new FlexibleSpaceWithImageRecyclerViewFragment();
+                    if (0 <= mScrollY) {
+                        Bundle args = new Bundle();
+                        args.putInt(FlexibleSpaceWithImageRecyclerViewFragment.ARG_SCROLL_Y, mScrollY);
+                        f.setArguments(args);
+                    }
                     break;
                 }
             }

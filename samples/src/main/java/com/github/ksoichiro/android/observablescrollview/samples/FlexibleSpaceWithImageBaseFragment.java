@@ -25,10 +25,10 @@ import com.github.ksoichiro.android.observablescrollview.Scrollable;
 public abstract class FlexibleSpaceWithImageBaseFragment<S extends Scrollable> extends BaseFragment
         implements ObservableScrollViewCallbacks {
 
-    protected static final float MAX_TEXT_SCALE_DELTA = 0.3f;
+    public static final String ARG_SCROLL_Y = "ARG_SCROLL_Y";
 
-    protected void updateFlexibleSpace() {
-        updateFlexibleSpace(getScrollable().getCurrentScrollY(), getView());
+    protected void updateFlexibleSpace(int scrollY) {
+        updateFlexibleSpace(scrollY, getView());
     }
 
     protected abstract void updateFlexibleSpace(int scrollY, View view);

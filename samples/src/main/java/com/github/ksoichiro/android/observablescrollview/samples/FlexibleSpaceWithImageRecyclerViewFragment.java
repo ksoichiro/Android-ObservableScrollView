@@ -16,16 +16,13 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.annotation.TargetApi;
-import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
@@ -36,9 +33,6 @@ public class FlexibleSpaceWithImageRecyclerViewFragment extends FlexibleSpaceWit
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_flexiblespacewithimagerecyclerview, container, false);
-
-        TextView titleView = (TextView) view.findViewById(R.id.title);
-        titleView.setText(R.string.title_activity_flexiblespacewithimagewithviewpagertab);
 
         final ObservableRecyclerView recyclerView = (ObservableRecyclerView) view.findViewById(R.id.scroll);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -53,9 +47,26 @@ public class FlexibleSpaceWithImageRecyclerViewFragment extends FlexibleSpaceWit
         // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
         recyclerView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
 
-        recyclerView.setScrollViewCallbacks(this);
+        // Scroll to the specified offset after layout
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(ARG_SCROLL_Y)) {
+            final int scrollY = args.getInt(ARG_SCROLL_Y, 0);
+            ScrollUtils.addOnGlobalLayoutListener(recyclerView, new Runnable() {
+                @Override
+                public void run() {
+                    int offset = scrollY % flexibleSpaceImageHeight;
+                    RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
+                    if (lm != null && lm instanceof LinearLayoutManager) {
+                        ((LinearLayoutManager) lm).scrollToPositionWithOffset(0, -offset);
+                    }
+                }
+            });
+            updateFlexibleSpace(scrollY, view);
+        } else {
+            updateFlexibleSpace(0, view);
+        }
 
-        updateFlexibleSpace(0, view);
+        recyclerView.setScrollViewCallbacks(this);
 
         return view;
     }
@@ -63,54 +74,17 @@ public class FlexibleSpaceWithImageRecyclerViewFragment extends FlexibleSpaceWit
     @Override
     protected void updateFlexibleSpace(int scrollY, View view) {
         int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
-        int tabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
 
-        View imageView = view.findViewById(R.id.image);
-        View overlayView = view.findViewById(R.id.overlay);
         View recyclerViewBackground = view.findViewById(R.id.list_background);
-        TextView titleView = (TextView) view.findViewById(R.id.title);
-
-        // Translate overlay and image
-        float flexibleRange = flexibleSpaceImageHeight - getActionBarSize();
-        int minOverlayTransitionY = tabHeight - overlayView.getHeight();
-        ViewHelper.setTranslationY(overlayView, ScrollUtils.getFloat(-scrollY, minOverlayTransitionY, 0));
-        ViewHelper.setTranslationY(imageView, ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
 
         // Translate list background
         ViewHelper.setTranslationY(recyclerViewBackground, Math.max(0, -scrollY + flexibleSpaceImageHeight));
-
-        // Change alpha of overlay
-        ViewHelper.setAlpha(overlayView, ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
-
-        // Scale title text
-        float scale = 1 + ScrollUtils.getFloat((flexibleRange - scrollY - tabHeight) / flexibleRange, 0, MAX_TEXT_SCALE_DELTA);
-        setPivotXToTitle(view);
-        ViewHelper.setPivotY(titleView, 0);
-        ViewHelper.setScaleX(titleView, scale);
-        ViewHelper.setScaleY(titleView, scale);
-
-        // Translate title text
-        int maxTitleTranslationY = flexibleSpaceImageHeight - tabHeight - getActionBarSize();
-        int titleTranslationY = maxTitleTranslationY - scrollY;
-        ViewHelper.setTranslationY(titleView, titleTranslationY);
 
         // Also pass this event to parent Activity
         FlexibleSpaceWithImageWithViewPagerTabActivity parentActivity =
                 (FlexibleSpaceWithImageWithViewPagerTabActivity) getActivity();
         if (parentActivity != null) {
             parentActivity.onScrollChanged(scrollY, (ObservableRecyclerView) view.findViewById(R.id.scroll));
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void setPivotXToTitle(View view) {
-        final TextView mTitleView = (TextView) view.findViewById(R.id.title);
-        Configuration config = getResources().getConfiguration();
-        if (Build.VERSION_CODES.JELLY_BEAN_MR1 <= Build.VERSION.SDK_INT
-                && config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-            ViewHelper.setPivotX(mTitleView, view.findViewById(android.R.id.content).getWidth());
-        } else {
-            ViewHelper.setPivotX(mTitleView, 0);
         }
     }
 }

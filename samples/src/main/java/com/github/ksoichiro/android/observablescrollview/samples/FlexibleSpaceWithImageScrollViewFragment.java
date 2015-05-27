@@ -20,12 +20,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
-import com.nineoldandroids.view.ViewHelper;
 
 public class FlexibleSpaceWithImageScrollViewFragment extends FlexibleSpaceWithImageBaseFragment<ObservableScrollView> {
 
@@ -33,64 +31,48 @@ public class FlexibleSpaceWithImageScrollViewFragment extends FlexibleSpaceWithI
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_flexiblespacewithimagescrollview, container, false);
 
-        TextView titleView = (TextView) view.findViewById(R.id.title);
-        titleView.setText(R.string.title_activity_flexiblespacewithimagewithviewpagertab);
-
         final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
         // TouchInterceptionViewGroup should be a parent view other than ViewPager.
         // This is a workaround for the issue #117:
         // https://github.com/ksoichiro/Android-ObservableScrollView/issues/117
         scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
 
-        scrollView.setScrollViewCallbacks(this);
+        // Scroll to the specified offset after layout
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(ARG_SCROLL_Y)) {
+            final int scrollY = args.getInt(ARG_SCROLL_Y, 0);
+            ScrollUtils.addOnGlobalLayoutListener(scrollView, new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.scrollTo(0, scrollY);
+                }
+            });
+            updateFlexibleSpace(scrollY, view);
+        } else {
+            updateFlexibleSpace(0, view);
+        }
 
-        updateFlexibleSpace(0, view);
+        scrollView.setScrollViewCallbacks(this);
 
         return view;
     }
 
     @Override
-    protected void updateFlexibleSpace() {
+    protected void updateFlexibleSpace(int scrollY) {
         // Sometimes scrollable.getCurrentScrollY() and the real scrollY has different values.
         // As a workaround, we should call scrollVerticallyTo() to make sure that they match.
         Scrollable s = getScrollable();
-        s.scrollVerticallyTo(s.getCurrentScrollY());
+        s.scrollVerticallyTo(scrollY);
 
         // If scrollable.getCurrentScrollY() and the real scrollY has the same values,
         // calling scrollVerticallyTo() won't invoke scroll (or onScrollChanged()), so we call it here.
         // Calling this twice is not a problem as long as updateFlexibleSpace(int, View) has idempotence.
-        updateFlexibleSpace(s.getCurrentScrollY(), getView());
+        updateFlexibleSpace(scrollY, getView());
     }
 
     @Override
     protected void updateFlexibleSpace(int scrollY, View view) {
-        int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
-        int tabHeight = getResources().getDimensionPixelSize(R.dimen.tab_height);
-        View imageView = view.findViewById(R.id.image);
-        View overlayView = view.findViewById(R.id.overlay);
         ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
-        TextView titleView = (TextView) view.findViewById(R.id.title);
-
-        // Translate overlay and image
-        float flexibleRange = flexibleSpaceImageHeight - getActionBarSize();
-        int minOverlayTransitionY = tabHeight - overlayView.getHeight();
-        ViewHelper.setTranslationY(overlayView, ScrollUtils.getFloat(-scrollY, minOverlayTransitionY, 0));
-        ViewHelper.setTranslationY(imageView, ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
-
-        // Change alpha of overlay
-        ViewHelper.setAlpha(overlayView, ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
-
-        // Scale title text
-        float scale = 1 + ScrollUtils.getFloat((flexibleRange - scrollY - tabHeight) / flexibleRange, 0, MAX_TEXT_SCALE_DELTA);
-        ViewHelper.setPivotX(titleView, 0);
-        ViewHelper.setPivotY(titleView, 0);
-        ViewHelper.setScaleX(titleView, scale);
-        ViewHelper.setScaleY(titleView, scale);
-
-        // Translate title text
-        int maxTitleTranslationY = flexibleSpaceImageHeight - tabHeight - getActionBarSize();
-        int titleTranslationY = maxTitleTranslationY - scrollY;
-        ViewHelper.setTranslationY(titleView, titleTranslationY);
 
         // Also pass this event to parent Activity
         FlexibleSpaceWithImageWithViewPagerTabActivity parentActivity =
