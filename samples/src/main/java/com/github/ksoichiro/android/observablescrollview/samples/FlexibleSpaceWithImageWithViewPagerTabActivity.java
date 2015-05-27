@@ -16,6 +16,7 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
+import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
@@ -51,7 +53,6 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
  * <li>The parent Activity and children Fragments communicate bidirectionally:
  * the parent Activity will update the Fragment's state when the tab is changed,
  * and Fragments will tell the parent Activity to update the tab's translationY.</li>
- * <li>This pattern can be used only with ObservableScrollView and ObservableRecyclerView currently.</li>
  * </ul>
  *
  * <p>SlidingTabLayout and SlidingTabStrip are from google/iosched:<br>
@@ -212,6 +213,7 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         }
     }
 
+    @SuppressLint("NewApi")
     private void propagateScroll(View view, int scrollY) {
         Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
         if (scrollView == null) {
@@ -232,6 +234,19 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
                 if (lm != null && lm instanceof LinearLayoutManager) {
                     ((LinearLayoutManager) lm).scrollToPositionWithOffset(position, -offset);
                 }
+            }
+        } else if (scrollView instanceof ObservableListView) {
+            ObservableListView listView = (ObservableListView) scrollView;
+            View firstVisibleChild = listView.getChildAt(0);
+            if (firstVisibleChild != null) {
+                int offset = scrollY;
+                int position = 0;
+                if (mFlexibleSpaceHeight < scrollY) {
+                    int baseHeight = firstVisibleChild.getHeight();
+                    position = scrollY / baseHeight;
+                    offset = scrollY % baseHeight;
+                }
+                listView.setSelectionFromTop(position, -offset);
             }
         } else {
             scrollView.scrollVerticallyTo(scrollY);
@@ -259,10 +274,9 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         @Override
         protected Fragment createItem(int position) {
             Fragment f;
-            final int pattern = position % 4;
+            final int pattern = position % 3;
             switch (pattern) {
-                case 0:
-                case 1: {
+                case 0: {
                     f = new FlexibleSpaceWithImageScrollViewFragment();
                     if (0 <= mScrollY) {
                         Bundle args = new Bundle();
@@ -271,8 +285,16 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
                     }
                     break;
                 }
+                case 1: {
+                    f = new FlexibleSpaceWithImageListViewFragment();
+                    if (0 <= mScrollY) {
+                        Bundle args = new Bundle();
+                        args.putInt(FlexibleSpaceWithImageListViewFragment.ARG_SCROLL_Y, mScrollY);
+                        f.setArguments(args);
+                    }
+                    break;
+                }
                 case 2:
-                case 3:
                 default: {
                     f = new FlexibleSpaceWithImageRecyclerViewFragment();
                     if (0 <= mScrollY) {
