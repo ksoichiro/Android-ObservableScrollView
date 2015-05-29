@@ -17,6 +17,7 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,14 +45,20 @@ public class FragmentTransitionSecondFragment extends BaseFragment {
     private void showToolbar() {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
-            activity.getSupportActionBar().show();
+            ActionBar ab = activity.getSupportActionBar();
+            if (ab != null) {
+                ab.show();
+            }
         }
     }
 
     private void hideToolbar() {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
-            activity.getSupportActionBar().hide();
+            ActionBar ab = activity.getSupportActionBar();
+            if (ab != null) {
+                ab.hide();
+            }
         }
     }
 }

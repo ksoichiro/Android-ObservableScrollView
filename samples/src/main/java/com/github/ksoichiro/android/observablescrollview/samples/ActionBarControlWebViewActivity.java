@@ -46,6 +46,9 @@ public class ActionBarControlWebViewActivity extends BaseActivity implements Obs
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
         ActionBar ab = getSupportActionBar();
+        if (ab == null) {
+            return;
+        }
         if (scrollState == ScrollState.UP) {
             if (ab.isShowing()) {
                 ab.hide();

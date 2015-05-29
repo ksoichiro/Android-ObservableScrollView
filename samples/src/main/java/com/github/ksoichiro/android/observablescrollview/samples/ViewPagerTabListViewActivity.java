@@ -169,7 +169,11 @@ public class ViewPagerTabListViewActivity extends BaseActivity implements Observ
                 continue;
             }
 
-            ObservableListView listView = (ObservableListView) f.getView().findViewById(R.id.scroll);
+            View view = f.getView();
+            if (view == null) {
+                continue;
+            }
+            ObservableListView listView = (ObservableListView) view.findViewById(R.id.scroll);
             if (isShown) {
                 // Scroll up
                 if (0 < listView.getCurrentScrollY()) {

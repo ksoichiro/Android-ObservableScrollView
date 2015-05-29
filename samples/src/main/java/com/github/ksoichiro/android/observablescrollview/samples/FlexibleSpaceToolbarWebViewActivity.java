@@ -17,6 +17,7 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebView;
@@ -45,7 +46,10 @@ public class FlexibleSpaceToolbarWebViewActivity extends BaseActivity implements
         setContentView(R.layout.activity_flexiblespacetoolbarwebview);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         mFlexibleSpaceView = findViewById(R.id.flexible_space);
         mTitleView = (TextView) findViewById(R.id.title);

@@ -19,6 +19,7 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
@@ -96,9 +97,12 @@ public abstract class SlidingUpBaseActivity<S extends Scrollable> extends BaseAc
 
         setSupportActionBar(mToolbar);
         ViewHelper.setScaleY(mToolbar, 0);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setHomeButtonEnabled(true);
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setTitle("");
+        }
 
         mToolbarColor = getResources().getColor(R.color.primary);
         mToolbar.setBackgroundColor(Color.TRANSPARENT);

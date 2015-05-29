@@ -60,6 +60,9 @@ public class FragmentActionBarControlListViewFragment extends BaseFragment imple
             return;
         }
         ActionBar ab = activity.getSupportActionBar();
+        if (ab == null) {
+            return;
+        }
         if (scrollState == ScrollState.UP) {
             if (ab.isShowing()) {
                 ab.hide();
