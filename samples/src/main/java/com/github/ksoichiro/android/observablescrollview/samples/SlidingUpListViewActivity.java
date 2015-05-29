@@ -18,14 +18,10 @@ package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SlidingUpListViewActivity extends SlidingUpBaseActivity<ObservableListView> implements ObservableScrollViewCallbacks {
 
