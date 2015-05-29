@@ -51,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public static ArrayList<String> getDummyData(int num) {
-        ArrayList<String> items = new ArrayList<String>();
+        ArrayList<String> items = new ArrayList<>();
         for (int i = 1; i <= num; i++) {
             items.add("Item " + i);
         }
@@ -67,7 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void setDummyData(ListView listView, int num) {
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getDummyData(num)));
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getDummyData(num)));
     }
 
     protected void setDummyDataWithHeader(ListView listView, int headerHeight) {
@@ -89,7 +89,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void setDummyData(GridView gridView) {
-        gridView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getDummyData()));
+        gridView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getDummyData()));
     }
 
     protected void setDummyData(RecyclerView recyclerView) {

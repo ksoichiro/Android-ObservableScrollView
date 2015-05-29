@@ -56,7 +56,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void setDummyData(ListView listView) {
-        listView.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getDummyData()));
+        listView.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, getDummyData()));
     }
 
     protected void setDummyDataWithHeader(ListView listView, View headerView) {
@@ -65,7 +65,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void setDummyData(GridView gridView) {
-        gridView.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getDummyData()));
+        gridView.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, getDummyData()));
     }
 
     protected void setDummyData(RecyclerView recyclerView) {

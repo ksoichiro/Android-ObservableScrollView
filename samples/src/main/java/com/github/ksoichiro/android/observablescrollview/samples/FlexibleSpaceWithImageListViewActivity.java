@@ -20,7 +20,6 @@ import android.annotation.TargetApi;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;

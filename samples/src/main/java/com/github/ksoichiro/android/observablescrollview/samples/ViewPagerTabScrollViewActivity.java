@@ -169,7 +169,11 @@ public class ViewPagerTabScrollViewActivity extends BaseActivity implements Obse
                 continue;
             }
 
-            ObservableScrollView scrollView = (ObservableScrollView) f.getView().findViewById(R.id.scroll);
+            View view = f.getView();
+            if (view == null) {
+                continue;
+            }
+            ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
             if (isShown) {
                 // Scroll up
                 if (0 < scrollView.getCurrentScrollY()) {

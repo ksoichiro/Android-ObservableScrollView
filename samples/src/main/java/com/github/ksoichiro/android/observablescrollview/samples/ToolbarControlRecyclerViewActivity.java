@@ -17,15 +17,10 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
-import android.widget.AbsListView;
 
-import com.github.ksoichiro.android.observablescrollview.ObservableListView;
 import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 
 public class ToolbarControlRecyclerViewActivity extends ToolbarControlBaseActivity<ObservableRecyclerView> {
-
-    private static final String TAG = ToolbarControlRecyclerViewActivity.class.getSimpleName();
 
     @Override
     protected int getLayoutResId() {

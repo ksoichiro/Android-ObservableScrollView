@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ListView listView;
 
     // Quickly navigate through the examples.
-    static enum Filter {
+    enum Filter {
         All,
         GridView,
         RecyclerView,
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+        List<Map<String, Object>> data = new ArrayList<>();
 
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.setPackage(getApplicationContext().getPackageName());
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     protected void addItem(List<Map<String, Object>> data, String className, String description,
                            Intent intent) {
-        Map<String, Object> temp = new HashMap<String, Object>();
+        Map<String, Object> temp = new HashMap<>();
         temp.put(TAG_CLASS_NAME, className);
         temp.put(TAG_DESCRIPTION, description);
         temp.put(TAG_INTENT, intent);
