@@ -36,7 +36,7 @@ public class ViewPagerTabListViewFragment extends BaseFragment {
 
         Activity parentActivity = getActivity();
         final ObservableListView listView = (ObservableListView) view.findViewById(R.id.scroll);
-        setDummyDataWithHeader(listView, inflater.inflate(R.layout.padding, null));
+        setDummyDataWithHeader(listView, inflater.inflate(R.layout.padding, listView, false));
 
         if (parentActivity instanceof ObservableScrollViewCallbacks) {
             // Scroll to the specified position after layout
