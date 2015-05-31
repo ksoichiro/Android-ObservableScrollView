@@ -16,6 +16,7 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
@@ -26,6 +27,14 @@ public abstract class FlexibleSpaceWithImageBaseFragment<S extends Scrollable> e
         implements ObservableScrollViewCallbacks {
 
     public static final String ARG_SCROLL_Y = "ARG_SCROLL_Y";
+
+    public void setArguments(int scrollY) {
+        if (0 <= scrollY) {
+            Bundle args = new Bundle();
+            args.putInt(ARG_SCROLL_Y, scrollY);
+            setArguments(args);
+        }
+    }
 
     protected void updateFlexibleSpace(int scrollY) {
         updateFlexibleSpace(scrollY, getView());

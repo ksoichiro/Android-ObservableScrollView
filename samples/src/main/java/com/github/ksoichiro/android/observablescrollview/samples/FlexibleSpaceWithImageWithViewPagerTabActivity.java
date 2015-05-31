@@ -273,38 +273,24 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
 
         @Override
         protected Fragment createItem(int position) {
-            Fragment f;
+            FlexibleSpaceWithImageBaseFragment f;
             final int pattern = position % 3;
             switch (pattern) {
                 case 0: {
                     f = new FlexibleSpaceWithImageScrollViewFragment();
-                    if (0 <= mScrollY) {
-                        Bundle args = new Bundle();
-                        args.putInt(FlexibleSpaceWithImageScrollViewFragment.ARG_SCROLL_Y, mScrollY);
-                        f.setArguments(args);
-                    }
                     break;
                 }
                 case 1: {
                     f = new FlexibleSpaceWithImageListViewFragment();
-                    if (0 <= mScrollY) {
-                        Bundle args = new Bundle();
-                        args.putInt(FlexibleSpaceWithImageListViewFragment.ARG_SCROLL_Y, mScrollY);
-                        f.setArguments(args);
-                    }
                     break;
                 }
                 case 2:
                 default: {
                     f = new FlexibleSpaceWithImageRecyclerViewFragment();
-                    if (0 <= mScrollY) {
-                        Bundle args = new Bundle();
-                        args.putInt(FlexibleSpaceWithImageRecyclerViewFragment.ARG_SCROLL_Y, mScrollY);
-                        f.setArguments(args);
-                    }
                     break;
                 }
             }
+            f.setArguments(mScrollY);
             return f;
         }
 
