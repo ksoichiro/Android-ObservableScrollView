@@ -36,6 +36,18 @@ public abstract class FlexibleSpaceWithImageBaseFragment<S extends Scrollable> e
         }
     }
 
+    public void setScrollY(int scrollY, int threshold) {
+        View view = getView();
+        if (view == null) {
+            return;
+        }
+        Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
+        if (scrollView == null) {
+            return;
+        }
+        scrollView.scrollVerticallyTo(scrollY);
+    }
+
     protected void updateFlexibleSpace(int scrollY) {
         updateFlexibleSpace(scrollY, getView());
     }

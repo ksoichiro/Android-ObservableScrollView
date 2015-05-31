@@ -72,6 +72,32 @@ public class FlexibleSpaceWithImageRecyclerViewFragment extends FlexibleSpaceWit
     }
 
     @Override
+    public void setScrollY(int scrollY, int threshold) {
+        View view = getView();
+        if (view == null) {
+            return;
+        }
+        ObservableRecyclerView recyclerView = (ObservableRecyclerView) view.findViewById(R.id.scroll);
+        if (recyclerView == null) {
+            return;
+        }
+        View firstVisibleChild = recyclerView.getChildAt(0);
+        if (firstVisibleChild != null) {
+            int offset = scrollY;
+            int position = 0;
+            if (threshold < scrollY) {
+                int baseHeight = firstVisibleChild.getHeight();
+                position = scrollY / baseHeight;
+                offset = scrollY % baseHeight;
+            }
+            RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
+            if (lm != null && lm instanceof LinearLayoutManager) {
+                ((LinearLayoutManager) lm).scrollToPositionWithOffset(position, -offset);
+            }
+        }
+    }
+
+    @Override
     protected void updateFlexibleSpace(int scrollY, View view) {
         int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
 

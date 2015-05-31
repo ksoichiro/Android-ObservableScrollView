@@ -16,7 +16,6 @@
 
 package com.github.ksoichiro.android.observablescrollview.samples;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -24,14 +23,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.github.ksoichiro.android.observablescrollview.CacheFragmentStatePagerAdapter;
-import com.github.ksoichiro.android.observablescrollview.ObservableListView;
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
@@ -40,9 +35,9 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 
 /**
  * <p>Another implementation of FlexibleImage pattern + ViewPager.</p>
- *
+ * <p/>
  * <p>This is a completely different approach comparing to FlexibleImageWithViewPager2Activity.
- *
+ * <p/>
  * <p>Descriptions of this pattern:</p>
  * <ul>
  * <li>When the current tab is changed, tabs will be translated in Y-axis
@@ -54,7 +49,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
  * the parent Activity will update the Fragment's state when the tab is changed,
  * and Fragments will tell the parent Activity to update the tab's translationY.</li>
  * </ul>
- *
+ * <p/>
  * <p>SlidingTabLayout and SlidingTabStrip are from google/iosched:<br>
  * https://github.com/google/iosched</p>
  */
@@ -104,7 +99,7 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
      * so each Fragments will pass themselves for Activity to check if they are active.
      *
      * @param scrollY scroll position of Scrollable
-     * @param s caller Scrollable view
+     * @param s       caller Scrollable view
      */
     public void onScrollChanged(int scrollY, Scrollable s) {
         FlexibleSpaceWithImageBaseFragment fragment =
@@ -208,48 +203,8 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
             if (view == null) {
                 continue;
             }
-            propagateScroll(view, scrollY);
+            f.setScrollY(scrollY, mFlexibleSpaceHeight);
             f.updateFlexibleSpace(scrollY);
-        }
-    }
-
-    @SuppressLint("NewApi")
-    private void propagateScroll(View view, int scrollY) {
-        Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
-        if (scrollView == null) {
-            return;
-        }
-        if (scrollView instanceof ObservableRecyclerView) {
-            final ObservableRecyclerView recyclerView = (ObservableRecyclerView) scrollView;
-            View firstVisibleChild = recyclerView.getChildAt(0);
-            if (firstVisibleChild != null) {
-                int offset = scrollY;
-                int position = 0;
-                if (mFlexibleSpaceHeight < scrollY) {
-                    int baseHeight = firstVisibleChild.getHeight();
-                    position = scrollY / baseHeight;
-                    offset = scrollY % baseHeight;
-                }
-                RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
-                if (lm != null && lm instanceof LinearLayoutManager) {
-                    ((LinearLayoutManager) lm).scrollToPositionWithOffset(position, -offset);
-                }
-            }
-        } else if (scrollView instanceof ObservableListView) {
-            ObservableListView listView = (ObservableListView) scrollView;
-            View firstVisibleChild = listView.getChildAt(0);
-            if (firstVisibleChild != null) {
-                int offset = scrollY;
-                int position = 0;
-                if (mFlexibleSpaceHeight < scrollY) {
-                    int baseHeight = firstVisibleChild.getHeight();
-                    position = scrollY / baseHeight;
-                    offset = scrollY % baseHeight;
-                }
-                listView.setSelectionFromTop(position, -offset);
-            }
-        } else {
-            scrollView.scrollVerticallyTo(scrollY);
         }
     }
 

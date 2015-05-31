@@ -75,6 +75,30 @@ public class FlexibleSpaceWithImageListViewFragment extends FlexibleSpaceWithIma
         return view;
     }
 
+    @SuppressWarnings("NewApi")
+    @Override
+    public void setScrollY(int scrollY, int threshold) {
+        View view = getView();
+        if (view == null) {
+            return;
+        }
+        ObservableListView listView = (ObservableListView) view.findViewById(R.id.scroll);
+        if (listView == null) {
+            return;
+        }
+        View firstVisibleChild = listView.getChildAt(0);
+        if (firstVisibleChild != null) {
+            int offset = scrollY;
+            int position = 0;
+            if (threshold < scrollY) {
+                int baseHeight = firstVisibleChild.getHeight();
+                position = scrollY / baseHeight;
+                offset = scrollY % baseHeight;
+            }
+            listView.setSelectionFromTop(position, -offset);
+        }
+    }
+
     @Override
     protected void updateFlexibleSpace(int scrollY, View view) {
         int flexibleSpaceImageHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
