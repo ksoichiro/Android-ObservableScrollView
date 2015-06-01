@@ -36,7 +36,6 @@ public class FlexibleSpaceToolbarWebViewActivity extends BaseActivity implements
     private View mToolbarView;
     private TextView mTitleView;
     private int mFlexibleSpaceHeight;
-    private WebView mWebView;
     private View mWebViewContainer;
 
 
@@ -57,20 +56,20 @@ public class FlexibleSpaceToolbarWebViewActivity extends BaseActivity implements
         setTitle(null);
         mToolbarView = findViewById(R.id.toolbar);
 
-        mWebView = (WebView) findViewById(R.id.webView);
         mWebViewContainer = findViewById(R.id.webViewContainer);
 
         final ObservableScrollView scrollView = (ObservableScrollView) findViewById(R.id.scroll);
         scrollView.setScrollViewCallbacks(this);
 
-        mWebView.loadUrl("file:///android_asset/lipsum.html");
+        WebView webView = (WebView) findViewById(R.id.webView);
+        webView.loadUrl("file:///android_asset/lipsum.html");
 
         mFlexibleSpaceHeight = getResources().getDimensionPixelSize(R.dimen.flexible_space_height);
         int flexibleSpaceAndToolbarHeight = mFlexibleSpaceHeight + getActionBarSize();
 
-        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mWebView.getLayoutParams();
+        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) webView.getLayoutParams();
         layoutParams.topMargin = flexibleSpaceAndToolbarHeight;
-        mWebView.setLayoutParams(layoutParams);
+        webView.setLayoutParams(layoutParams);
 
         mFlexibleSpaceView.getLayoutParams().height = flexibleSpaceAndToolbarHeight;
 
