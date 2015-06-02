@@ -47,11 +47,9 @@ import com.nineoldandroids.view.ViewHelper;
  * <p>This uses TouchInterceptionFrameLayout to move Fragments.</p>
  *
  * <p>There is an unsolved problem: it doesn't scroll smoothly
- * when the flexible space is changing because TouchInterceptionFrameLayout
- * moves without velocity.<br>
+ * when the flexible space is changing.<br>
  * If it's a big problem to you, please also check
- * FlexibleSpaceWithImageWithViewPagerTabActivity.<br>
- * There are some differences, but it scrolls smoothly.</p>
+ * FlexibleSpaceWithImageWithViewPagerTabActivity.</p>
  *
  * <p>SlidingTabLayout and SlidingTabStrip are from google/iosched:<br>
  * https://github.com/google/iosched</p>
