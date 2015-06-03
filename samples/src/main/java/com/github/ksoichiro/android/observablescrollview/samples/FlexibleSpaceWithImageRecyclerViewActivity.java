@@ -77,8 +77,6 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
                 ViewHelper.setScaleY(mTitleView, scale);
             }
         });
-
-
     }
 
 
@@ -111,12 +109,10 @@ public class FlexibleSpaceWithImageRecyclerViewActivity extends BaseActivity imp
 
     @Override
     public void onDownMotionEvent() {
-
     }
 
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

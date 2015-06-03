@@ -38,7 +38,6 @@ public class FlexibleSpaceToolbarWebViewActivity extends BaseActivity implements
     private int mFlexibleSpaceHeight;
     private View mWebViewContainer;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
