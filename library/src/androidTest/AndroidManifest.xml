@@ -20,6 +20,7 @@
     <application>
         <uses-library android:name="android.test.runner" />
         <activity android:name=".GridViewActivity" />
+        <activity android:name=".HeaderGridViewActivity" />
         <activity android:name=".ListViewActivity" />
         <activity android:name=".ListViewScrollFromBottomActivity" />
         <activity android:name=".RecyclerViewActivity" />

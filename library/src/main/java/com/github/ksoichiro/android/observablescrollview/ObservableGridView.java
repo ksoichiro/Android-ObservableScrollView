@@ -492,14 +492,14 @@ public class ObservableGridView extends GridView implements Scrollable {
         };
     }
 
-    static class FixedViewInfo {
+    public static class FixedViewInfo {
         public View view;
         public ViewGroup viewContainer;
         public Object data;
         public boolean isSelectable;
     }
 
-    static class HeaderViewGridAdapter implements WrapperListAdapter, Filterable {
+    public static class HeaderViewGridAdapter implements WrapperListAdapter, Filterable {
         private final DataSetObservable mDataSetObservable = new DataSetObservable();
         private final ListAdapter mAdapter;
         private int mNumColumns = 1;
@@ -510,7 +510,7 @@ public class ObservableGridView extends GridView implements Scrollable {
 
         public HeaderViewGridAdapter(ArrayList<FixedViewInfo> headerViewInfos, ListAdapter adapter) {
             mAdapter = adapter;
-            mIsFilterable = adapter instanceof Filterable;
+            mIsFilterable = adapter != null && adapter instanceof Filterable;
             if (headerViewInfos == null) {
                 throw new IllegalArgumentException("headerViewInfos cannot be null");
             }
@@ -637,6 +637,9 @@ public class ObservableGridView extends GridView implements Scrollable {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            if (parent == null) {
+                throw new IllegalArgumentException("Parent cannot be null");
+            }
             // Header (negative positions will throw an ArrayIndexOutOfBoundsException)
             int numHeadersAndPlaceholders = getHeadersCount() * mNumColumns;
             if (position < numHeadersAndPlaceholders) {
