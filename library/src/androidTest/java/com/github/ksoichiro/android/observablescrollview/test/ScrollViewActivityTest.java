@@ -22,6 +22,16 @@ public class ScrollViewActivityTest extends ActivityInstrumentationTestCase2<Scr
         scrollable = (ObservableScrollView) activity.findViewById(R.id.scrollable);
     }
 
+    public void testInitialize() throws Throwable {
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new ObservableScrollView(activity);
+                new ObservableScrollView(activity, null, 0);
+            }
+        });
+    }
+
     public void testScroll() throws Throwable {
         UiTestUtils.swipeVertically(this, scrollable, UiTestUtils.Direction.UP);
         getInstrumentation().waitForIdleSync();

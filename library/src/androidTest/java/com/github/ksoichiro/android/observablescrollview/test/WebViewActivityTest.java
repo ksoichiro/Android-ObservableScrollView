@@ -24,6 +24,16 @@ public class WebViewActivityTest extends ActivityInstrumentationTestCase2<WebVie
         scrollable = (ObservableWebView) activity.findViewById(R.id.scrollable);
     }
 
+    public void testInitialize() throws Throwable {
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new ObservableWebView(activity);
+                new ObservableWebView(activity, null, 0);
+            }
+        });
+    }
+
     public void testScroll() throws Throwable {
         UiTestUtils.swipeVertically(this, scrollable, UiTestUtils.Direction.UP);
         getInstrumentation().waitForIdleSync();

@@ -5,6 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
+import com.github.ksoichiro.android.observablescrollview.TouchInterceptionFrameLayout;
 
 public class TouchInterceptionScrollViewActivityTest extends ActivityInstrumentationTestCase2<TouchInterceptionScrollViewActivity> {
 
@@ -21,6 +22,17 @@ public class TouchInterceptionScrollViewActivityTest extends ActivityInstrumenta
         setActivityInitialTouchMode(true);
         activity = getActivity();
         scrollable = (ObservableScrollView) activity.findViewById(R.id.scrollable);
+    }
+
+    public void testInitialize() throws Throwable {
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new TouchInterceptionFrameLayout(activity);
+                new TouchInterceptionFrameLayout(activity, null, 0);
+                new TouchInterceptionFrameLayout(activity, null, 0, 0);
+            }
+        });
     }
 
     public void testScroll() throws Throwable {

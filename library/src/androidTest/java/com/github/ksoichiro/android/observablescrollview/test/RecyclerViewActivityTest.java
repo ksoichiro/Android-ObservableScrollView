@@ -25,6 +25,16 @@ public class RecyclerViewActivityTest extends ActivityInstrumentationTestCase2<R
         getInstrumentation().waitForIdleSync();
     }
 
+    public void testInitialize() throws Throwable {
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new ObservableRecyclerView(activity);
+                new ObservableRecyclerView(activity, null, 0);
+            }
+        });
+    }
+
     public void testScroll() throws Throwable {
         UiTestUtils.swipeVertically(this, scrollable, UiTestUtils.Direction.UP);
         getInstrumentation().waitForIdleSync();

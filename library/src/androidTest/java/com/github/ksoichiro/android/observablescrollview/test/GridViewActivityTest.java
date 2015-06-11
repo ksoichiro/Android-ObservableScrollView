@@ -24,6 +24,16 @@ public class GridViewActivityTest extends ActivityInstrumentationTestCase2<GridV
         scrollable = (ObservableGridView) activity.findViewById(R.id.scrollable);
     }
 
+    public void testInitialize() throws Throwable {
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new ObservableGridView(activity);
+                new ObservableGridView(activity, null, 0);
+            }
+        });
+    }
+
     public void testScroll() throws Throwable {
         UiTestUtils.swipeVertically(this, scrollable, UiTestUtils.Direction.UP);
         getInstrumentation().waitForIdleSync();
