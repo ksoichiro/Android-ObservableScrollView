@@ -1,6 +1,7 @@
 package com.github.ksoichiro.android.observablescrollview.test;
 
 import android.app.Activity;
+import android.os.Build;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 
@@ -30,7 +31,9 @@ public class TouchInterceptionScrollViewActivityTest extends ActivityInstrumenta
             public void run() {
                 new TouchInterceptionFrameLayout(activity);
                 new TouchInterceptionFrameLayout(activity, null, 0);
-                new TouchInterceptionFrameLayout(activity, null, 0, 0);
+                if (Build.VERSION_CODES.LOLLIPOP <= Build.VERSION.SDK_INT) {
+                    new TouchInterceptionFrameLayout(activity, null, 0, 0);
+                }
             }
         });
     }
