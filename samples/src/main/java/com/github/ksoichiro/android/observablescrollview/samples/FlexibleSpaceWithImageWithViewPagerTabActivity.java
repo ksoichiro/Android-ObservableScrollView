@@ -229,7 +229,7 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
         @Override
         protected Fragment createItem(int position) {
             FlexibleSpaceWithImageBaseFragment f;
-            final int pattern = position % 3;
+            final int pattern = position % 4;
             switch (pattern) {
                 case 0: {
                     f = new FlexibleSpaceWithImageScrollViewFragment();
@@ -239,9 +239,13 @@ public class FlexibleSpaceWithImageWithViewPagerTabActivity extends BaseActivity
                     f = new FlexibleSpaceWithImageListViewFragment();
                     break;
                 }
-                case 2:
-                default: {
+                case 2: {
                     f = new FlexibleSpaceWithImageRecyclerViewFragment();
+                    break;
+                }
+                case 3:
+                default: {
+                    f = new FlexibleSpaceWithImageGridViewFragment();
                     break;
                 }
             }
