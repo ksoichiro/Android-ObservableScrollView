@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:recyclerview-v7:21.0.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
     androidTestCompile ('com.android.support:appcompat-v7:21.0.2') {
         exclude module: 'support-v4'
     }

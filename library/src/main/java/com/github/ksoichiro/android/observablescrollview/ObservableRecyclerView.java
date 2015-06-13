@@ -34,6 +34,8 @@ import android.view.ViewGroup;
  */
 public class ObservableRecyclerView extends RecyclerView implements Scrollable {
 
+    private static int recyclerViewLibraryVersion = 22;
+
     // Fields that should be saved onSaveInstanceState
     private int mPrevFirstVisiblePosition;
     private int mPrevFirstVisibleChildHeight = -1;
@@ -96,8 +98,8 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         super.onScrollChanged(l, t, oldl, oldt);
         if (mCallbacks != null) {
             if (getChildCount() > 0) {
-                int firstVisiblePosition = getChildPosition(getChildAt(0));
-                int lastVisiblePosition = getChildPosition(getChildAt(getChildCount() - 1));
+                int firstVisiblePosition = getChildAdapterPosition(getChildAt(0));
+                int lastVisiblePosition = getChildAdapterPosition(getChildAt(getChildCount() - 1));
                 for (int i = firstVisiblePosition, j = 0; i <= lastVisiblePosition; i++, j++) {
                     if (mChildrenHeights.indexOfKey(i) < 0 || getChildAt(j).getHeight() != mChildrenHeights.get(i)) {
                         mChildrenHeights.put(i, getChildAt(j).getHeight());
@@ -309,8 +311,25 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         return mScrollY;
     }
 
+    @SuppressWarnings("deprecation")
+    public int getChildAdapterPosition(View child) {
+        if (22 <= recyclerViewLibraryVersion) {
+            return super.getChildAdapterPosition(child);
+        }
+        return getChildPosition(child);
+    }
+
     private void init() {
         mChildrenHeights = new SparseIntArray();
+        checkLibraryVersion();
+    }
+
+    private void checkLibraryVersion() {
+        try {
+            super.getChildAdapterPosition(null);
+        } catch (NoSuchMethodError e) {
+            recyclerViewLibraryVersion = 21;
+        }
     }
 
     /**
