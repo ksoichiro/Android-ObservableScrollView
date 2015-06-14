@@ -78,7 +78,7 @@ Please check the [FAQ](docs/faq.md) and [contributing guideline](https://github.
 
 ## Developed By
 
-* Soichiro Kashima - <soichiro.kashima@gmail.com>
+* Soichiro Kashima - [soichiro.kashima@gmail.com](mailto:soichiro.kashima@gmail.com)
 
 
 ## Thanks
