@@ -26,6 +26,8 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 
+import com.github.ksoichiro.android.observablescrollview.ObservableGridView;
+
 import java.util.ArrayList;
 
 public abstract class BaseFragment extends Fragment {
@@ -66,6 +68,11 @@ public abstract class BaseFragment extends Fragment {
 
     protected void setDummyData(GridView gridView) {
         gridView.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, getDummyData()));
+    }
+
+    protected void setDummyDataWithHeader(ObservableGridView gridView, View headerView) {
+        gridView.addHeaderView(headerView);
+        setDummyData(gridView);
     }
 
     protected void setDummyData(RecyclerView recyclerView) {

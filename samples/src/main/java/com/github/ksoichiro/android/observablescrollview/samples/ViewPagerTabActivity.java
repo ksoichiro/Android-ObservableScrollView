@@ -254,7 +254,7 @@ public class ViewPagerTabActivity extends BaseActivity implements ObservableScro
             // Initialize fragments.
             // Please be sure to pass scroll position to each fragments using setArguments.
             Fragment f;
-            final int pattern = position % 3;
+            final int pattern = position % 4;
             switch (pattern) {
                 case 0: {
                     f = new ViewPagerTabScrollViewFragment();
@@ -274,12 +274,21 @@ public class ViewPagerTabActivity extends BaseActivity implements ObservableScro
                     }
                     break;
                 }
-                case 2:
-                default: {
+                case 2: {
                     f = new ViewPagerTabRecyclerViewFragment();
                     if (0 < mScrollY) {
                         Bundle args = new Bundle();
                         args.putInt(ViewPagerTabRecyclerViewFragment.ARG_INITIAL_POSITION, 1);
+                        f.setArguments(args);
+                    }
+                    break;
+                }
+                case 3:
+                default: {
+                    f = new ViewPagerTabGridViewFragment();
+                    if (0 < mScrollY) {
+                        Bundle args = new Bundle();
+                        args.putInt(ViewPagerTabGridViewFragment.ARG_INITIAL_POSITION, 1);
                         f.setArguments(args);
                     }
                     break;
