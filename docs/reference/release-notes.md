@@ -1,5 +1,7 @@
 # Release notes
 
+* v1.5.2
+    * Fix `ObservableGridView` to use first child of line in height calculation.
 * v1.5.1
     * Fix `scrollY` of `onScrollChanged` in `ObservableGridView` jumps
       when the first visible item changes.
