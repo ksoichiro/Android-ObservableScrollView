@@ -17,6 +17,8 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +62,7 @@ public class FlexibleSpaceWithImageGridViewFragment extends FlexibleSpaceWithIma
                 @Override
                 public void run() {
                     int offset = scrollY % flexibleSpaceImageHeight;
-                    gridView.setSelectionFromTop(0, -offset);
+                    setSelectionFromTop(gridView, 0, -offset);
                 }
             });
             updateFlexibleSpace(scrollY, view);
@@ -95,7 +97,7 @@ public class FlexibleSpaceWithImageGridViewFragment extends FlexibleSpaceWithIma
                 position = scrollY / baseHeight;
                 offset = scrollY % baseHeight;
             }
-            gridView.setSelectionFromTop(position, -offset);
+            setSelectionFromTop(gridView, position, -offset);
         }
     }
 
@@ -113,6 +115,21 @@ public class FlexibleSpaceWithImageGridViewFragment extends FlexibleSpaceWithIma
                 (FlexibleSpaceWithImageWithViewPagerTabActivity) getActivity();
         if (parentActivity != null) {
             parentActivity.onScrollChanged(scrollY, (ObservableGridView) view.findViewById(R.id.scroll));
+        }
+    }
+
+    /*
+     * setSelectionFromTop method has been moved from ListView to AbsListView since API level 21,
+     * so for API level 21-, we need to use other method to scroll with offset.
+     * smoothScrollToPositionFromTop seems to work, but it's from API level 11.
+     * We can't use GridView for Gingerbread.
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setSelectionFromTop(ObservableGridView gridView, int position, int offset) {
+        if (Build.VERSION_CODES.LOLLIPOP <= Build.VERSION.SDK_INT) {
+            gridView.setSelectionFromTop(position, offset);
+        } else if (Build.VERSION_CODES.HONEYCOMB <= Build.VERSION.SDK_INT) {
+            gridView.smoothScrollToPositionFromTop(position, offset, 0);
         }
     }
 }
