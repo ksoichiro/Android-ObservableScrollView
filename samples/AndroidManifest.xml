@@ -318,6 +318,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ParallaxToolbarGridViewActivity"
+            android:label="@string/title_activity_parallaxtoolbargridview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.github.ksoichiro.android.observablescrollview.samples" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ParallaxToolbarListViewActivity"
             android:label="@string/title_activity_parallaxtoolbarlistview"
             android:theme="@style/AppTheme.Toolbar">
