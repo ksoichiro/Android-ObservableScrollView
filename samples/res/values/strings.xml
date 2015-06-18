@@ -27,6 +27,7 @@
     <string name="title_activity_flexiblespacetoolbarscrollview">Flexible Space</string>
     <string name="title_activity_flexiblespacewithimagewithviewpagertab">Flexible Space</string>
     <string name="title_activity_flexiblespacewithimagewithviewpagertab2">Flexible Space</string>
+    <string name="title_activity_flexiblespacewithimagegridview">Flexible Space</string>
     <string name="title_activity_flexiblespacewithimagescrollview">Flexible Space</string>
     <string name="title_activity_fillgap3listview">Another implementation of Fill Gap &amp; ListView</string>
     <string name="title_activity_fillgap3recyclerview">Another implementation of Fill Gap &amp; RecyclerView</string>

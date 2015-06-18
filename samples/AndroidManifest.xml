@@ -188,6 +188,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FlexibleSpaceWithImageGridViewActivity"
+            android:label="@string/title_activity_flexiblespacewithimagegridview"
+            android:theme="@style/AppTheme.Toolbar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="com.github.ksoichiro.android.observablescrollview.samples" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".FlexibleSpaceWithImageScrollViewActivity"
             android:label="@string/title_activity_flexiblespacewithimagescrollview"
             android:theme="@style/AppTheme.Toolbar">
