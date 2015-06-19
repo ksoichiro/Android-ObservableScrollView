@@ -6,10 +6,14 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableGridView;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2<HeaderGridViewActivity> {
 
@@ -137,6 +141,52 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
                     fail();
                 } catch (ArrayIndexOutOfBoundsException ignore) {
                 }
+            }
+        });
+    }
+
+    public void testHeaderViewGridAdapter() throws Throwable {
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ObservableGridView.HeaderViewGridAdapter adapter =
+                            new ObservableGridView.HeaderViewGridAdapter(null, null);
+                    fail();
+                } catch (IllegalArgumentException ignore) {
+                }
+            }
+        });
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<ObservableGridView.FixedViewInfo> list = new ArrayList<>();
+                Map<String, String> map = new LinkedHashMap<>();
+                map.put("text", "A");
+                List<Map<String, ?>> data = new ArrayList<>();
+                data.add(map);
+                ObservableGridView.HeaderViewGridAdapter adapter =
+                        new ObservableGridView.HeaderViewGridAdapter(
+                                list,
+                                new SimpleAdapter(
+                                        activity,
+                                        data,
+                                        android.R.layout.simple_list_item_1,
+                                        new String[] {"text"},
+                                        new int[]{android.R.id.text1}));
+                assertFalse(adapter.removeHeader(null));
+                assertEquals(1, adapter.getCount());
+            }
+        });
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<ObservableGridView.FixedViewInfo> list = new ArrayList<>();
+                ObservableGridView.HeaderViewGridAdapter adapter =
+                        new ObservableGridView.HeaderViewGridAdapter(
+                                list,
+                                null);
+                assertEquals(0, adapter.getCount());
             }
         });
     }
