@@ -187,6 +187,11 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
                                 list,
                                 null);
                 assertEquals(0, adapter.getCount());
+                try {
+                    adapter.isEnabled(1);
+                    fail();
+                } catch (ArrayIndexOutOfBoundsException ignore) {
+                }
             }
         });
     }
