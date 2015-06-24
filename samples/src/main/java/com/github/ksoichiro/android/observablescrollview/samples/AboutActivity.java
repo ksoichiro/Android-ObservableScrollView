@@ -27,6 +27,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -64,7 +65,7 @@ public class AboutActivity extends AppCompatActivity {
         String[] licenseList = getResources().getStringArray(R.array.license_list);
         content.addView(createItemsText(softwareList));
         for (int i = 0; i < softwareList.length; i++) {
-            content.addView(createDivider(inflater));
+            content.addView(createDivider(inflater, content));
             content.addView(createHeader(softwareList[i]));
             content.addView(createHtmlText(licenseList[i]));
         }
@@ -105,8 +106,8 @@ public class AboutActivity extends AppCompatActivity {
         return text;
     }
 
-    private View createDivider(final LayoutInflater inflater) {
-        return inflater.inflate(R.layout.divider, null);
+    private View createDivider(final LayoutInflater inflater, final ViewGroup parent) {
+        return inflater.inflate(R.layout.divider, parent, false);
     }
 
     private String getVersionName() {
