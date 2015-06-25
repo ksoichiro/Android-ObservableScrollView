@@ -17,6 +17,7 @@
 package com.github.ksoichiro.android.observablescrollview.samples;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
@@ -114,7 +115,7 @@ public abstract class FillGap3BaseActivity<S extends Scrollable> extends BaseAct
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mInitialTranslationY = savedInstanceState.getFloat(STATE_TRANSLATION_Y);
     }
