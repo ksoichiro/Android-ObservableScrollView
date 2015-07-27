@@ -65,6 +65,7 @@ and [the documentation](docs/overview.md) for further more.
 
 * [Jair Player](https://play.google.com/store/apps/details?id=aj.jair.music) by Akshay Chordiya
 * [My Gradle](https://play.google.com/store/apps/details?id=se.project.generic.mygradle) by Erick Chavez Alcarraz
+* [ThemeDIY](https://play.google.com/store/apps/details?id=net.darkion.theme.maker) by Darkion Avey
 
 If you're using this library in your app and you'd like to list it here,  
 please let me know via [email](mailto:soichiro.kashima@gmail.com) or [pull requests](https://github.com/ksoichiro/Android-ObservableScrollView/pulls) or [issues](https://github.com/ksoichiro/Android-ObservableScrollView/issues).
