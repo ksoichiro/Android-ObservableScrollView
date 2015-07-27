@@ -61,7 +61,7 @@ and [the documentation](docs/overview.md) for further more.
 * [Release notes](docs/reference/release-notes.md)
 * [FAQ](docs/faq.md)
 
-## Apps that uses this library
+## Apps that use this library
 
 * [Jair Player](https://play.google.com/store/apps/details?id=aj.jair.music) by Akshay Chordiya
 * [My Gradle](https://play.google.com/store/apps/details?id=se.project.generic.mygradle) by Erick Chavez Alcarraz
