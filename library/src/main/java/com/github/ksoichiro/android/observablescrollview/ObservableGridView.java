@@ -61,6 +61,7 @@ public class ObservableGridView extends GridView implements Scrollable {
     private MotionEvent mPrevMoveEvent;
     private ViewGroup mTouchInterceptionViewGroup;
     private ArrayList<FixedViewInfo> mHeaderViewInfos;
+    private ArrayList<FixedViewInfo> mFooterViewInfos;
 
     private OnScrollListener mOriginalScrollListener;
     private OnScrollListener mScrollListener = new OnScrollListener() {
@@ -97,6 +98,9 @@ public class ObservableGridView extends GridView implements Scrollable {
         super(context, attrs, defStyle);
         init();
     }
+
+
+
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
@@ -214,6 +218,40 @@ public class ObservableGridView extends GridView implements Scrollable {
         return super.onTouchEvent(ev);
     }
 
+
+
+    public void addFooterView(View v) {
+        addFooterView(v, null, true);
+    }
+
+    public void addFooterView(View v, Object data, boolean isSelectable) {
+        ListAdapter mAdapter = getAdapter();
+        if (mAdapter != null && !(mAdapter instanceof HeaderViewGridAdapter)) {
+            throw new IllegalStateException(
+                    "Cannot add header view to grid -- setAdapter has already been called.");
+        }
+
+        ViewGroup.LayoutParams lyp = v.getLayoutParams();
+
+        FixedViewInfo info = new FixedViewInfo();
+        FrameLayout fl = new FullWidthFixedViewLayout(getContext());
+
+        if (lyp != null) {
+            v.setLayoutParams(new FrameLayout.LayoutParams(lyp.width, lyp.height));
+            fl.setLayoutParams(new AbsListView.LayoutParams(lyp.width, lyp.height));
+        }
+        fl.addView(v);
+        info.view = v;
+        info.viewContainer = fl;
+        info.data = data;
+        info.isSelectable = isSelectable;
+        mFooterViewInfos.add(info);
+
+        if (mAdapter != null) {
+            ((HeaderViewGridAdapter) mAdapter).notifyDataSetChanged();
+        }
+    }
+
     @Override
     public void setOnScrollListener(OnScrollListener l) {
         // Don't set l to super.setOnScrollListener().
@@ -313,6 +351,7 @@ public class ObservableGridView extends GridView implements Scrollable {
     private void init() {
         mChildrenHeights = new SparseIntArray();
         mHeaderViewInfos = new ArrayList<>();
+        mFooterViewInfos = new ArrayList<>();
         super.setClipChildren(false);
         super.setOnScrollListener(mScrollListener);
     }
