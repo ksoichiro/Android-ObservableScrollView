@@ -105,17 +105,15 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
             public void run() {
                 try {
                     new ObservableGridView.HeaderViewGridAdapter(null, null, null);
-                    fail();
                 } catch (IllegalArgumentException e) {
-                    assertEquals("headerViewInfos cannot be null", e.getMessage());
+                    fail();
                 }
                 ListAdapter adapter = scrollable.getAdapter();
                 ObservableGridView.HeaderViewGridAdapter hvgAdapter = (ObservableGridView.HeaderViewGridAdapter) adapter;
                 try {
                     hvgAdapter.setNumColumns(0);
-                    fail();
                 } catch (IllegalArgumentException e) {
-                    assertEquals("Number of columns must be 1 or more", e.getMessage());
+                    fail();
                 }
                 ArrayList<ObservableGridView.FixedViewInfo> headerViewInfos = new ArrayList<>();
                 ObservableGridView.HeaderViewGridAdapter adapter1 = new ObservableGridView.HeaderViewGridAdapter(headerViewInfos, null, null);
@@ -133,8 +131,7 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
                 try {
                     adapter1.getView(0, null, null);
                     fail();
-                } catch (IllegalArgumentException e) {
-                    assertEquals("Parent cannot be null", e.getMessage());
+                } catch (ArrayIndexOutOfBoundsException ignore) {
                 }
                 try {
                     adapter1.getView(-1, null, scrollable);
@@ -150,10 +147,9 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
             @Override
             public void run() {
                 try {
-                    ObservableGridView.HeaderViewGridAdapter adapter =
-                            new ObservableGridView.HeaderViewGridAdapter(null, null, null);
-                    fail();
+                    new ObservableGridView.HeaderViewGridAdapter(null, null, null);
                 } catch (IllegalArgumentException ignore) {
+                    fail();
                 }
             }
         });
@@ -192,12 +188,12 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
                 try {
                     adapter.isEnabled(1);
                     fail();
-                } catch (ArrayIndexOutOfBoundsException ignore) {
+                } catch (IndexOutOfBoundsException ignore) {
                 }
                 try {
                     adapter.getItem(1);
                     fail();
-                } catch (ArrayIndexOutOfBoundsException ignore) {
+                } catch (IndexOutOfBoundsException ignore) {
                 }
             }
         });
