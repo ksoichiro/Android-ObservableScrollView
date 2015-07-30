@@ -104,7 +104,7 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
             @Override
             public void run() {
                 try {
-                    new ObservableGridView.HeaderViewGridAdapter(null, null);
+                    new ObservableGridView.HeaderViewGridAdapter(null, null, null);
                     fail();
                 } catch (IllegalArgumentException e) {
                     assertEquals("headerViewInfos cannot be null", e.getMessage());
@@ -118,7 +118,7 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
                     assertEquals("Number of columns must be 1 or more", e.getMessage());
                 }
                 ArrayList<ObservableGridView.FixedViewInfo> headerViewInfos = new ArrayList<>();
-                ObservableGridView.HeaderViewGridAdapter adapter1 = new ObservableGridView.HeaderViewGridAdapter(headerViewInfos, null);
+                ObservableGridView.HeaderViewGridAdapter adapter1 = new ObservableGridView.HeaderViewGridAdapter(headerViewInfos, null, null);
                 assertTrue(adapter1.isEmpty());
                 try {
                     adapter1.isEnabled(-1);
@@ -151,7 +151,7 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
             public void run() {
                 try {
                     ObservableGridView.HeaderViewGridAdapter adapter =
-                            new ObservableGridView.HeaderViewGridAdapter(null, null);
+                            new ObservableGridView.HeaderViewGridAdapter(null, null, null);
                     fail();
                 } catch (IllegalArgumentException ignore) {
                 }
@@ -168,11 +168,12 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
                 ObservableGridView.HeaderViewGridAdapter adapter =
                         new ObservableGridView.HeaderViewGridAdapter(
                                 list,
+                                null,
                                 new SimpleAdapter(
                                         activity,
                                         data,
                                         android.R.layout.simple_list_item_1,
-                                        new String[] {"text"},
+                                        new String[]{"text"},
                                         new int[]{android.R.id.text1}));
                 assertFalse(adapter.removeHeader(null));
                 assertEquals(1, adapter.getCount());
@@ -185,6 +186,7 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
                 ObservableGridView.HeaderViewGridAdapter adapter =
                         new ObservableGridView.HeaderViewGridAdapter(
                                 list,
+                                null,
                                 null);
                 assertEquals(0, adapter.getCount());
                 try {
