@@ -165,9 +165,14 @@ public class ObservableListView extends ListView implements Scrollable {
                         // we should aggregate offsets from all of the parents.
                         float offsetX = 0;
                         float offsetY = 0;
-                        for (View v = this; v != null && v != parent; v = (View) v.getParent()) {
+                        for (View v = this; v != null && v != parent; ) {
                             offsetX += v.getLeft() - v.getScrollX();
                             offsetY += v.getTop() - v.getScrollY();
+                            try {
+                                v = (View) v.getParent();
+                            } catch (ClassCastException ex) {
+                                break;
+                            }
                         }
                         final MotionEvent event = MotionEvent.obtainNoHistory(ev);
                         event.offsetLocation(offsetX, offsetY);
