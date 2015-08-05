@@ -99,9 +99,6 @@ public class ObservableGridView extends GridView implements Scrollable {
         init();
     }
 
-
-
-
     @Override
     public void onRestoreInstanceState(Parcelable state) {
         SavedState ss = (SavedState) state;
@@ -218,8 +215,6 @@ public class ObservableGridView extends GridView implements Scrollable {
         return super.onTouchEvent(ev);
     }
 
-
-
     public void addFooterView(View v) {
         addFooterView(v, null, true);
     }
@@ -300,7 +295,7 @@ public class ObservableGridView extends GridView implements Scrollable {
     @Override
     public void setAdapter(ListAdapter adapter) {
         if (0 < mHeaderViewInfos.size()) {
-            HeaderViewGridAdapter headerViewGridAdapter = new HeaderViewGridAdapter(mHeaderViewInfos,mFooterViewInfos,adapter);
+            HeaderViewGridAdapter headerViewGridAdapter = new HeaderViewGridAdapter(mHeaderViewInfos, mFooterViewInfos, adapter);
             int numColumns = getNumColumnsCompat();
             if (1 < numColumns) {
                 headerViewGridAdapter.setNumColumns(numColumns);

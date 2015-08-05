@@ -88,7 +88,7 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
                 activity.headerView = new View(activity);
                 final int flexibleSpaceImageHeight = activity.getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                        flexibleSpaceImageHeight);
+                    flexibleSpaceImageHeight);
                 activity.headerView.setLayoutParams(lp);
 
                 // This is required to disable header's list selector effect
@@ -162,15 +162,15 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
                 List<Map<String, ?>> data = new ArrayList<>();
                 data.add(map);
                 ObservableGridView.HeaderViewGridAdapter adapter =
-                        new ObservableGridView.HeaderViewGridAdapter(
-                                list,
-                                null,
-                                new SimpleAdapter(
-                                        activity,
-                                        data,
-                                        android.R.layout.simple_list_item_1,
-                                        new String[]{"text"},
-                                        new int[]{android.R.id.text1}));
+                    new ObservableGridView.HeaderViewGridAdapter(
+                        list,
+                        null,
+                        new SimpleAdapter(
+                            activity,
+                            data,
+                            android.R.layout.simple_list_item_1,
+                            new String[]{"text"},
+                            new int[]{android.R.id.text1}));
                 assertFalse(adapter.removeHeader(null));
                 assertEquals(1, adapter.getCount());
             }
@@ -180,10 +180,10 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
             public void run() {
                 ArrayList<ObservableGridView.FixedViewInfo> list = new ArrayList<>();
                 ObservableGridView.HeaderViewGridAdapter adapter =
-                        new ObservableGridView.HeaderViewGridAdapter(
-                                list,
-                                null,
-                                null);
+                    new ObservableGridView.HeaderViewGridAdapter(
+                        list,
+                        null,
+                        null);
                 assertEquals(0, adapter.getCount());
                 try {
                     adapter.isEnabled(1);
