@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+<%- partial("../_head", { title: title, ogType: "article" }) %>
+</head>
+<body>
+
+<%- partial("../_nav") %>
+
+<div class="container">
+<p class="visible-xs">
+    <button type="button" class="btn-sidebar-toggle" data-toggle="offcanvas">Show menu</button>
+</p>
+<div id="grid-content">
+<div id="sidebar">
+    <ul>
+        <li><ul><li class="topic"><a href="<%- baseUrl %>/docs/overview">Overview</a></li></ul></li>
+        <% for (var sectionSlug in public._data) { %>
+            <% if (sectionSlug == "index") { continue; } %>
+            <li>
+                <h4 class="section"><a href="<%- baseUrl %>/docs/<%- sectionSlug %>/"><%- public._data[sectionSlug].title %></a></h4>
+                <ul>
+                    <% for (var topicSlug in public.docs[sectionSlug]._data) { %>
+                        <% if (topicSlug !== "index") { %>
+                            <li class="topic"><a href="<%- baseUrl %>/docs/<%- sectionSlug %>/<%- topicSlug %>"><%- public.docs[sectionSlug]._data[topicSlug].title %></a></li>
+                        <% } %>
+                    <% } %>
+                </ul>
+            </li>
+        <% } %>
+    </ul>
+</div>
+<div id="sidebar-main-content">
+<%- yield %>
+</div>
+</div>
+</div>
+
+<%- partial("../_footer") %>
+</body>
+</html>

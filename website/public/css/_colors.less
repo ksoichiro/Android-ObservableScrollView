@@ -1,0 +1,50 @@
+@theme-main-color: #009688; // 500
+@theme-focus-color: #00897B; // 600
+@theme-brand-color: #E0F2F1; // 50
+@theme-focus-border-color: #00695C; // 800
+@theme-active-color: #00695C; // 800
+.navbar-inverse {
+  background-color: @theme-main-color;
+  border-color: @theme-main-color;
+  .navbar-brand,
+  .navbar-nav>li>a {
+    color: @theme-brand-color;
+  }
+  .navbar-nav>.active>a,
+  .navbar-nav>.active>a:focus,
+  .navbar-nav>.active>a:hover {
+    background-color: @theme-active-color;
+  }
+  .navbar-nav>.open>a,
+  .navbar-nav>.open>a:focus,
+  .navbar-nav>.open>a:hover {
+    background-color: @theme-focus-color;
+  }
+  .navbar-toggle {
+    background-color: @theme-main-color;
+  }
+  .navbar-toggle {
+    border-color: @theme-focus-border-color;
+    &:hover,
+    &:focus {
+      background-color: @theme-focus-color;
+    }
+  }
+  .navbar-collapse {
+    border-color: @theme-focus-border-color;
+  }
+}
+code {
+  color: @theme-main-color;
+  background-color: lighten(@theme-brand-color, 7%);
+}
+a,
+a:hover {
+  color: @theme-main-color;
+}
+a:hover {
+  text-decoration: none;
+}
+h1, h2 {
+  color: @theme-main-color;
+}

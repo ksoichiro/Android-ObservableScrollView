@@ -1,0 +1,36 @@
+{
+  "name": "Android-ObservableScrollView",
+  "description": "bower components for Android-ObservableScrollView",
+  "dependencies": {
+    "jquery": "1.11.2",
+    "bootstrap": "3.3.4",
+    "roboto-fontface": "0.4.0",
+    "highlightjs": "8.5.0",
+    "respond-minmax": "1.4.2",
+    "html5shiv": "3.7.2",
+    "octicons": "2.2.2"
+  },
+  "overrides": {
+    "jquery": {
+      "main": "dist/*.min.*"
+    },
+    "bootstrap": {
+      "main": ["dist/css/*.min.css", "dist/js/*.min.js", "dist/fonts/*"]
+    },
+    "roboto-fontface": {
+      "main": ["fonts/Roboto-Thin*", "fonts/Roboto-Light*", "fonts/Roboto-Regular*"]
+    },
+    "highlightjs": {
+      "main": ["*.js"]
+    },
+    "respond-minmax": {
+      "main": "dest/*.min.js"
+    },
+    "html5shiv": {
+      "main": "dist/*.min.js"
+    },
+    "octicons": {
+      "main": ["octicons/*.css", "octicons/*.svg", "octicons/*.woff", "octicons/*.ttf", "octicons/*.eot"]
+    }
+  }
+}

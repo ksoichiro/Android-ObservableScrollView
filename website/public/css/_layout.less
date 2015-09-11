@@ -1,0 +1,49 @@
+@import (reference) '_mixins.less';
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  padding-top: 70px;
+}
+
+h1 {
+  margin-top: 8px;
+}
+
+// Markdown fix
+// Apply .table to all <table>s
+table {
+  .table;
+}
+
+.container {
+  .override-container;
+}
+
+#sidebar-main-content {
+  h1 {
+    margin-bottom: 16px;
+  }
+  h2 {
+    margin-top: 34px;
+    margin-bottom: 18px;
+  }
+  h3 {
+    margin-top: 26px;
+    margin-bottom: 16px;
+  }
+  h4 {
+    margin-top: 22px;
+    margin-bottom: 16px;
+  }
+  h5 {
+    margin-top: 20px;
+    margin-bottom: 16px;
+  }
+  p, ol, ul, pre {
+    margin-bottom: 16px;
+  }
+}

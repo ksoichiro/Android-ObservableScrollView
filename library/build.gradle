@@ -1,0 +1,62 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.1.0'
+        classpath 'com.android.tools.build:gradle:1.2.2'
+    }
+}
+
+apply plugin: 'com.android.library'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+    androidTestCompile ('com.android.support:appcompat-v7:21.0.2') {
+        exclude module: 'support-v4'
+    }
+    androidTestCompile ('com.nineoldandroids:library:2.4.0') {
+        exclude module: 'support-v4'
+    }
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        minSdkVersion 9
+    }
+
+    jacoco {
+        version = '0.7.2.201409121644'
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            res.srcDirs = ['res']
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+apply plugin: 'com.github.kt3k.coveralls'
+
+coveralls.jacocoReportPath = 'build/reports/coverage/debug/report.xml'
+
+// This is from 'https://github.com/chrisbanes/gradle-mvn-push'
+apply from: 'gradle-mvn-push.gradle'

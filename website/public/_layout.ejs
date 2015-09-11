@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+<%- partial("_head") %>
+</head>
+<body>
+
+<%- partial("_nav") %>
+
+<div class="container">
+<div id="content">
+<div id="main-content">
+<%- yield %>
+</div>
+</div>
+</div>
+
+<%- partial("_footer") %>
+</body>
+</html>

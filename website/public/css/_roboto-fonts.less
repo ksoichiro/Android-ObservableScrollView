@@ -1,0 +1,34 @@
+@roboto-font-path: '../lib/roboto-fontface/fonts';
+
+.roboto-font(@type, @weight, @style) {
+    @font-face {
+        font-family: 'Roboto';
+        src: url('@{roboto-font-path}/Roboto-@{type}.eot');
+        src: url('@{roboto-font-path}/Roboto-@{type}.eot?#iefix') format('embedded-opentype'),
+             url('@{roboto-font-path}/Roboto-@{type}.woff2') format('woff2'),
+             url('@{roboto-font-path}/Roboto-@{type}.woff') format('woff'),
+             url('@{roboto-font-path}/Roboto-@{type}.ttf') format('truetype'),
+             url('@{roboto-font-path}/Roboto-@{type}.svg#Roboto') format('svg');
+        font-weight: @weight;
+        font-style: @style;
+    }
+
+    @font-face {
+        font-family: 'Roboto-@{type}';
+        src: url('@{roboto-font-path}/Roboto-@{type}.eot');
+        src: url('@{roboto-font-path}/Roboto-@{type}.eot?#iefix') format('embedded-opentype'),
+             url('@{roboto-font-path}/Roboto-@{type}.woff2') format('woff2'),
+             url('@{roboto-font-path}/Roboto-@{type}.woff') format('woff'),
+             url('@{roboto-font-path}/Roboto-@{type}.ttf') format('truetype'),
+             url('@{roboto-font-path}/Roboto-@{type}.svg#Roboto') format('svg');
+    }
+}
+
+.roboto-font-pair(@type, @weight) {
+    .roboto-font('@{type}', @weight, normal);
+    .roboto-font('@{type}Italic', @weight, italic);
+}
+
+.roboto-font-pair('Thin', 100);
+.roboto-font-pair('Light', 300);
+.roboto-font-pair('Regular', 400);

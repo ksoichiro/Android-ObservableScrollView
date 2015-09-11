@@ -1,0 +1,53 @@
+// Based on androidstudio.css
+// made by Author: Pedro Oliveira <kanytu@gmail . com>
+
+@code-bg-color: #263238; // Blue Grey 900
+pre {
+  border-width: 0px;
+  border-radius: 0px;
+  background: @code-bg-color;
+  @code-bg-shadow-alpha: 0.6;
+  -webkit-box-shadow: 0 4px 6px 2px rgba(24, 24, 24, @code-bg-shadow-alpha) inset;
+  -moz-box-shadow: 0 4px 6px 2px rgba(24, 24, 24, @code-bg-shadow-alpha) inset;
+  box-shadow: 0 4px 6px 2px rgba(24, 24, 24, @code-bg-shadow-alpha) inset;
+}
+.nohighlight,
+.hljs {
+  color: #A9B7C6;
+  background: @code-bg-color;
+  display: block;
+  overflow-x: auto;
+  padding: 12px;
+  webkit-text-size-adjust: none;
+}
+.hljs-number {
+  color: #6897BB;
+}
+
+.hljs-keyword, .hljs-deletion {
+  color: #CC7832;
+}
+.hljs-javadoc {
+  color: #629755;
+}
+.hljs-comment {
+  color: #808080;
+}
+.hljs-annotation {
+  color: #BBB529;
+}
+.hljs-string, .hljs-addition {
+  color: #6A8759;
+}
+.hljs-function .hljs-title, .hljs-change {
+  color: #FFC66D;
+}
+.hljs-tag .hljs-title, .hljs-doctype {
+  color: #E8BF6A;
+}
+.hljs-tag .hljs-attribute {
+  color: #BABABA;
+}
+.hljs-tag .hljs-value {
+  color: #A5C261;
+}

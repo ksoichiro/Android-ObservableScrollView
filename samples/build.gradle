@@ -1,0 +1,112 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.2'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+repositories {
+    mavenCentral()
+
+    // for using SNAPSHOT
+    //maven {
+    //    url uri('https://oss.sonatype.org/content/repositories/snapshots/')
+    //}
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.melnykov:floatingactionbutton:1.0.7'
+    debugCompile project(':library')
+    // Release build uses the synced latest version
+    releaseCompile "com.github.ksoichiro:android-observablescrollview:${SYNCED_VERSION_NAME}"
+
+    // for using SNAPSHOT
+    //compile "com.github.ksoichiro:android-observablescrollview:$VERSION_NAME"
+}
+
+apply from: 'version.gradle'
+project.ext.versionInfo.releaseVersionName = SYNCED_VERSION_NAME
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.github.ksoichiro.android.observablescrollview.samples"
+        versionCode 5
+        versionName "1.3.0"
+    }
+
+    productFlavors {
+        // for development
+        dev {
+        }
+
+        // for Google Play Store release
+        play {
+            // The first version is removed from the Google Play store
+            // due to a violation of the branding guidelines.
+            // Therefore the suffix "sample" is replaced to "sample2".
+            applicationId "com.github.ksoichiro.android.observablescrollview.samples2"
+        }
+    }
+
+    signingConfigs {
+        release {
+            def filePrivateProperties = file("private.properties")
+            if (filePrivateProperties.exists()) {
+                Properties propsPrivate = new Properties()
+                propsPrivate.load(new FileInputStream(filePrivateProperties))
+
+                storeFile file(propsPrivate['key.store'])
+                keyAlias propsPrivate['key.alias']
+                storePassword propsPrivate['key.store.password']
+                keyPassword propsPrivate['key.alias.password']
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            def filePrivateProperties = file("private.properties")
+            if (filePrivateProperties.exists()) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    // Rename APK files
+    applicationVariants.all { variant ->
+        def output = variant.outputs.get(0)
+        File apk = output.outputFile
+        String newName = output.outputFile.name.replace(".apk", "-${variant.mergedFlavor.versionCode}-${variant.mergedFlavor.versionName}-${project.ext.versionInfo.build}.apk")
+                .replace("app-", "${variant.mergedFlavor.applicationId}-")
+        output.outputFile = new File(apk.parentFile, newName)
+    }
+}

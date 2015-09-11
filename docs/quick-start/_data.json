@@ -1,0 +1,14 @@
+{
+  "index": {
+    "title": "Quick start"
+  },
+  "dependencies": {
+    "title": "Dependencies"
+  },
+  "layout": {
+    "title": "Layout"
+  },
+  "animation": {
+    "title": "Animation codes"
+  }
+}

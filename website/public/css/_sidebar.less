@@ -1,0 +1,72 @@
+@import (reference) '../../bower_components/bootstrap/less/bootstrap.less';
+
+// Page with sidebar
+.btn-sidebar-toggle {
+  .btn;
+  .btn-default;
+  .btn-xs;
+}
+#grid-content {
+  .make-row();
+  #sidebar {
+    .make-xs-column(6);
+    .make-sm-column(3);
+
+    ul {
+      padding-left: 0px;
+    }
+    &>ul {
+      border-right: 1px solid #E0E0E0;
+      padding-right: 15px;
+      li {
+        position: relative;
+        display: block;
+      }
+      &>li {
+        padding: 8px;
+      }
+      .section {
+        font-size: 14px;
+        font-weight: 400;
+        margin: 0px;
+        margin-bottom: 8px;
+        &,
+        &>a {
+          color: #009688;
+          text-decoration: none;
+        }
+      }
+      .topic {
+        &>a {
+          color: #212121;
+        }
+      }
+    }
+  }
+  #sidebar-main-content {
+    .make-xs-column(12);
+    .make-sm-column(9);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  #grid-content {
+    position: relative;
+    -webkit-transition: all .25s ease-out;
+    -o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+    left: 0;
+
+    &.active {
+      left: 50%;
+    }
+
+    #sidebar {
+      left: -50%;
+      position: absolute;
+      top: 0;
+      width: 50%;
+    }
+  }
+}
+

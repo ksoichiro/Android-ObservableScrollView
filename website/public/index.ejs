@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+<%- partial("_head") %>
+</head>
+<body id="site-top">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="<%- baseUrl %>/"><%- name %></a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse right">
+      <ul class="nav navbar-nav">
+        <li><a href="<%- baseUrl %>/docs/overview">Documentation</a></li>
+        <li><a href="<%- baseUrl %>/docs/faq">FAQ</a></li>
+        <li><a href="<%- githubUrl %>" title="GitHub"><span class="octicon octicon-mark-github"></span></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div id="content-header">
+<div class="container">
+<h1 id="site-title" class="visible"><%- title %></h1>
+</div>
+</div>
+
+<div class="container">
+<div id="content">
+
+<div id="main-content">
+<%- partial('../../README') %>
+</div>
+</div>
+</div>
+
+<%- partial("_footer") %>
+</body>
+</html>
