@@ -1,5 +1,11 @@
 # Release notes
 
+* v1.6.0
+    * Added header view feature to `ObservableGridView` (#148).
+    * Added footer view feature to `ObservableGridView` (#183).
+    * Updated `recyclerview-v7` library version to 22.2.0.
+    * Fixed ViewPager swiping bug in `ObservableListView` (#185).
+    * Fixed NPE in `ObservableRecyclerView` (#149).
 * v1.5.2
     * Fix `ObservableGridView` to use first child of line in height calculation.
 * v1.5.1
