@@ -27,7 +27,28 @@ public interface Scrollable {
      *
      * @param listener listener to set
      */
+    @Deprecated
     void setScrollViewCallbacks(ObservableScrollViewCallbacks listener);
+
+    /**
+     *  Add a callback listener
+     *
+     *  @param listener listener to add
+     * */
+    void addScrollViewCallbacks(ObservableScrollViewCallbacks listener);
+
+    /**
+     * Remove a callback listener
+     *
+     * @param listener to remove
+     * */
+    void removeScrollViewCallbacks(ObservableScrollViewCallbacks listener);
+
+    /**
+     * Clear callback listeners
+     *
+     * */
+    void clearScrollViewCallbacks();
 
     /**
      * Scrolls vertically to the absolute Y.

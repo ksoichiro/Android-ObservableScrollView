@@ -27,6 +27,9 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * ListView that its scroll position can be observed.
  */
@@ -42,6 +45,7 @@ public class ObservableListView extends ListView implements Scrollable {
 
     // Fields that don't need to be saved onSaveInstanceState
     private ObservableScrollViewCallbacks mCallbacks;
+    private List<ObservableScrollViewCallbacks> mCallbackCollection;
     private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
@@ -112,7 +116,7 @@ public class ObservableListView extends ListView implements Scrollable {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null) {
+        if (mCallbacks != null || mCallbackCollection != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     // Whether or not motion events are consumed by children,
@@ -122,7 +126,7 @@ public class ObservableListView extends ListView implements Scrollable {
                     // Also, applications might implement initialization codes to onDownMotionEvent,
                     // so call it here.
                     mFirstScroll = mDragging = true;
-                    mCallbacks.onDownMotionEvent();
+                    dispatchOnDownMotionEvent();
                     break;
             }
         }
@@ -131,13 +135,13 @@ public class ObservableListView extends ListView implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null) {
+        if (mCallbacks != null || mCallbackCollection != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     mIntercepted = false;
                     mDragging = false;
-                    mCallbacks.onUpOrCancelMotionEvent(mScrollState);
+                    dispatchOnUpOrCancelMotionEvent(mScrollState);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     if (mPrevMoveEvent == null) {
@@ -219,6 +223,28 @@ public class ObservableListView extends ListView implements Scrollable {
     }
 
     @Override
+    public void addScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
+        if (mCallbackCollection == null) {
+            mCallbackCollection = new ArrayList<>();
+        }
+        mCallbackCollection.add(listener);
+    }
+
+    @Override
+    public void removeScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
+        if (mCallbackCollection != null) {
+            mCallbackCollection.remove(listener);
+        }
+    }
+
+    @Override
+    public void clearScrollViewCallbacks() {
+        if (mCallbackCollection != null) {
+            mCallbackCollection.clear();
+        }
+    }
+
+    @Override
     public void setTouchInterceptionViewGroup(ViewGroup viewGroup) {
         mTouchInterceptionViewGroup = viewGroup;
     }
@@ -244,7 +270,7 @@ public class ObservableListView extends ListView implements Scrollable {
     }
 
     private void onScrollChanged() {
-        if (mCallbacks != null) {
+        if (mCallbacks != null || mCallbackCollection != null) {
             if (getChildCount() > 0) {
                 int firstVisiblePosition = getFirstVisiblePosition();
                 for (int i = getFirstVisiblePosition(), j = 0; i <= getLastVisiblePosition(); i++, j++) {
@@ -298,7 +324,7 @@ public class ObservableListView extends ListView implements Scrollable {
                     mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop();
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
-                    mCallbacks.onScrollChanged(mScrollY, mFirstScroll, mDragging);
+                    dispatchOnScrollChanged(mScrollY, mFirstScroll, mDragging);
                     if (mFirstScroll) {
                         mFirstScroll = false;
                     }
@@ -312,6 +338,42 @@ public class ObservableListView extends ListView implements Scrollable {
                     }
                     mPrevScrollY = mScrollY;
                 }
+            }
+        }
+    }
+
+    private void dispatchOnDownMotionEvent() {
+        if (mCallbacks != null) {
+            mCallbacks.onDownMotionEvent();
+        }
+        if (mCallbackCollection != null) {
+            for (int i = 0; i < mCallbackCollection.size(); i++) {
+                ObservableScrollViewCallbacks callbacks = mCallbackCollection.get(i);
+                callbacks.onDownMotionEvent();
+            }
+        }
+    }
+
+    private void dispatchOnScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+        if (mCallbacks != null) {
+            mCallbacks.onScrollChanged(scrollY, firstScroll, dragging);
+        }
+        if (mCallbackCollection != null) {
+            for (int i = 0; i < mCallbackCollection.size(); i++) {
+                ObservableScrollViewCallbacks callbacks = mCallbackCollection.get(i);
+                callbacks.onScrollChanged(scrollY, firstScroll, dragging);
+            }
+        }
+    }
+
+    private void dispatchOnUpOrCancelMotionEvent(ScrollState scrollState) {
+        if (mCallbacks != null) {
+            mCallbacks.onUpOrCancelMotionEvent(scrollState);
+        }
+        if (mCallbackCollection != null) {
+            for (int i = 0; i < mCallbackCollection.size(); i++) {
+                ObservableScrollViewCallbacks callbacks = mCallbackCollection.get(i);
+                callbacks.onUpOrCancelMotionEvent(scrollState);
             }
         }
     }
