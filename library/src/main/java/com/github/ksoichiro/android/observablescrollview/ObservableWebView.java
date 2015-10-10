@@ -25,6 +25,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * WebView that its scroll position can be observed.
  */
@@ -36,6 +39,7 @@ public class ObservableWebView extends WebView implements Scrollable {
 
     // Fields that don't need to be saved onSaveInstanceState
     private ObservableScrollViewCallbacks mCallbacks;
+    private List<ObservableScrollViewCallbacks> mCallbackCollection;
     private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
@@ -190,6 +194,28 @@ public class ObservableWebView extends WebView implements Scrollable {
     @Override
     public void setScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
         mCallbacks = listener;
+    }
+
+    @Override
+    public void addScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
+        if (mCallbackCollection == null) {
+            mCallbackCollection = new ArrayList<>();
+        }
+        mCallbackCollection.add(listener);
+    }
+
+    @Override
+    public void removeScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
+        if (mCallbackCollection != null) {
+            mCallbackCollection.remove(listener);
+        }
+    }
+
+    @Override
+    public void clearScrollViewCallbacks() {
+        if (mCallbackCollection != null) {
+            mCallbackCollection.clear();
+        }
     }
 
     @Override

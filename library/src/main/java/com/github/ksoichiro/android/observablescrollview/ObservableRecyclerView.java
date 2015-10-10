@@ -27,6 +27,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * RecyclerView that its scroll position can be observed.
  * Before using this, please consider to use the RecyclerView.OnScrollListener
@@ -46,6 +49,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
 
     // Fields that don't need to be saved onSaveInstanceState
     private ObservableScrollViewCallbacks mCallbacks;
+    private List<ObservableScrollViewCallbacks> mCallbackCollection;
     private ScrollState mScrollState;
     private boolean mFirstScroll;
     private boolean mDragging;
@@ -96,7 +100,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        if (mCallbacks != null) {
+        if (mCallbacks != null || mCallbackCollection != null) {
             if (getChildCount() > 0) {
                 int firstVisiblePosition = getChildAdapterPosition(getChildAt(0));
                 int lastVisiblePosition = getChildAdapterPosition(getChildAt(getChildCount() - 1));
@@ -157,7 +161,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
                     mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop();
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
-                    mCallbacks.onScrollChanged(mScrollY, mFirstScroll, mDragging);
+                    dispatchOnScrollChanged(mScrollY, mFirstScroll, mDragging);
                     if (mFirstScroll) {
                         mFirstScroll = false;
                     }
@@ -179,7 +183,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null) {
+        if (mCallbacks != null || mCallbackCollection != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     // Whether or not motion events are consumed by children,
@@ -189,7 +193,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
                     // Also, applications might implement initialization codes to onDownMotionEvent,
                     // so call it here.
                     mFirstScroll = mDragging = true;
-                    mCallbacks.onDownMotionEvent();
+                    dispatchOnDownMotionEvent();
                     break;
             }
         }
@@ -198,13 +202,13 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null) {
+        if (mCallbacks != null || mCallbackCollection != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     mIntercepted = false;
                     mDragging = false;
-                    mCallbacks.onUpOrCancelMotionEvent(mScrollState);
+                    dispatchOnUpOrCancelMotionEvent(mScrollState);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     if (mPrevMoveEvent == null) {
@@ -274,6 +278,28 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
     }
 
     @Override
+    public void addScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
+        if (mCallbackCollection == null) {
+            mCallbackCollection = new ArrayList<>();
+        }
+        mCallbackCollection.add(listener);
+    }
+
+    @Override
+    public void removeScrollViewCallbacks(ObservableScrollViewCallbacks listener) {
+        if (mCallbackCollection != null) {
+            mCallbackCollection.remove(listener);
+        }
+    }
+
+    @Override
+    public void clearScrollViewCallbacks() {
+        if (mCallbackCollection != null) {
+            mCallbackCollection.clear();
+        }
+    }
+
+    @Override
     public void setTouchInterceptionViewGroup(ViewGroup viewGroup) {
         mTouchInterceptionViewGroup = viewGroup;
     }
@@ -334,6 +360,42 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
             super.getChildAdapterPosition(null);
         } catch (NoSuchMethodError e) {
             recyclerViewLibraryVersion = 21;
+        }
+    }
+
+    private void dispatchOnDownMotionEvent() {
+        if (mCallbacks != null) {
+            mCallbacks.onDownMotionEvent();
+        }
+        if (mCallbackCollection != null) {
+            for (int i = 0; i < mCallbackCollection.size(); i++) {
+                ObservableScrollViewCallbacks callbacks = mCallbackCollection.get(i);
+                callbacks.onDownMotionEvent();
+            }
+        }
+    }
+
+    private void dispatchOnScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+        if (mCallbacks != null) {
+            mCallbacks.onScrollChanged(scrollY, firstScroll, dragging);
+        }
+        if (mCallbackCollection != null) {
+            for (int i = 0; i < mCallbackCollection.size(); i++) {
+                ObservableScrollViewCallbacks callbacks = mCallbackCollection.get(i);
+                callbacks.onScrollChanged(scrollY, firstScroll, dragging);
+            }
+        }
+    }
+
+    private void dispatchOnUpOrCancelMotionEvent(ScrollState scrollState) {
+        if (mCallbacks != null) {
+            mCallbacks.onUpOrCancelMotionEvent(scrollState);
+        }
+        if (mCallbackCollection != null) {
+            for (int i = 0; i < mCallbackCollection.size(); i++) {
+                ObservableScrollViewCallbacks callbacks = mCallbackCollection.get(i);
+                callbacks.onUpOrCancelMotionEvent(scrollState);
+            }
         }
     }
 
