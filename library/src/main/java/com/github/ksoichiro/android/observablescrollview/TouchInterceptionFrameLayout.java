@@ -40,36 +40,36 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
      */
     public interface TouchInterceptionListener {
         /**
-         * Determines whether the layout should intercept this event.
+         * Determine whether the layout should intercept this event.
          *
-         * @param ev     motion event
-         * @param moving true if this event is ACTION_MOVE type
-         * @param diffX  difference between previous X and current X, if moving is true
-         * @param diffY  difference between previous Y and current Y, if moving is true
-         * @return true if the layout should intercept
+         * @param ev     Motion event.
+         * @param moving True if this event is ACTION_MOVE type.
+         * @param diffX  Difference between previous X and current X, if moving is true.
+         * @param diffY  Difference between previous Y and current Y, if moving is true.
+         * @return True if the layout should intercept.
          */
         boolean shouldInterceptTouchEvent(MotionEvent ev, boolean moving, float diffX, float diffY);
 
         /**
          * Called if the down motion event is intercepted by this layout.
          *
-         * @param ev motion event
+         * @param ev Motion event.
          */
         void onDownMotionEvent(MotionEvent ev);
 
         /**
          * Called if the move motion event is intercepted by this layout.
          *
-         * @param ev    motion event
-         * @param diffX difference between previous X and current X
-         * @param diffY difference between previous Y and current Y
+         * @param ev    Motion event.
+         * @param diffX Difference between previous X and current X.
+         * @param diffY Difference between previous Y and current Y.
          */
         void onMoveMotionEvent(MotionEvent ev, float diffX, float diffY);
 
         /**
          * Called if the up (or cancel) motion event is intercepted by this layout.
          *
-         * @param ev motion event
+         * @param ev Motion event.
          */
         void onUpOrCancelMotionEvent(MotionEvent ev);
     }
@@ -247,8 +247,8 @@ public class TouchInterceptionFrameLayout extends FrameLayout {
      * child views, but calling dispatchTouchEvent() causes StackOverflowError.
      * Therefore we do it manually.
      *
-     * @param ev            motion event to be passed to children
-     * @param pendingEvents pending events like ACTION_DOWN. This will be passed to the children before ev
+     * @param ev            Motion event to be passed to children.
+     * @param pendingEvents Pending events like ACTION_DOWN. This will be passed to the children before ev.
      */
     private void duplicateTouchEventForChildren(MotionEvent ev, MotionEvent... pendingEvents) {
         if (ev == null) {

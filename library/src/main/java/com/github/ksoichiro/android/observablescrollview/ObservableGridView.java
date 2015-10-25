@@ -225,7 +225,7 @@ public class ObservableGridView extends GridView implements Scrollable {
         ListAdapter mAdapter = getAdapter();
         if (mAdapter != null && !(mAdapter instanceof HeaderViewGridAdapter)) {
             throw new IllegalStateException(
-                    "Cannot add header view to grid -- setAdapter has already been called.");
+                "Cannot add header view to grid -- setAdapter has already been called.");
         }
 
         ViewGroup.LayoutParams lyp = v.getLayoutParams();
@@ -487,10 +487,10 @@ public class ObservableGridView extends GridView implements Scrollable {
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
             int targetWidth = ObservableGridView.this.getMeasuredWidth()
-                    - ObservableGridView.this.getPaddingLeft()
-                    - ObservableGridView.this.getPaddingRight();
+                - ObservableGridView.this.getPaddingLeft()
+                - ObservableGridView.this.getPaddingRight();
             widthMeasureSpec = MeasureSpec.makeMeasureSpec(targetWidth,
-                    MeasureSpec.getMode(widthMeasureSpec));
+                MeasureSpec.getMode(widthMeasureSpec));
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
     }
@@ -550,7 +550,7 @@ public class ObservableGridView extends GridView implements Scrollable {
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
+            = new Parcelable.Creator<SavedState>() {
             @Override
             public SavedState createFromParcel(Parcel in) {
                 return new SavedState(in);
@@ -610,7 +610,7 @@ public class ObservableGridView extends GridView implements Scrollable {
         private final DataSetObservable mDataSetObservable = new DataSetObservable();
         private final ListAdapter mAdapter;
         static final ArrayList<FixedViewInfo> EMPTY_INFO_LIST =
-                new ArrayList<FixedViewInfo>();
+            new ArrayList<FixedViewInfo>();
 
         // This ArrayList is assumed to NOT be null.
         ArrayList<FixedViewInfo> mHeaderViewInfos;
@@ -638,7 +638,7 @@ public class ObservableGridView extends GridView implements Scrollable {
                 mFooterViewInfos = footViewInfos;
             }
             mAreAllFixedViewsSelectable = areAllListInfosSelectable(mHeaderViewInfos)
-                    && areAllListInfosSelectable(mFooterViewInfos);
+                && areAllListInfosSelectable(mFooterViewInfos);
         }
 
         public void setNumColumns(int numColumns) {
@@ -664,7 +664,7 @@ public class ObservableGridView extends GridView implements Scrollable {
         }
 
         /**
-         * @return true if this adapter doesn't contain any data.  This is used to determine
+         * @return True if this adapter doesn't contain any data.  This is used to determine
          * whether the empty view should be displayed.  A typical implementation will return
          * getCount() == 0 but since getCount() includes the headers and footers, specialized
          * adapters might want a different behavior.
@@ -691,7 +691,7 @@ public class ObservableGridView extends GridView implements Scrollable {
                 if (info.view == v) {
                     mHeaderViewInfos.remove(i);
                     mAreAllFixedViewsSelectable =
-                            areAllListInfosSelectable(mHeaderViewInfos) && areAllListInfosSelectable(mFooterViewInfos);
+                        areAllListInfosSelectable(mHeaderViewInfos) && areAllListInfosSelectable(mFooterViewInfos);
                     mDataSetObservable.notifyChanged();
                     return true;
                 }
@@ -705,7 +705,7 @@ public class ObservableGridView extends GridView implements Scrollable {
                 if (info.view == v) {
                     mFooterViewInfos.remove(i);
                     mAreAllFixedViewsSelectable =
-                            areAllListInfosSelectable(mHeaderViewInfos) && areAllListInfosSelectable(mFooterViewInfos);
+                        areAllListInfosSelectable(mHeaderViewInfos) && areAllListInfosSelectable(mFooterViewInfos);
                     mDataSetObservable.notifyChanged();
                     return true;
                 }
@@ -737,7 +737,7 @@ public class ObservableGridView extends GridView implements Scrollable {
             int numHeadersAndPlaceholders = getHeadersCount() * mNumColumns;
             if (position < numHeadersAndPlaceholders) {
                 return position % mNumColumns == 0
-                        && mHeaderViewInfos.get(position / mNumColumns).isSelectable;
+                    && mHeaderViewInfos.get(position / mNumColumns).isSelectable;
             }
 
             // Adapter
@@ -753,7 +753,7 @@ public class ObservableGridView extends GridView implements Scrollable {
             // Footer (off-limits positions will throw an IndexOutOfBoundsException)
             final int footerPosition = adjPosition - adapterCount;
             return footerPosition % mNumColumns == 0
-                    && mFooterViewInfos.get(footerPosition / mNumColumns).isSelectable;
+                && mFooterViewInfos.get(footerPosition / mNumColumns).isSelectable;
         }
 
         @Override
@@ -815,7 +815,7 @@ public class ObservableGridView extends GridView implements Scrollable {
             int numHeadersAndPlaceholders = getHeadersCount() * mNumColumns;
             if (position < numHeadersAndPlaceholders) {
                 View headerViewContainer = mHeaderViewInfos
-                        .get(position / mNumColumns).viewContainer;
+                    .get(position / mNumColumns).viewContainer;
                 if (position % mNumColumns == 0) {
                     return headerViewContainer;
                 } else {
@@ -851,7 +851,7 @@ public class ObservableGridView extends GridView implements Scrollable {
             final int footerPosition = adjPosition - adapterCount;
             if (footerPosition < getCount()) {
                 View footViewContainer = mFooterViewInfos
-                        .get(footerPosition / mNumColumns).viewContainer;
+                    .get(footerPosition / mNumColumns).viewContainer;
                 if (position % mNumColumns == 0) {
                     return footViewContainer;
                 } else {
@@ -916,9 +916,7 @@ public class ObservableGridView extends GridView implements Scrollable {
         }
 
         /**
-         * content view, content view holder, header[0], header and footer placeholder(s)
-         *
-         * @return
+         * Content view, content view holder, header[0], header and footer placeholder(s).
          */
         @Override
         public int getViewTypeCount() {

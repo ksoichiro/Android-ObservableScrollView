@@ -26,10 +26,10 @@ import android.view.ViewGroup;
 
 /**
  * FragmentStatePagerAdapter that caches each pages.
- * FragmentStatePagerAdapter is also originally caches pages,
+ * <p>FragmentStatePagerAdapter is also originally caches pages,
  * but its keys are not public nor documented, so depending
- * on how it create cache key is dangerous.
- * This adapter caches pages by itself and provide getter method to the cache.
+ * on how it create cache key is dangerous.</p>
+ * <p>This adapter caches pages by itself and provide getter method to the cache.</p>
  */
 public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
@@ -83,15 +83,15 @@ public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerA
 
     /**
      * Get a new Fragment instance.
-     * Each fragments are automatically cached in this method,
+     * <p>Each fragments are automatically cached in this method,
      * so you don't have to do it by yourself.
      * If you want to implement instantiation of Fragments,
-     * you should override {@link #createItem(int)} instead.
-     *
+     * you should override {@link #createItem(int)} instead.</p>
+     * <p/>
      * {@inheritDoc}
      *
-     * @param position position of the item in the adapter
-     * @return fragment instance
+     * @param position Position of the item in the adapter.
+     * @return Fragment instance.
      */
     @Override
     public Fragment getItem(int position) {
@@ -112,8 +112,8 @@ public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerA
     /**
      * Get the item at the specified position in the adapter.
      *
-     * @param position position of the item in the adapter
-     * @return fragment instance
+     * @param position Position of the item in the adapter.
+     * @return Fragment instance.
      */
     public Fragment getItemAt(int position) {
         return mPages.get(position);
@@ -123,16 +123,16 @@ public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerA
      * Create a new Fragment instance.
      * This is called inside {@link #getItem(int)}.
      *
-     * @param position position of the item in the adapter
-     * @return fragment instance
+     * @param position Position of the item in the adapter.
+     * @return Fragment instance.
      */
     protected abstract Fragment createItem(int position);
 
     /**
      * Create an index string for caching Fragment pages.
      *
-     * @param index index of the item in the adapter
-     * @return key string for caching Fragment pages
+     * @param index Index of the item in the adapter.
+     * @return Key string for caching Fragment pages.
      */
     protected String createCacheIndex(int index) {
         return STATE_PAGE_INDEX_PREFIX + index;
@@ -141,8 +141,8 @@ public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerA
     /**
      * Create a key string for caching Fragment pages.
      *
-     * @param position position of the item in the adapter
-     * @return key string for caching Fragment pages
+     * @param position Position of the item in the adapter.
+     * @return Key string for caching Fragment pages.
      */
     protected String createCacheKey(int position) {
         return STATE_PAGE_KEY_PREFIX + position;

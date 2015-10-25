@@ -30,13 +30,13 @@ public final class ScrollUtils {
 
     /**
      * Return a float value within the range.
-     * This is just a wrapper for Math.min() and Math.max().
-     * This may be useful if you feel it confusing ("Which is min and which is max?").
+     * <p>This is just a wrapper for Math.min() and Math.max().
+     * This may be useful if you feel it confusing ("Which is min and which is max?").</p>
      *
-     * @param value    the target value
-     * @param minValue minimum value. If value is less than this, minValue will be returned
-     * @param maxValue maximum value. If value is greater than this, maxValue will be returned
-     * @return float value limited to the range
+     * @param value    The target value.
+     * @param minValue Minimum value. If value is less than this, minValue will be returned.
+     * @param maxValue Maximum value. If value is greater than this, maxValue will be returned.
+     * @return Float value limited to the range.
      */
     public static float getFloat(final float value, final float minValue, final float maxValue) {
         return Math.min(maxValue, Math.max(minValue, value));
@@ -44,11 +44,11 @@ public final class ScrollUtils {
 
     /**
      * Create a color integer value with specified alpha.
-     * This may be useful to change alpha value of background color.
+     * <p>This may be useful to change alpha value of background color.</p>
      *
-     * @param alpha     alpha value from 0.0f to 1.0f.
-     * @param baseColor base color. alpha value will be ignored.
-     * @return a color with alpha made from base color
+     * @param alpha     Alpha value from 0.0f to 1.0f.
+     * @param baseColor Base color. alpha value will be ignored.
+     * @return A color with alpha made from base color.
      */
     public static int getColorWithAlpha(float alpha, int baseColor) {
         int a = Math.min(255, Math.max(0, (int) (alpha * 255))) << 24;
@@ -58,11 +58,11 @@ public final class ScrollUtils {
 
     /**
      * Add an OnGlobalLayoutListener for the view.
-     * This is just a convenience method for using {@code ViewTreeObserver.OnGlobalLayoutListener()}.
-     * This also handles removing listener when onGlobalLayout is called.
+     * <p>This is just a convenience method for using {@code ViewTreeObserver.OnGlobalLayoutListener()}.
+     * This also handles removing listener when onGlobalLayout is called.</p>
      *
-     * @param view     the target view to add global layout listener
-     * @param runnable runnable to be executed after the view is laid out
+     * @param view     The target view to add global layout listener.
+     * @param runnable Runnable to be executed after the view is laid out.
      */
     public static void addOnGlobalLayoutListener(final View view, final Runnable runnable) {
         ViewTreeObserver vto = view.getViewTreeObserver();
@@ -81,13 +81,13 @@ public final class ScrollUtils {
 
     /**
      * Mix two colors.
-     * {@code toColor} will be {@code toAlpha/1} percent,
-     * and {@code fromColor} will be {@code (1-toAlpha)/1} percent.
+     * <p>{@code toColor} will be {@code toAlpha/1} percent,
+     * and {@code fromColor} will be {@code (1-toAlpha)/1} percent.</p>
      *
-     * @param fromColor first color to be mixed
-     * @param toColor   second color to be mixed
-     * @param toAlpha   alpha value of toColor, 0.0f to 1.0f.
-     * @return mixed color value in ARGB. Alpha is fixed value (255).
+     * @param fromColor First color to be mixed.
+     * @param toColor   Second color to be mixed.
+     * @param toAlpha   Alpha value of toColor, 0.0f to 1.0f.
+     * @return Mixed color value in ARGB. Alpha is fixed value (255).
      */
     public static int mixColors(int fromColor, int toColor, float toAlpha) {
         float[] fromCmyk = ScrollUtils.cmykFromRgb(fromColor);
@@ -102,8 +102,8 @@ public final class ScrollUtils {
     /**
      * Convert RGB color to CMYK color.
      *
-     * @param rgbColor target color
-     * @return CMYK array
+     * @param rgbColor Target color.
+     * @return CMYK array.
      */
     public static float[] cmykFromRgb(int rgbColor) {
         int red = (0xff0000 & rgbColor) >> 16;
@@ -124,9 +124,9 @@ public final class ScrollUtils {
 
     /**
      * Convert CYMK color to RGB color.
-     * This method doesn't check f cmyk is not null or have 4 elements in array.
+     * This method doesn't check if cmyk is not null or have 4 elements in array.
      *
-     * @param cmyk target CYMK color. Each value should be between 0.0f to 1.0f,
+     * @param cmyk Target CYMK color. Each value should be between 0.0f to 1.0f,
      *             and should be set in this order: cyan, magenta, yellow, black.
      * @return ARGB color. Alpha is fixed value (255).
      */

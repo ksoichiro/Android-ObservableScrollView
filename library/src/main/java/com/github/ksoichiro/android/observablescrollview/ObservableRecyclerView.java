@@ -325,7 +325,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
      * and handles which method should be called for scrolling.</p>
      * <p>Other know classes (StaggeredGridLayoutManager and GridLayoutManager) are not tested.</p>
      *
-     * @param position position to scroll
+     * @param position Position to scroll.
      */
     public void scrollVerticallyToPosition(int position) {
         LayoutManager lm = getLayoutManager();
@@ -494,7 +494,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
+            = new Parcelable.Creator<SavedState>() {
             @Override
             public SavedState createFromParcel(Parcel in) {
                 return new SavedState(in);
