@@ -4,6 +4,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.github.ksoichiro:gradle-eclipse-aar-plugin:0.1.1'
+        // Related issue: https://code.google.com/p/android/issues/detail?id=192875
+        classpath 'org.jacoco:org.jacoco.core:0.7.5.201505241946'
     }
 }
 
