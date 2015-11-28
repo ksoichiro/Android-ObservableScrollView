@@ -30,7 +30,7 @@ dependencies {
     //compile "com.github.ksoichiro:android-observablescrollview:$VERSION_NAME"
 }
 
-apply from: 'version.gradle'
+apply from: "${rootDir}/gradle/version.gradle"
 project.ext.versionInfo.releaseVersionName = SYNCED_VERSION_NAME
 
 android {
