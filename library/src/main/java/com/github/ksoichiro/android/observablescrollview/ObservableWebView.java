@@ -79,10 +79,10 @@ public class ObservableWebView extends WebView implements Scrollable {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        if (mCallbacks != null) {
+        if (mCallbacks != null || mCallbackCollection != null) {
             mScrollY = t;
 
-            mCallbacks.onScrollChanged(t, mFirstScroll, mDragging);
+            dispatchOnScrollChanged(mScrollY, mFirstScroll, mDragging);
             if (mFirstScroll) {
                 mFirstScroll = false;
             }
@@ -100,7 +100,7 @@ public class ObservableWebView extends WebView implements Scrollable {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null) {
+        if (mCallbacks != null || mCallbackCollection != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     // Whether or not motion events are consumed by children,
@@ -110,7 +110,7 @@ public class ObservableWebView extends WebView implements Scrollable {
                     // Also, applications might implement initialization codes to onDownMotionEvent,
                     // so call it here.
                     mFirstScroll = mDragging = true;
-                    mCallbacks.onDownMotionEvent();
+                    dispatchOnDownMotionEvent();
                     break;
             }
         }
@@ -119,7 +119,7 @@ public class ObservableWebView extends WebView implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null) {
+        if (mCallbacks != null || mCallbackCollection != null) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     break;
@@ -127,7 +127,7 @@ public class ObservableWebView extends WebView implements Scrollable {
                 case MotionEvent.ACTION_CANCEL:
                     mIntercepted = false;
                     mDragging = false;
-                    mCallbacks.onUpOrCancelMotionEvent(mScrollState);
+                    dispatchOnUpOrCancelMotionEvent(mScrollState);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     if (mPrevMoveEvent == null) {
@@ -231,6 +231,42 @@ public class ObservableWebView extends WebView implements Scrollable {
     @Override
     public int getCurrentScrollY() {
         return mScrollY;
+    }
+
+    private void dispatchOnDownMotionEvent() {
+        if (mCallbacks != null) {
+            mCallbacks.onDownMotionEvent();
+        }
+        if (mCallbackCollection != null) {
+            for (int i = 0; i < mCallbackCollection.size(); i++) {
+                ObservableScrollViewCallbacks callbacks = mCallbackCollection.get(i);
+                callbacks.onDownMotionEvent();
+            }
+        }
+    }
+
+    private void dispatchOnScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+        if (mCallbacks != null) {
+            mCallbacks.onScrollChanged(scrollY, firstScroll, dragging);
+        }
+        if (mCallbackCollection != null) {
+            for (int i = 0; i < mCallbackCollection.size(); i++) {
+                ObservableScrollViewCallbacks callbacks = mCallbackCollection.get(i);
+                callbacks.onScrollChanged(scrollY, firstScroll, dragging);
+            }
+        }
+    }
+
+    private void dispatchOnUpOrCancelMotionEvent(ScrollState scrollState) {
+        if (mCallbacks != null) {
+            mCallbacks.onUpOrCancelMotionEvent(scrollState);
+        }
+        if (mCallbackCollection != null) {
+            for (int i = 0; i < mCallbackCollection.size(); i++) {
+                ObservableScrollViewCallbacks callbacks = mCallbackCollection.get(i);
+                callbacks.onUpOrCancelMotionEvent(scrollState);
+            }
+        }
     }
 
     static class SavedState extends BaseSavedState {
