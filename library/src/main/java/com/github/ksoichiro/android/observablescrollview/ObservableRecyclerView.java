@@ -339,7 +339,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
 
     @Override
     public int getCurrentScrollY() {
-        return mScrollY;
+        return mScrollY + getPaddingTop();
     }
 
     @SuppressWarnings("deprecation")

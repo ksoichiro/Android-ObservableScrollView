@@ -261,7 +261,7 @@ public class ObservableListView extends ListView implements Scrollable {
 
     @Override
     public int getCurrentScrollY() {
-        return mScrollY;
+        return mScrollY + getPaddingTop();
     }
 
     private void init() {

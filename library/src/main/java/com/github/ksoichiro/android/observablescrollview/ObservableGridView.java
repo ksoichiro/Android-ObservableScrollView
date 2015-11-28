@@ -308,7 +308,7 @@ public class ObservableGridView extends GridView implements Scrollable {
 
     @Override
     public int getCurrentScrollY() {
-        return mScrollY;
+        return mScrollY + getPaddingTop();
     }
 
     @Override
