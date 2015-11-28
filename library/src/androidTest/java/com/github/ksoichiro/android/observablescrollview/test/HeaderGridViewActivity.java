@@ -13,6 +13,7 @@ import com.github.ksoichiro.android.observablescrollview.ScrollState;
 public class HeaderGridViewActivity extends Activity implements ObservableScrollViewCallbacks {
 
     public View headerView;
+    public View footerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,14 @@ public class HeaderGridViewActivity extends Activity implements ObservableScroll
         headerView.setClickable(true);
 
         scrollable.addHeaderView(headerView);
+
+        // Footer is also available.
+        footerView = new View(this);
+        FrameLayout.LayoutParams lpf = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+            flexibleSpaceImageHeight);
+        footerView.setLayoutParams(lpf);
+        scrollable.addFooterView(footerView);
+
         scrollable.setScrollViewCallbacks(this);
         UiTestUtils.setDummyData(this, scrollable);
         scrollable.setOnScrollListener(new AbsListView.OnScrollListener() {

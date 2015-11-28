@@ -249,6 +249,10 @@ public class ObservableGridView extends GridView implements Scrollable {
         }
     }
 
+    public int getFooterViewCount() {
+        return mFooterViewInfos.size();
+    }
+
     public boolean removeFooterView(View v) {
         if (mFooterViewInfos.size() > 0) {
             boolean result = false;

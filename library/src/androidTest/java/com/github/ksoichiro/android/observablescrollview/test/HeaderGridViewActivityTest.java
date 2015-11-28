@@ -69,16 +69,19 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
             @Override
             public void run() {
                 assertEquals(1, scrollable.getHeaderViewCount());
+                assertEquals(1, scrollable.getFooterViewCount());
                 ListAdapter adapter = scrollable.getAdapter();
                 assertTrue(adapter instanceof ObservableGridView.HeaderViewGridAdapter);
                 ObservableGridView.HeaderViewGridAdapter hvgAdapter = (ObservableGridView.HeaderViewGridAdapter) adapter;
                 assertEquals(1, hvgAdapter.getHeadersCount());
+                assertEquals(1, hvgAdapter.getFootersCount());
                 assertNotNull(hvgAdapter.getWrappedAdapter());
                 assertTrue(hvgAdapter.areAllItemsEnabled());
                 assertFalse(hvgAdapter.isEmpty());
                 Object data = hvgAdapter.getItem(0);
                 assertNull(data);
                 assertNotNull(hvgAdapter.getView(0, null, scrollable));
+                assertNotNull(hvgAdapter.getView(1, null, scrollable));
                 assertNotNull(hvgAdapter.getFilter());
                 assertTrue(scrollable.removeHeaderView(activity.headerView));
                 assertEquals(0, scrollable.getHeaderViewCount());
@@ -95,6 +98,30 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
                 activity.headerView.setClickable(true);
 
                 scrollable.addHeaderView(activity.headerView);
+            }
+        });
+        // Scroll to bottom and try removing re-adding the footer view.
+        for (int i = 0; i < 10; i++) {
+            UiTestUtils.swipeVertically(this, scrollable, UiTestUtils.Direction.UP);
+        }
+        getInstrumentation().waitForIdleSync();
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ListAdapter adapter = scrollable.getAdapter();
+                ObservableGridView.HeaderViewGridAdapter hvgAdapter = (ObservableGridView.HeaderViewGridAdapter) adapter;
+
+                assertTrue(scrollable.removeFooterView(activity.footerView));
+                assertEquals(0, scrollable.getFooterViewCount());
+                assertEquals(0, hvgAdapter.getFootersCount());
+                assertFalse(scrollable.removeFooterView(activity.footerView));
+
+                activity.footerView = new View(activity);
+                final int flexibleSpaceImageHeight = activity.getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
+                FrameLayout.LayoutParams lpf = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                    flexibleSpaceImageHeight);
+                activity.footerView.setLayoutParams(lpf);
+                scrollable.addFooterView(activity.footerView);
             }
         });
     }
