@@ -614,8 +614,7 @@ public class ObservableGridView extends GridView implements Scrollable {
     public static class HeaderViewGridAdapter implements WrapperListAdapter, Filterable {
         private final DataSetObservable mDataSetObservable = new DataSetObservable();
         private final ListAdapter mAdapter;
-        static final ArrayList<FixedViewInfo> EMPTY_INFO_LIST =
-            new ArrayList<FixedViewInfo>();
+        static final ArrayList<FixedViewInfo> EMPTY_INFO_LIST = new ArrayList<>();
 
         // This ArrayList is assumed to NOT be null.
         ArrayList<FixedViewInfo> mHeaderViewInfos;

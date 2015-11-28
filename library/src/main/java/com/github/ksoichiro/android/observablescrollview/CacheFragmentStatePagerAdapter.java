@@ -43,7 +43,7 @@ public abstract class CacheFragmentStatePagerAdapter extends FragmentStatePagerA
 
     public CacheFragmentStatePagerAdapter(FragmentManager fm) {
         super(fm);
-        mPages = new SparseArray<Fragment>();
+        mPages = new SparseArray<>();
         mFm = fm;
     }
 
