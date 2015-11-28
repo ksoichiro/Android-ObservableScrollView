@@ -158,7 +158,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
                     if (mPrevFirstVisibleChildHeight < 0) {
                         mPrevFirstVisibleChildHeight = 0;
                     }
-                    mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop();
+                    mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop() + getPaddingTop();
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
                     dispatchOnScrollChanged(mScrollY, mFirstScroll, mDragging);
@@ -339,7 +339,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
 
     @Override
     public int getCurrentScrollY() {
-        return mScrollY + getPaddingTop();
+        return mScrollY;
     }
 
     @SuppressWarnings("deprecation")

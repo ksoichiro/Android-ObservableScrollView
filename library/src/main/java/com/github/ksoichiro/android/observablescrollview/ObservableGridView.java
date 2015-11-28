@@ -308,7 +308,7 @@ public class ObservableGridView extends GridView implements Scrollable {
 
     @Override
     public int getCurrentScrollY() {
-        return mScrollY + getPaddingTop();
+        return mScrollY;
     }
 
     @Override
@@ -448,7 +448,7 @@ public class ObservableGridView extends GridView implements Scrollable {
                     if (mPrevFirstVisibleChildHeight < 0) {
                         mPrevFirstVisibleChildHeight = 0;
                     }
-                    mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop();
+                    mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop() + getPaddingTop();
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
                     dispatchOnScrollChanged(mScrollY, mFirstScroll, mDragging);

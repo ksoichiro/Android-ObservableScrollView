@@ -261,7 +261,7 @@ public class ObservableListView extends ListView implements Scrollable {
 
     @Override
     public int getCurrentScrollY() {
-        return mScrollY + getPaddingTop();
+        return mScrollY;
     }
 
     private void init() {
@@ -322,8 +322,8 @@ public class ObservableListView extends ListView implements Scrollable {
                     if (mPrevFirstVisibleChildHeight < 0) {
                         mPrevFirstVisibleChildHeight = 0;
                     }
-                    mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop() + 
-                                firstVisiblePosition * getDividerHeight();
+                    mScrollY = mPrevScrolledChildrenHeight - firstVisibleChild.getTop() +
+                                firstVisiblePosition * getDividerHeight() + getPaddingTop();
                     mPrevFirstVisiblePosition = firstVisiblePosition;
 
                     dispatchOnScrollChanged(mScrollY, mFirstScroll, mDragging);
