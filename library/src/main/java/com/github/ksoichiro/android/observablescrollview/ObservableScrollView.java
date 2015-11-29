@@ -79,7 +79,7 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             mScrollY = t;
 
             dispatchOnScrollChanged(t, mFirstScroll, mDragging);
@@ -104,7 +104,7 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     // Whether or not motion events are consumed by children,
@@ -123,7 +123,7 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
@@ -269,6 +269,10 @@ public class ObservableScrollView extends ScrollView implements Scrollable {
                 callbacks.onUpOrCancelMotionEvent(scrollState);
             }
         }
+    }
+
+    private boolean hasCallbacks() {
+        return mCallbacks != null || mCallbackCollection != null;
     }
 
     static class SavedState extends BaseSavedState {

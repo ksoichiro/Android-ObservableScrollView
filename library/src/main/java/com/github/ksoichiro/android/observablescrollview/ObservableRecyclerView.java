@@ -100,7 +100,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             if (getChildCount() > 0) {
                 int firstVisiblePosition = getChildAdapterPosition(getChildAt(0));
                 int lastVisiblePosition = getChildAdapterPosition(getChildAt(getChildCount() - 1));
@@ -183,7 +183,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     // Whether or not motion events are consumed by children,
@@ -202,7 +202,7 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
@@ -397,6 +397,10 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
                 callbacks.onUpOrCancelMotionEvent(scrollState);
             }
         }
+    }
+
+    private boolean hasCallbacks() {
+        return mCallbacks != null || mCallbackCollection != null;
     }
 
     /**

@@ -128,7 +128,7 @@ public class ObservableGridView extends GridView implements Scrollable {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     // Whether or not motion events are consumed by children,
@@ -147,7 +147,7 @@ public class ObservableGridView extends GridView implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
@@ -408,7 +408,7 @@ public class ObservableGridView extends GridView implements Scrollable {
     }
 
     private void onScrollChanged() {
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             if (getChildCount() > 0) {
                 int firstVisiblePosition = getFirstVisiblePosition();
                 for (int i = getFirstVisiblePosition(), j = 0; i <= getLastVisiblePosition(); i++, j++) {
@@ -482,6 +482,10 @@ public class ObservableGridView extends GridView implements Scrollable {
                 break;
             }
         }
+    }
+
+    private boolean hasCallbacks() {
+        return mCallbacks != null || mCallbackCollection != null;
     }
 
     private class FullWidthFixedViewLayout extends FrameLayout {

@@ -116,7 +116,7 @@ public class ObservableListView extends ListView implements Scrollable {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     // Whether or not motion events are consumed by children,
@@ -135,7 +135,7 @@ public class ObservableListView extends ListView implements Scrollable {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             switch (ev.getActionMasked()) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
@@ -270,7 +270,7 @@ public class ObservableListView extends ListView implements Scrollable {
     }
 
     private void onScrollChanged() {
-        if (mCallbacks != null || mCallbackCollection != null) {
+        if (hasCallbacks()) {
             if (getChildCount() > 0) {
                 int firstVisiblePosition = getFirstVisiblePosition();
                 for (int i = getFirstVisiblePosition(), j = 0; i <= getLastVisiblePosition(); i++, j++) {
@@ -378,6 +378,10 @@ public class ObservableListView extends ListView implements Scrollable {
                 callbacks.onUpOrCancelMotionEvent(scrollState);
             }
         }
+    }
+
+    private boolean hasCallbacks() {
+        return mCallbacks != null || mCallbackCollection != null;
     }
 
     static class SavedState extends BaseSavedState {
