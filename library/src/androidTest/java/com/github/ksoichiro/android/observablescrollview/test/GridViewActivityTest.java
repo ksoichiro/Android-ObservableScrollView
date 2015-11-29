@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.github.ksoichiro.android.observablescrollview.ObservableGridView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
@@ -140,5 +142,33 @@ public class GridViewActivityTest extends ActivityInstrumentationTestCase2<GridV
         testScroll();
         assertTrue(0 == callbackCounter[0]);
         assertTrue(0 == callbackCounter[1]);
+    }
+
+    public void testCannotAddHeaderOrFooterWhenAdapterIsAlreadySet() throws Throwable {
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    View view = new View(activity);
+                    final int flexibleSpaceImageHeight = activity.getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
+                    FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, flexibleSpaceImageHeight);
+                    view.setLayoutParams(lp);
+                    view.setClickable(true);
+                    scrollable.addHeaderView(view);
+                    fail();
+                } catch (IllegalStateException ignore) {
+                }
+
+                try {
+                    View view = new View(activity);
+                    final int flexibleSpaceImageHeight = activity.getResources().getDimensionPixelSize(R.dimen.flexible_space_image_height);
+                    FrameLayout.LayoutParams lpf = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, flexibleSpaceImageHeight);
+                    view.setLayoutParams(lpf);
+                    scrollable.addFooterView(view);
+                    fail();
+                } catch (IllegalStateException ignore) {
+                }
+            }
+        });
     }
 }
