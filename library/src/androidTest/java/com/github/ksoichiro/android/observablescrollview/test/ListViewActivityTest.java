@@ -70,6 +70,17 @@ public class ListViewActivityTest extends ActivityInstrumentationTestCase2<ListV
         getInstrumentation().waitForIdleSync();
     }
 
+    public void testNoCallbacks() throws Throwable {
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                scrollable = (ObservableListView) activity.findViewById(R.id.scrollable);
+                scrollable.setScrollViewCallbacks(null);
+            }
+        });
+        testScroll();
+    }
+
     public void testCallbacks() throws Throwable {
         final ObservableScrollViewCallbacks[] callbacks = new ObservableScrollViewCallbacks[2];
         callbackCounter[0] = 0;

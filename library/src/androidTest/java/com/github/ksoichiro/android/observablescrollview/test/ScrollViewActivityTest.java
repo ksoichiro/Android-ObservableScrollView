@@ -49,6 +49,17 @@ public class ScrollViewActivityTest extends ActivityInstrumentationTestCase2<Scr
         testScroll();
     }
 
+    public void testNoCallbacks() throws Throwable {
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                scrollable = (ObservableScrollView) activity.findViewById(R.id.scrollable);
+                scrollable.setScrollViewCallbacks(null);
+            }
+        });
+        testScroll();
+    }
+
     public void testCallbacks() throws Throwable {
         final ObservableScrollViewCallbacks[] callbacks = new ObservableScrollViewCallbacks[2];
         callbackCounter[0] = 0;
