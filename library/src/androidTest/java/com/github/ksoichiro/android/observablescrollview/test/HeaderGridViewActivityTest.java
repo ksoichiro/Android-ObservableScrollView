@@ -98,6 +98,20 @@ public class HeaderGridViewActivityTest extends ActivityInstrumentationTestCase2
                 activity.headerView.setClickable(true);
 
                 scrollable.addHeaderView(activity.headerView);
+
+                assertEquals(100/* items */ + 2/* header */ + 2/* footer */, hvgAdapter.getCount());
+                assertEquals(1, hvgAdapter.getHeadersCount());
+                assertEquals(2, hvgAdapter.getNumColumns());
+                // If the header is added by addHeader(View),
+                // HeaderViewGridAdapter doesn't contain any associated data.
+                // headerData does NOT mean the view.
+                // If we want to get the view, we should use getView().
+                assertNull(hvgAdapter.getItem(0));
+                assertNull(hvgAdapter.getItem(1));
+
+                assertEquals(1, hvgAdapter.getFootersCount());
+                assertNull(hvgAdapter.getItem(100/* items */ + 2/* header */ + 2/* footer */ - 1 - 1));
+                assertNull(hvgAdapter.getItem(100/* items */ + 2/* header */ + 2/* footer */ - 1));
             }
         });
         // Scroll to bottom and try removing re-adding the footer view.

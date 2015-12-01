@@ -652,6 +652,10 @@ public class ObservableGridView extends GridView implements Scrollable {
                 && areAllListInfosSelectable(mFooterViewInfos);
         }
 
+        public int getNumColumns() {
+            return mNumColumns;
+        }
+
         public void setNumColumns(int numColumns) {
             if (numColumns < 1) {
                 return;
