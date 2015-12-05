@@ -17,6 +17,18 @@ allprojects {
     }
 }
 
+subprojects {
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+        dependencies {
+            classpath 'com.android.tools.build:gradle:1.5.0'
+            classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.1.0'
+        }
+    }
+}
+
 apply plugin: 'com.github.ksoichiro.eclipse.aar'
 
 eclipseAar {

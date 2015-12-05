@@ -1,22 +1,11 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
-    }
-}
-
 apply plugin: 'com.android.application'
 
-repositories {
-    mavenCentral()
-
-    // for using SNAPSHOT
-    //maven {
-    //    url uri('https://oss.sonatype.org/content/repositories/snapshots/')
-    //}
-}
+// for using SNAPSHOT
+//repositories {
+//    maven {
+//        url uri('https://oss.sonatype.org/content/repositories/snapshots/')
+//    }
+//}
 
 dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'

@@ -1,18 +1,4 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.1.0'
-        classpath 'com.android.tools.build:gradle:1.5.0'
-    }
-}
-
 apply plugin: 'com.android.library'
-
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     compile 'com.android.support:recyclerview-v7:22.2.0'
