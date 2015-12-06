@@ -16,8 +16,8 @@ cache:
   - website/bower_components
 install:
 - true && ([ "$TEST_TARGET" != "website" ] || (cd website && npm install && cd ..))
-- true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=build-tools-23.0.2)
 - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=tools)
+- true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=build-tools-23.0.2)
 - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=android-19)
 - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=android-21)
 - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=android-22)
