@@ -16,11 +16,12 @@ cache:
   - website/bower_components
 install:
 - true && ([ "$TEST_TARGET" != "website" ] || (cd website && npm install && cd ..))
-- true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=build-tools-22.0.1)
+- true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=build-tools-23.0.2)
 - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=tools)
 - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=android-19)
 - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=android-21)
 - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=android-22)
+- true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=android-23)
 - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=sys-img-armeabi-v7a-android-19)
 - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=extra-android-support)
 - true && ([ "$TEST_TARGET" != "android" ] || android-update-sdk --accept-licenses='android-sdk-license-.+' --components=extra-android-m2repository)
