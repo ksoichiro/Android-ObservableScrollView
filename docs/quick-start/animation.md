@@ -24,7 +24,6 @@ Add some initialization codes to `onCreate()`:
 ```java
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    :
     ObservableListView listView = (ObservableListView) findViewById(R.id.list);
     listView.setScrollViewCallbacks(this);
   }
