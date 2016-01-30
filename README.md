@@ -62,6 +62,7 @@ and [the documentation](docs/overview.md) for further more.
 * [FAQ](docs/faq.md)
 
 ## Apps that use this library
+[![Badge](http://www.libtastic.com/static/osbadges/4.png)](http://www.libtastic.com/technology/4/)
 
 * [Jair Player](https://play.google.com/store/apps/details?id=aj.jair.music) by Akshay Chordiya
 * [My Gradle](https://play.google.com/store/apps/details?id=se.project.generic.mygradle) by Erick Chavez Alcarraz
