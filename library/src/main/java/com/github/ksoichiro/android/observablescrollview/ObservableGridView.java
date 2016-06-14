@@ -386,6 +386,14 @@ public class ObservableGridView extends GridView implements Scrollable {
         }
     }
 
+    @Override public int getVerticalSpacing() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            return super.getVerticalSpacing();
+        }
+        // getVerticalSpacing was added in 16. We could use reflection to get the value on pre-JB, but that would be expensive.
+        return 0;
+    }
+
     private void init() {
         mChildrenHeights = new SparseIntArray();
         mHeaderViewInfos = new ArrayList<>();
@@ -435,7 +443,7 @@ public class ObservableGridView extends GridView implements Scrollable {
                             }
                         }
                     }
-                    mPrevScrolledChildrenHeight += mPrevFirstVisibleChildHeight + skippedChildrenHeight;
+                    mPrevScrolledChildrenHeight += mPrevFirstVisibleChildHeight + skippedChildrenHeight + getVerticalSpacing();
                     mPrevFirstVisibleChildHeight = firstVisibleChild.getHeight();
                 } else if (firstVisiblePosition < mPrevFirstVisiblePosition) {
                     // scroll up
@@ -447,7 +455,7 @@ public class ObservableGridView extends GridView implements Scrollable {
                             }
                         }
                     }
-                    mPrevScrolledChildrenHeight -= firstVisibleChild.getHeight() + skippedChildrenHeight;
+                    mPrevScrolledChildrenHeight -= firstVisibleChild.getHeight() + skippedChildrenHeight + getVerticalSpacing();
                     mPrevFirstVisibleChildHeight = firstVisibleChild.getHeight();
                 } else if (firstVisiblePosition == 0) {
                     mPrevFirstVisibleChildHeight = firstVisibleChild.getHeight();
