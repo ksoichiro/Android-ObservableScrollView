@@ -74,6 +74,10 @@ public class ObservableRecyclerView extends RecyclerView implements Scrollable {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
         SavedState ss = (SavedState) state;
         mPrevFirstVisiblePosition = ss.prevFirstVisiblePosition;
         mPrevFirstVisibleChildHeight = ss.prevFirstVisibleChildHeight;
