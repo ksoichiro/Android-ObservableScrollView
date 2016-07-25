@@ -3,6 +3,7 @@ package com.github.ksoichiro.android.observablescrollview;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -262,7 +263,7 @@ public class ObservableNestedScrollView extends ScrollView implements Scrollable
         return mCallbacks == null && mCallbackCollection == null;
     }
 
-    static class SavedState extends View.BaseSavedState {
+    static class SavedState extends NestedScrollView.BaseSavedState {
         int prevScrollY;
         int scrollY;
 
