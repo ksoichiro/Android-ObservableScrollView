@@ -1,4 +1,4 @@
-language: android
+language: java
 sudo: false
 env:
   global:
